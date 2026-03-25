@@ -1,0 +1,3096 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rotary Excellence Awards 2025</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --gold: #c9952a;
+            --gold-l: #e8b84b;
+            --gold-pale: #fff8ec;
+            --gold-d: #9e7320;
+            --navy: #003366;
+            --navy-d: #001f45;
+            --navy-m: #0a4080;
+            --bg: #f5f2ec;
+            --card: #fff;
+            --text: #1a1a2e;
+            --muted: #6b7280;
+            --border: #ddd5c0;
+            --err: #c0392b;
+            --ok: #1a7c4a;
+            --veg: #2d8c4e;
+            --veg-bg: #edfbf2;
+            --veg-b: #a3d9b5;
+            --nveg: #c0392b;
+            --nveg-bg: #fdf2f2;
+            --nveg-b: #f5b7b1;
+            --upi: #5f259f;
+            --upi-l: #7b35c4;
+            --upi-pale: #f5eeff;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at 15% 20%, rgba(201, 149, 42, .07), transparent 50%), radial-gradient(circle at 85% 80%, rgba(0, 51, 102, .07), transparent 50%);
+            pointer-events: none;
+            z-index: 0
+        }
+
+        .pg {
+            display: none;
+            flex-direction: column;
+            min-height: 100vh
+        }
+
+        .pg.on {
+            display: flex
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            background: rgba(0, 31, 69, .97);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(201, 149, 42, .25);
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            flex-shrink: 0
+        }
+
+        .nb {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            text-decoration: none
+        }
+
+        .nn {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 17px;
+            color: #fff
+        }
+
+        .nn span {
+            color: var(--gold-l)
+        }
+
+        .nr {
+            display: flex;
+            align-items: center;
+            gap: 6px
+        }
+
+        .na {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 14px;
+            border-radius: 7px;
+            font-size: 13px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, .7);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: 'Outfit', sans-serif;
+            transition: all .2s
+        }
+
+        .na:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, .08)
+        }
+
+        .na.cur {
+            color: #fff;
+            background: rgba(201, 149, 42, .15);
+            border: 1px solid rgba(201, 149, 42, .3)
+        }
+
+        .na.adm {
+            color: var(--gold-l) !important;
+            background: rgba(201, 149, 42, .1) !important;
+            border: 1px solid rgba(201, 149, 42, .28) !important
+        }
+
+        .na.adm:hover {
+            background: rgba(201, 149, 42, .2) !important
+        }
+
+        .na.out {
+            color: #f5b7b1 !important;
+            background: rgba(192, 57, 43, .15) !important;
+            border: 1px solid rgba(192, 57, 43, .3) !important
+        }
+
+        .na.out:hover {
+            background: rgba(192, 57, 43, .3) !important;
+            color: #fff !important
+        }
+
+        header {
+            background: linear-gradient(160deg, var(--navy-d), var(--navy) 55%, var(--navy-m));
+            position: relative;
+            overflow: hidden
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 44px;
+            background: var(--bg);
+            clip-path: ellipse(55% 100% at 50% 100%)
+        }
+
+        .hpat {
+            position: absolute;
+            inset: 0;
+            opacity: .04;
+            background: repeating-linear-gradient(45deg, var(--gold-l) 0, var(--gold-l) 1px, transparent 0, transparent 50%);
+            background-size: 20px 20px
+        }
+
+        .hg {
+            position: absolute;
+            top: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(201, 149, 42, .14), transparent 65%);
+            pointer-events: none
+        }
+
+        .hi {
+            position: relative;
+            z-index: 1;
+            max-width: 660px;
+            margin: 0 auto;
+            padding: 36px 24px 64px;
+            text-align: center
+        }
+
+        .pill {
+            display: inline-block;
+            background: linear-gradient(90deg, var(--gold-d), var(--gold-l), var(--gold-d));
+            color: var(--navy-d);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            padding: 4px 16px;
+            border-radius: 20px;
+            margin-bottom: 14px
+        }
+
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(26px, 5.5vw, 44px);
+            color: #fff;
+            line-height: 1.1;
+            margin-bottom: 8px
+        }
+
+        h1 em {
+            color: var(--gold-l);
+            font-style: normal
+        }
+
+        .hs {
+            color: rgba(255, 255, 255, .6);
+            font-size: 13.5px;
+            font-weight: 300;
+            margin-bottom: 22px
+        }
+
+        .chips {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap
+        }
+
+        .chip {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, .07);
+            border: 1px solid rgba(201, 149, 42, .3);
+            border-radius: 20px;
+            padding: 5px 13px;
+            color: rgba(255, 255, 255, .82);
+            font-size: 12px
+        }
+
+        main {
+            position: relative;
+            z-index: 1;
+            flex: 1;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 0 16px 48px
+        }
+
+        .card {
+            background: var(--card);
+            border-radius: 20px;
+            box-shadow: 0 2px 0 rgba(201, 149, 42, .45), 0 10px 48px rgba(0, 31, 69, .13);
+            width: 100%;
+            max-width: 580px;
+            margin-top: -24px;
+            overflow: hidden;
+            animation: rise .5s cubic-bezier(.22, .68, 0, 1.15) both
+        }
+
+        @keyframes rise {
+            from {
+                opacity: 0;
+                transform: translateY(24px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .ct {
+            background: linear-gradient(135deg, var(--navy-d), var(--navy));
+            padding: 18px 26px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .ct-t {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 19px;
+            color: #fff
+        }
+
+        .ct-s {
+            font-size: 11.5px;
+            color: rgba(255, 255, 255, .5);
+            margin-top: 2px
+        }
+
+        .rb {
+            background: rgba(201, 149, 42, .12);
+            border: 1px solid rgba(201, 149, 42, .35);
+            border-radius: 8px;
+            padding: 6px 12px;
+            text-align: center
+        }
+
+        .rn {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--gold-l);
+            line-height: 1
+        }
+
+        .rl {
+            font-size: 9.5px;
+            color: rgba(255, 255, 255, .45);
+            margin-top: 2px;
+            letter-spacing: .5px
+        }
+
+        .fb {
+            padding: 28px 26px 24px
+        }
+
+        .field {
+            margin-bottom: 18px
+        }
+
+        .field label {
+            display: block;
+            font-size: 11.5px;
+            font-weight: 600;
+            color: var(--text);
+            letter-spacing: .4px;
+            text-transform: uppercase;
+            margin-bottom: 7px
+        }
+
+        .req {
+            color: var(--gold);
+            margin-left: 2px
+        }
+
+        .field input,
+        .field select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 15px;
+            color: var(--text);
+            background: #fdfcf9;
+            outline: none;
+            transition: border-color .2s, box-shadow .2s, background .2s
+        }
+
+        .field input:focus,
+        .field select:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(201, 149, 42, .13);
+            background: #fff
+        }
+
+        .field input.er,
+        .field select.er {
+            border-color: var(--err)
+        }
+
+        .field input.zone-field {
+            background: linear-gradient(135deg, #faf7f0, #f5f0e8);
+            border-color: var(--gold);
+            color: var(--navy);
+            font-weight: 600;
+            cursor: default
+        }
+
+        .cdd {
+            position: relative;
+            width: 100%
+        }
+
+        .cdd-trigger {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 11px 14px;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            background: #fff;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--muted);
+            font-family: inherit;
+            transition: border-color .2s, box-shadow .2s;
+            user-select: none
+        }
+
+        .cdd-trigger:focus {
+            outline: none
+        }
+
+        .cdd-trigger.open {
+            border-color: var(--navy);
+            box-shadow: 0 0 0 3px rgba(0, 51, 102, .08);
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0
+        }
+
+        .cdd-trigger.has-val {
+            color: var(--text);
+            font-weight: 500
+        }
+
+        .cdd-arrow {
+            transition: transform .2s;
+            flex-shrink: 0;
+            margin-left: 8px
+        }
+
+        .cdd-trigger.open .cdd-arrow {
+            transform: rotate(180deg)
+        }
+
+        .cdd-panel {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            z-index: 999;
+            background: #fff;
+            border: 1.5px solid var(--navy);
+            border-top: none;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, .12);
+            max-height: 320px;
+            overflow: hidden;
+            flex-direction: column
+        }
+
+        .cdd-panel.open {
+            display: flex
+        }
+
+        .cdd-search-wrap {
+            padding: 8px 10px;
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0
+        }
+
+        .cdd-search {
+            width: 100%;
+            border: 1.5px solid var(--border);
+            border-radius: 7px;
+            padding: 7px 10px;
+            font-size: 13px;
+            font-family: inherit;
+            outline: none;
+            box-sizing: border-box
+        }
+
+        .cdd-search:focus {
+            border-color: var(--navy)
+        }
+
+        .cdd-list {
+            overflow-y: auto;
+            flex: 1
+        }
+
+        .cdd-group-hd {
+            padding: 6px 12px 4px;
+            font-size: 10.5px;
+            font-weight: 800;
+            letter-spacing: .8px;
+            text-transform: uppercase;
+            color: #fff;
+            position: sticky;
+            top: 0;
+            z-index: 1
+        }
+
+        .cdd-item {
+            padding: 9px 14px;
+            font-size: 13.5px;
+            cursor: pointer;
+            color: var(--text);
+            transition: background .12s
+        }
+
+        .cdd-item:hover,
+        .cdd-item.focused {
+            background: #f0f4fa
+        }
+
+        .cdd-item.selected {
+            background: #e8eef8;
+            color: var(--navy);
+            font-weight: 600
+        }
+
+        .pxr {
+            display: flex;
+            align-items: center;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            background: #fdfcf9;
+            transition: border-color .2s, box-shadow .2s
+        }
+
+        .pxr:focus-within {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(201, 149, 42, .13)
+        }
+
+        .pxb {
+            width: 48px;
+            background: none;
+            border: none;
+            font-size: 22px;
+            color: var(--gold-d);
+            cursor: pointer;
+            line-height: 48px;
+            text-align: center;
+            user-select: none;
+            transition: background .15s
+        }
+
+        .pxb:hover {
+            background: var(--gold-pale)
+        }
+
+        .pxsp {
+            width: 1px;
+            background: var(--border);
+            height: 26px
+        }
+
+        .hide { display: none !important; }
+        
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        .spin { animation: spin 1s linear infinite; }
+        
+        .pxi {
+            flex: 1;
+            border: none !important;
+            box-shadow: none !important;
+            background: transparent !important;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--navy);
+            padding: 0 !important;
+            outline: none
+        }
+
+        .em {
+            font-size: 11.5px;
+            color: var(--err);
+            margin-top: 5px;
+            display: none;
+            align-items: center;
+            gap: 4px
+        }
+
+        .em.on {
+            display: flex
+        }
+
+        .pst {
+            font-size: 11.5px;
+            font-weight: 600;
+            color: var(--text);
+            letter-spacing: .4px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .pst::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border)
+        }
+
+        .pc-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 16px
+        }
+
+        .pc {
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            background: #fdfcf9
+        }
+
+        .pch {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 12px;
+            background: linear-gradient(135deg, #faf8f3, #f5f1e8);
+            border-bottom: 1px solid var(--border)
+        }
+
+        .pcb2 {
+            display: flex;
+            align-items: center
+        }
+
+        .pcbdg {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--navy);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .pclbl {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text);
+            margin-left: 7px
+        }
+
+        .pctag {
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 12px
+        }
+
+        .pctag.ad {
+            background: rgba(0, 51, 102, .08);
+            color: var(--navy)
+        }
+
+        .pctag.ch {
+            background: rgba(26, 124, 74, .1);
+            color: var(--ok)
+        }
+
+        .pcb {
+            padding: 10px 12px
+        }
+
+        .atog {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 10px
+        }
+
+        .ao {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 1.5px solid var(--border);
+            border-radius: 7px;
+            padding: 7px 10px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--muted);
+            transition: all .18s;
+            user-select: none;
+            background: #fff
+        }
+
+        .ao input {
+            display: none
+        }
+
+        .ao.sa {
+            border-color: var(--navy);
+            background: rgba(0, 51, 102, .06);
+            color: var(--navy)
+        }
+
+        .ao.sc {
+            border-color: var(--ok);
+            background: rgba(26, 124, 74, .07);
+            color: var(--ok)
+        }
+
+        .adot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 2px solid currentColor;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .ao.sa .adot::after,
+        .ao.sc .adot::after {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor
+        }
+
+        .meal-section-label {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .5px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px
+        }
+
+        .mtog {
+            display: flex;
+            gap: 6px;
+            flex-wrap: nowrap
+        }
+
+        .mo {
+            flex: 1;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 7px;
+            border: 1.5px solid var(--border);
+            border-radius: 7px;
+            padding: 7px 10px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--muted);
+            transition: all .18s;
+            user-select: none;
+            background: #fff;
+            text-align: left
+        }
+
+        .mo input {
+            display: none
+        }
+
+        .mdot {
+            display: none
+        }
+
+        .mo.sv {
+            border-color: var(--veg);
+            background: rgba(45, 140, 78, .06);
+            color: var(--veg)
+        }
+
+        .mo.sn {
+            border-color: var(--nveg);
+            background: rgba(192, 57, 43, .06);
+            color: var(--nveg)
+        }
+
+        .mo-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            text-align: left
+        }
+
+        .mo-name {
+            font-size: 13px;
+            font-weight: 500;
+            line-height: 1.2
+        }
+
+        .mo-sub {
+            font-size: 10.5px;
+            opacity: .65;
+            margin-top: 1px
+        }
+
+        .mo-icon {
+            font-size: 15px;
+            flex-shrink: 0
+        }
+
+        .smb {
+            background: linear-gradient(135deg, var(--navy-d), var(--navy));
+            border-radius: 12px;
+            padding: 16px 18px;
+            margin-bottom: 22px
+        }
+
+        .smg {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px
+        }
+
+        .smi {
+            text-align: center
+        }
+
+        .smv {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--gold-l);
+            line-height: 1
+        }
+
+        .sml {
+            font-size: 10px;
+            color: rgba(255, 255, 255, .5);
+            margin-top: 3px
+        }
+
+        .smdiv {
+            height: 1px;
+            background: rgba(255, 255, 255, .1);
+            margin-bottom: 12px
+        }
+
+        .smtr {
+            display: flex;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .smtl {
+            font-size: 12px;
+            color: rgba(255, 255, 255, .6)
+        }
+
+        .smta {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 28px;
+            color: var(--gold-l);
+            line-height: 1
+        }
+
+        .divl {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border), transparent);
+            margin: 20px 0
+        }
+
+        /* ══ UPI PAYMENT BOX ══ */
+        .upi-box {
+            background: linear-gradient(135deg, #f9f5ff, #f0e8ff);
+            border: 1.5px solid rgba(95, 37, 159, .2);
+            border-radius: 14px;
+            padding: 20px 18px;
+            margin-bottom: 16px;
+            position: relative;
+            overflow: hidden
+        }
+
+        .upi-box::before {
+            content: '';
+            position: absolute;
+            top: -30px;
+            right: -30px;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(95, 37, 159, .12), transparent 70%);
+            pointer-events: none
+        }
+
+        .upi-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px
+        }
+
+        .upi-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--upi)
+        }
+
+        .upi-secure {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            color: #8b5cf6;
+            font-weight: 500
+        }
+
+        .upi-amount-display {
+            background: white;
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin-bottom: 14px;
+            border: 1px solid rgba(95, 37, 159, .15);
+            display: flex;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .upi-amt-label {
+            font-size: 11px;
+            color: #8b5cf6;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .5px
+        }
+
+        .upi-amt-value {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--upi);
+            line-height: 1
+        }
+
+        .upi-link-display {
+            background: white;
+            border-radius: 10px;
+            padding: 10px 14px;
+            margin-bottom: 14px;
+            border: 1px solid rgba(95, 37, 159, .15)
+        }
+
+        .upi-link-label {
+            font-size: 10px;
+            color: #9ca3af;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            margin-bottom: 4px
+        }
+
+        .upi-link-value {
+            font-family: monospace;
+            font-size: 11.5px;
+            color: #6d28d9;
+            word-break: break-all;
+            line-height: 1.5
+        }
+
+        .upi-apps {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 14px;
+            flex-wrap: wrap
+        }
+
+        .upi-app-btn {
+            flex: 1;
+            min-width: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 10px 12px;
+            border-radius: 9px;
+            border: 1.5px solid rgba(95, 37, 159, .25);
+            background: white;
+            cursor: pointer;
+            font-family: 'Outfit', sans-serif;
+            font-size: 12.5px;
+            font-weight: 600;
+            color: var(--upi);
+            transition: all .2s;
+            text-decoration: none
+        }
+
+        .upi-app-btn:hover {
+            background: var(--upi);
+            color: white;
+            border-color: var(--upi);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(95, 37, 159, .3)
+        }
+
+        .upi-app-btn.gpay {
+            border-color: rgba(66, 133, 244, .3);
+            color: #4285f4
+        }
+
+        .upi-app-btn.gpay:hover {
+            background: #4285f4;
+            border-color: #4285f4;
+            color: white
+        }
+
+        .upi-app-btn.phonepe {
+            border-color: rgba(95, 37, 159, .3);
+            color: var(--upi)
+        }
+
+        .upi-app-btn.paytm {
+            border-color: rgba(0, 136, 204, .3);
+            color: #0088cc
+        }
+
+        .upi-app-btn.paytm:hover {
+            background: #0088cc;
+            border-color: #0088cc;
+            color: white
+        }
+
+        .upi-copy-row {
+            display: flex;
+            gap: 8px
+        }
+
+        .upi-copy-btn {
+            flex: 1;
+            padding: 10px;
+            background: var(--upi);
+            color: white;
+            border: none;
+            border-radius: 9px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px
+        }
+
+        .upi-copy-btn:hover {
+            background: var(--upi-l);
+            transform: translateY(-1px)
+        }
+
+        .upi-copy-btn.copied {
+            background: var(--ok)
+        }
+
+        .upi-note {
+            margin-top: 12px;
+            font-size: 11.5px;
+            text-align: center;
+            color: #7c3aed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            line-height: 1.4
+        }
+
+        /* Payment confirm section */
+        .pay-confirm-section {
+            border: 1.5px dashed rgba(95, 37, 159, .3);
+            border-radius: 12px;
+            padding: 16px;
+            background: rgba(95, 37, 159, .03);
+            margin-bottom: 16px
+        }
+
+        .pay-confirm-label {
+            font-size: 11.5px;
+            font-weight: 700;
+            color: var(--upi);
+            letter-spacing: .4px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px
+        }
+
+        .utr-input-row {
+            display: flex;
+            gap: 8px;
+            align-items: flex-end
+        }
+
+        .utr-input-wrap {
+            flex: 1
+        }
+
+        .utr-input-wrap label {
+            display: block;
+            font-size: 11px;
+            color: #6b7280;
+            font-weight: 600;
+            letter-spacing: .4px;
+            text-transform: uppercase;
+            margin-bottom: 5px
+        }
+
+        .utr-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1.5px solid rgba(95, 37, 159, .25);
+            border-radius: 8px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            color: var(--text);
+            background: #fff;
+            outline: none;
+            transition: border-color .2s
+        }
+
+        .utr-input:focus {
+            border-color: var(--upi);
+            box-shadow: 0 0 0 3px rgba(95, 37, 159, .1)
+        }
+
+        .utr-input.er {
+            border-color: var(--err)
+        }
+
+        .utr-verify-btn {
+            padding: 10px 18px;
+            background: var(--upi);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .2s;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 5px
+        }
+
+        .utr-verify-btn:hover {
+            background: var(--upi-l)
+        }
+
+        .utr-verify-btn.verified {
+            background: var(--ok);
+            cursor: default
+        }
+
+        .pay-status {
+            margin-top: 10px;
+            font-size: 12px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            display: none;
+            align-items: center;
+            gap: 6px
+        }
+
+        .pay-status.ok {
+            display: flex;
+            background: rgba(26, 124, 74, .08);
+            color: var(--ok);
+            border: 1px solid rgba(26, 124, 74, .2)
+        }
+
+        .pay-status.warn {
+            display: flex;
+            background: rgba(201, 149, 42, .08);
+            color: var(--gold-d);
+            border: 1px solid rgba(201, 149, 42, .2)
+        }
+
+        .subbtn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--gold-d), var(--gold), var(--gold-l));
+            background-size: 200%;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-position .4s, transform .2s, box-shadow .2s;
+            box-shadow: 0 4px 18px rgba(201, 149, 42, .38);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px
+        }
+
+        .subbtn:hover {
+            background-position: right;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 24px rgba(201, 149, 42, .48)
+        }
+
+        .subbtn:disabled {
+            opacity: .5;
+            cursor: not-allowed;
+            transform: none
+        }
+
+        .subbtn-wrap {
+            display: none;
+            animation: rise .3s ease both
+        }
+
+        .subbtn-wrap.show {
+            display: block
+        }
+
+        .sw {
+            display: none;
+            padding: 36px 26px;
+            text-align: center;
+            animation: rise .4s ease both
+        }
+
+        .sw.on {
+            display: block
+        }
+
+        .fb.hide {
+            display: none
+        }
+
+        .sring {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--ok), #2ecc71);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 14px;
+            box-shadow: 0 4px 20px rgba(26, 124, 74, .28)
+        }
+
+        .st {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 26px;
+            color: var(--navy);
+            margin-bottom: 8px
+        }
+
+        .sm {
+            font-size: 14px;
+            color: var(--muted);
+            margin-bottom: 20px;
+            line-height: 1.6
+        }
+
+        .srf {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px 18px;
+            margin-bottom: 20px;
+            text-align: left
+        }
+
+        .srr {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            padding: 4px 0;
+            border-bottom: 1px solid #f0ebe0
+        }
+
+        .srr:last-child {
+            border: none;
+            padding-top: 8px;
+            font-weight: 700
+        }
+
+        .srr span {
+            color: var(--muted)
+        }
+
+        .bo {
+            flex: 1;
+            padding: 11px;
+            border: 1.5px solid var(--border);
+            border-radius: 9px;
+            background: #fff;
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+            cursor: pointer;
+            transition: all .2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px
+        }
+
+        .bo:hover {
+            border-color: var(--navy);
+            color: var(--navy)
+        }
+
+        .brow {
+            display: flex;
+            gap: 10px
+        }
+
+        .lw {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 32px 16px
+        }
+
+        .lcard {
+            background: var(--card);
+            border-radius: 20px;
+            box-shadow: 0 2px 0 rgba(201, 149, 42, .4), 0 10px 48px rgba(0, 31, 69, .13);
+            width: 100%;
+            max-width: 420px;
+            overflow: hidden;
+            animation: rise .5s cubic-bezier(.22, .68, 0, 1.15) both
+        }
+
+        .lt {
+            background: linear-gradient(135deg, var(--navy-d), var(--navy));
+            padding: 36px 28px 28px;
+            text-align: center;
+            position: relative;
+            overflow: hidden
+        }
+
+        .lt::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: .04;
+            background: repeating-linear-gradient(45deg, var(--gold-l) 0, var(--gold-l) 1px, transparent 0, transparent 50%);
+            background-size: 18px 18px
+        }
+
+        .lt h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 26px;
+            color: #fff;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 4px
+        }
+
+        .lt p {
+            font-size: 13px;
+            color: rgba(255, 255, 255, .5);
+            position: relative;
+            z-index: 1
+        }
+
+        .lb {
+            padding: 32px 28px 28px
+        }
+
+        .errbox {
+            background: #fdf2f2;
+            border: 1px solid var(--nveg-b);
+            border-radius: 9px;
+            padding: 11px 14px;
+            font-size: 13px;
+            color: var(--err);
+            margin-bottom: 18px;
+            display: none;
+            align-items: center;
+            gap: 8px
+        }
+
+        .errbox.on {
+            display: flex
+        }
+
+        .lbtn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--gold-d), var(--gold), var(--gold-l));
+            background-size: 200%;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-position .4s, transform .2s, box-shadow .2s;
+            box-shadow: 0 4px 18px rgba(201, 149, 42, .38);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 18px
+        }
+
+        .lbtn:hover {
+            background-position: right;
+            transform: translateY(-1px)
+        }
+
+        .bkl {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-size: 13px;
+            color: var(--muted);
+            cursor: pointer;
+            transition: color .2s
+        }
+
+        .bkl:hover {
+            color: var(--navy)
+        }
+
+        .snap {
+            background: linear-gradient(135deg, #f9f7f2, #f3efe6);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin-top: 20px
+        }
+
+        .snap-t {
+            font-size: 10.5px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px
+        }
+
+        .snap-r {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12.5px;
+            padding: 3px 0
+        }
+
+        .snap-r span {
+            color: var(--muted)
+        }
+
+        .snap-r strong {
+            color: var(--navy)
+        }
+
+        .dbanner {
+            background: linear-gradient(135deg, var(--navy-d), var(--navy));
+            padding: 20px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            border-bottom: 1px solid rgba(201, 149, 42, .2);
+            flex-shrink: 0
+        }
+
+        .dbt {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 22px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px
+        }
+
+        .dbt svg {
+            color: var(--gold-l)
+        }
+
+        .dba {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap
+        }
+
+        .dbtn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 9px 16px;
+            border-radius: 8px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all .2s
+        }
+
+        .dbtn.g {
+            background: var(--gold);
+            color: var(--navy-d)
+        }
+
+        .dbtn.g:hover {
+            background: var(--gold-l)
+        }
+
+        .dbtn.d {
+            background: rgba(192, 57, 43, .2);
+            color: #f5b7b1;
+            border: 1px solid rgba(192, 57, 43, .35)
+        }
+
+        .dbtn.d:hover {
+            background: rgba(192, 57, 43, .4);
+            color: #fff
+        }
+
+        .dbody {
+            flex: 1;
+            padding: 24px;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto
+        }
+
+        .sgrid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+            gap: 14px;
+            margin-bottom: 24px
+        }
+
+        .sc {
+            background: var(--card);
+            border-radius: 14px;
+            padding: 18px 20px;
+            box-shadow: 0 2px 8px rgba(0, 31, 69, .07);
+            border-left: 4px solid var(--gold);
+            animation: fadeUp .4s ease both
+        }
+
+        .sc:nth-child(2) {
+            animation-delay: .05s;
+            border-left-color: var(--navy)
+        }
+
+        .sc:nth-child(3) {
+            animation-delay: .1s;
+            border-left-color: var(--veg)
+        }
+
+        .sc:nth-child(4) {
+            animation-delay: .15s;
+            border-left-color: var(--nveg)
+        }
+
+        .sc:nth-child(5) {
+            animation-delay: .2s;
+            border-left-color: #8e44ad
+        }
+
+        .sc:nth-child(6) {
+            animation-delay: .25s;
+            border-left-color: #27ae60
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .sv2 {
+            font-size: 30px;
+            font-weight: 700;
+            color: var(--navy);
+            line-height: 1
+        }
+
+        .sl {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 4px
+        }
+
+        .ss {
+            font-size: 11px;
+            color: var(--gold-d);
+            margin-top: 2px;
+            font-weight: 600
+        }
+
+        .tc {
+            background: var(--card);
+            border-radius: 14px;
+            box-shadow: 0 2px 8px rgba(0, 31, 69, .07);
+            overflow: hidden
+        }
+
+        .th {
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 10px
+        }
+
+        .tt {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .sb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #fdfcf9;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            padding: 7px 13px;
+            transition: border-color .2s
+        }
+
+        .sb:focus-within {
+            border-color: var(--gold)
+        }
+
+        .sb input {
+            border: none;
+            background: transparent;
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            color: var(--text);
+            outline: none;
+            width: 200px
+        }
+
+        .tw {
+            overflow-x: auto
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse
+        }
+
+        thead tr {
+            background: linear-gradient(135deg, var(--navy-d), var(--navy))
+        }
+
+        thead th {
+            padding: 11px 14px;
+            font-size: 11px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, .8);
+            letter-spacing: .5px;
+            text-transform: uppercase;
+            text-align: left;
+            white-space: nowrap
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #f5f1e8;
+            transition: background .15s
+        }
+
+        tbody tr:hover {
+            background: #fdfaf4
+        }
+
+        tbody tr:last-child {
+            border: none
+        }
+
+        tbody td {
+            padding: 11px 14px;
+            font-size: 13px;
+            color: var(--text);
+            vertical-align: middle
+        }
+
+        .tid {
+            font-weight: 700;
+            color: var(--navy);
+            font-size: 12px;
+            letter-spacing: .5px
+        }
+
+        .tmu {
+            color: var(--muted);
+            font-size: 12px
+        }
+
+        .bdg {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 10px
+        }
+
+        .bdg.v {
+            background: var(--veg-bg);
+            color: var(--veg);
+            border: 1px solid var(--veg-b)
+        }
+
+        .bdg.n {
+            background: var(--nveg-bg);
+            color: var(--nveg);
+            border: 1px solid var(--nveg-b)
+        }
+
+        .bdg.c {
+            background: rgba(142, 68, 173, .08);
+            color: #8e44ad;
+            border: 1px solid rgba(142, 68, 173, .2)
+        }
+
+        .empty {
+            padding: 56px;
+            text-align: center;
+            color: var(--muted)
+        }
+
+        .pg-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 20px;
+            border-top: 1px solid var(--border);
+            font-size: 12px;
+            color: var(--muted);
+            flex-wrap: wrap;
+            gap: 8px
+        }
+
+        .pgbtns {
+            display: flex;
+            gap: 5px
+        }
+
+        .pgb {
+            padding: 5px 11px;
+            border: 1.5px solid var(--border);
+            border-radius: 6px;
+            background: #fff;
+            font-family: 'Outfit', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .15s;
+            color: var(--text)
+        }
+
+        .pgb:hover {
+            border-color: var(--navy);
+            color: var(--navy)
+        }
+
+        .pgb.cur {
+            background: var(--navy);
+            color: #fff;
+            border-color: var(--navy)
+        }
+
+        .pgb:disabled {
+            opacity: .35;
+            cursor: not-allowed
+        }
+
+        footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 14px;
+            border-top: 1px solid var(--border);
+            background: rgba(255, 255, 255, .6);
+            font-size: 12px;
+            color: var(--muted);
+            flex-shrink: 0
+        }
+
+        @media(max-width:540px) {
+            nav {
+                height: 56px;
+                padding: 0 12px
+            }
+
+            .nn {
+                font-size: 14px
+            }
+
+            .hi {
+                padding: 28px 16px 60px
+            }
+
+            h1 {
+                font-size: 26px
+            }
+
+            main {
+                padding: 0 12px 40px
+            }
+
+            .card {
+                margin-top: 20px
+            }
+
+            .fb {
+                padding: 20px 14px 18px
+            }
+
+            .ct {
+                padding: 14px 16px
+            }
+
+            .atog {
+                flex-direction: row;
+                gap: 6px
+            }
+
+            .mtog {
+                flex-direction: row;
+                gap: 6px
+            }
+
+            .smg {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .dbanner {
+                padding: 14px 16px
+            }
+
+            .dbody {
+                padding: 14px
+            }
+
+            .sgrid {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .upi-apps {
+                flex-wrap: wrap
+            }
+
+            .upi-app-btn {
+                min-width: 80px;
+                font-size: 11.5px
+            }
+
+            .utr-input-row {
+                flex-direction: column
+            }
+
+            .utr-verify-btn {
+                width: 100%;
+                justify-content: center
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- PAGE 1 — REGISTER -->
+    <div class="pg on" id="pgReg">
+        <nav>
+            <div class="nb" onclick="go('pgReg')">
+                <span class="nn">Rotary <span>Anubandha Awards 2026</span></span>
+            </div>
+            <div class="nr">
+                <button class="na adm" onclick="window.location.href='/admin/login'">
+                    <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    </svg>
+                    Admin Login
+                </button>
+            </div>
+        </nav>
+
+        <header>
+            <div class="hpat"></div>
+            <div class="hg"></div>
+            <div class="hi">
+                <div class="pill">District 3181 · Rotary International</div>
+                <h1>Excellence <em>Awards</em> 2025</h1>
+                <p class="hs">Rotary Club · Mysore Region · Official Registration</p>
+                <div class="chips">
+                    <div class="chip"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <rect x="3" y="4" width="18" height="18" rx="2" />
+                            <line x1="3" y1="10" x2="21" y2="10" />
+                            <line x1="8" y1="2" x2="8" y2="6" />
+                            <line x1="16" y1="2" x2="16" y2="6" />
+                        </svg>June 20th &amp; 21st, 2026</div>
+                    <div class="chip"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
+                            <circle cx="12" cy="9" r="2.5" />
+                        </svg>Mysore Union, Mysore</div>
+                    <div class="chip"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10" />
+                            <polyline points="12 6 12 12 16 14" />
+                        </svg>Both days</div>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="card">
+                <div class="ct" id="cardTitle">
+                    <div>
+                        <div class="ct-t">Register Now</div>
+                        <div class="ct-s">Fill in your details below</div>
+                    </div>
+                    <div class="rb">
+                        <div class="rn" id="regNum">0</div>
+                        <div class="rl">REGISTERED</div>
+                    </div>
+                </div>
+                <div class="fb" id="fb">
+
+                    <div class="field">
+                        <label>Full Name <span class="req">*</span></label>
+                        <input type="text" id="fn" placeholder="e.g. Rajesh Kumar" />
+                        <div class="em" id="en"><svg width="12" height="12" fill="none" stroke="currentColor"
+                                stroke-width="2" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="10" />
+                                <line x1="12" y1="8" x2="12" y2="12" />
+                                <line x1="12" y1="16" x2="12.01" y2="16" />
+                            </svg>Please enter your full name</div>
+                    </div>
+
+                    <div class="field">
+                        <label>Club Name <span class="req">*</span></label>
+                        <input type="hidden" id="fc">
+                        <div class="cdd" id="clubDd">
+                            <div class="cdd-trigger" id="cddTrig" tabindex="0" onclick="cddToggle()"
+                                onkeydown="cddKey(event)">
+                                <span id="cddLabel" style="flex:1">— Select your club —</span>
+                                <svg class="cdd-arrow" width="14" height="14" fill="none" stroke="currentColor"
+                                    stroke-width="2.5" viewBox="0 0 24 24">
+                                    <polyline points="6 9 12 15 18 9" />
+                                </svg>
+                            </div>
+                            <div class="cdd-panel" id="cddPanel">
+                                <div class="cdd-search-wrap">
+                                    <input class="cdd-search" id="cddSearch" placeholder="Search club…"
+                                        oninput="cddFilter()" autocomplete="off">
+                                </div>
+                                <div class="cdd-list" id="cddList"></div>
+                            </div>
+                        </div>
+                        <div class="em" id="ec"><svg width="12" height="12" fill="none" stroke="currentColor"
+                                stroke-width="2" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="10" />
+                                <line x1="12" y1="8" x2="12" y2="12" />
+                                <line x1="12" y1="16" x2="12.01" y2="16" />
+                            </svg>Please select your club</div>
+                    </div>
+
+                    <div class="field" id="zoneField" style="display:none">
+                        <label>Zone / Region <span
+                                style="font-size:10px;color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">(auto-filled)</span></label>
+                        <input type="text" id="fz" class="zone-field" readonly
+                            placeholder="Select a club above to auto-fill zone" />
+                    </div>
+
+                    <div class="field">
+                        <label>Mobile Number <span class="req">*</span></label>
+                        <input type="tel" id="fm" placeholder="98765 43210" maxlength="15" oninput="onMobileChange()" />
+                        <div class="em" id="em"><svg width="12" height="12" fill="none" stroke="currentColor"
+                                stroke-width="2" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="10" />
+                                <line x1="12" y1="8" x2="12" y2="12" />
+                                <line x1="12" y1="16" x2="12.01" y2="16" />
+                            </svg>Enter a valid 10-digit mobile number</div>
+                    </div>
+
+                    <div class="field">
+                        <label>Number of Pax <span class="req">*</span></label>
+                        <div class="pxr">
+                            <button class="pxb" onclick="chPax(-1)">−</button>
+                            <div class="pxsp"></div>
+                            <input class="pxi" type="number" id="fp" value="1" min="1" max="10" readonly />
+                            <div class="pxsp"></div><button class="pxb" onclick="chPax(1)">+</button>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom:20px">
+                        <div class="pst">Guest Details</div>
+                        <div class="pc-wrap" id="pcWrap"></div>
+                        <div class="em" id="ecard" style="margin-top:4px"><svg width="12" height="12" fill="none"
+                                stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="10" />
+                                <line x1="12" y1="8" x2="12" y2="12" />
+                                <line x1="12" y1="16" x2="12.01" y2="16" />
+                            </svg>Select age &amp; meal for all guests</div>
+                    </div>
+
+                    <div class="divl"></div>
+
+                    <!-- Summary -->
+                    <div class="smb">
+                        <div class="smg">
+                            <div class="smi">
+                                <div class="smv" id="sAd">1</div>
+                                <div class="sml">ADULTS</div>
+                                <div class="sml" style="color:rgba(255,255,255,.3);font-size:9px">₹1,400</div>
+                            </div>
+                            <div class="smi">
+                                <div class="smv" id="sCh">0</div>
+                                <div class="sml">CHILDREN</div>
+                                <div class="sml" style="color:rgba(255,255,255,.3);font-size:9px">₹900</div>
+                            </div>
+                            <div class="smi">
+                                <div class="smv" id="sPx">1</div>
+                                <div class="sml">TOTAL PAX</div>
+                            </div>
+                        </div>
+                        <div class="smdiv"></div>
+                        <div class="smtr">
+                            <div>
+                                <div class="smtl">Total Amount</div>
+                                <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:3px" id="sBrk">1×₹1,400
+                                </div>
+                            </div>
+                            <div style="text-align:right">
+                                <div class="smta" id="sTot">₹ 1,400</div>
+                                <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:3px" id="sMs"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ══ DIRECT UPI PAYMENT BOX ══ -->
+                    <div class="upi-box" id="upiBox"
+                        style="background:#fff; border-radius:16px; border:1px solid rgba(0,51,102,0.1); margin-top:24px; box-shadow:0 8px 32px rgba(0,31,69,0.06); overflow:hidden; transition:all 0.3s ease;">
+                        <div class="upi-header"
+                            style="background: linear-gradient(135deg, rgba(95, 37, 159, 1) 0%, rgba(67, 24, 115, 1) 100%); color:#fff; padding:18px 24px; display:flex; align-items:center; justify-content:space-between;">
+                            <div class="upi-title"
+                                style="color:#fff; font-weight:700; font-size:16px; display:flex; align-items:center; gap:8px;">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff"
+                                    stroke-width="2">
+                                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                                </svg>
+                                Pay via UPI App
+                            </div>
+                            <div class="upi-secure"
+                                style="color:rgba(255,255,255,0.9); font-size:12px; font-weight:600; display:flex; align-items:center; gap:4px; background:rgba(255,255,255,0.15); padding:4px 12px; border-radius:20px;">
+                                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" />
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                                </svg>
+                                Secure
+                            </div>
+                        </div>
+
+                        <!-- Amount display -->
+                        <div class="upi-amount-display"
+                            style="display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:28px 20px 20px; background: linear-gradient(to bottom, rgba(95,37,159,0.03) 0%, transparent 100%); border-bottom:1px dashed rgba(0,0,0,0.08);">
+                            <div class="upi-amt-label"
+                                style="margin-bottom:6px; font-size:13px; color:var(--muted); font-weight:600; text-transform:uppercase; letter-spacing:0.5px;">
+                                Total Payable Amount</div>
+                            <div class="upi-amt-value" id="upiAmtDisplay"
+                                style="font-size:36px; font-weight:800; color:var(--navy); line-height:1;">₹ 1,400</div>
+                        </div>
+
+                        <div id="qrSection" style="display:none; text-align:center; padding: 0 20px 24px;">
+                            <div style="background:#fff; border-radius:16px; margin-bottom:24px; border:1px solid rgba(0,51,102,0.08); box-shadow: 0 4px 20px rgba(0,0,0,0.03); overflow: hidden;">
+                                
+                                <!-- Step 1 -->
+                                <div style="padding: 24px; border-bottom: 1px solid rgba(0,0,0,0.05);">
+                                    <div style="display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:16px;">
+                                        <div style="background:var(--navy); color:#fff; width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700;">1</div>
+                                        <div style="font-size:15px; font-weight:700; color:var(--navy);">Scan & Pay</div>
+                                    </div>
+                                    
+                                    <div id="qrcode" style="display:flex; justify-content:center; padding:16px; background:#fff; border-radius:12px; display:inline-block; border: 1.5px solid rgba(95,37,159,0.15); box-shadow:0 8px 24px rgba(95,37,159,0.08); margin-bottom:16px;"></div>
+                                    
+                                    <div style="font-size:13px; color:var(--muted); margin-bottom:16px;">Scan with your preferred UPI app<br><span style="font-size:11.5px; margin-top:5px; display:block;">Or tap the button below if you are on mobile</span></div>
+                                    
+                                    <a id="payLinkBtn" href="#" style="display:inline-flex; width:100%; max-width:280px; margin:0 auto; justify-content:center; text-decoration:none; background:linear-gradient(135deg, rgba(95,37,159,1) 0%, rgba(123,53,196,1) 100%); color:white; border-radius:12px; padding:14px 0; font-weight:700; font-size:15px; box-shadow:0 8px 24px rgba(95,37,159,0.25); border:none; transition:all 0.3s; align-items:center;">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:8px;">
+                                            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                                            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                                        </svg>
+                                        Open UPI App
+                                    </a>
+                                </div>
+
+                                <!-- Step 2 -->
+                                <div style="padding: 24px; background: rgba(201,149,42,0.03);">
+                                    <div style="display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:16px;">
+                                        <div style="background:var(--gold); color:#fff; width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700;">2</div>
+                                        <div style="font-size:15px; font-weight:700; color:var(--navy);">Upload Screenshot</div>
+                                    </div>
+                                    
+                                    <div style="font-size: 13px; color: var(--muted); margin-bottom: 20px; line-height: 1.5; text-align:center; max-width:320px; margin-left:auto; margin-right:auto;">
+                                        Please securely upload a screenshot of your successful payment so we can automatically verify the UTR.
+                                    </div>
+                                    
+                                    <!-- File input styled as a drag/drop zone -->
+                                    <div style="position:relative; width:100%; max-width:320px; margin:0 auto; background:#fff; border: 1.5px dashed var(--gold); border-radius: 16px; padding:24px; transition:border 0.2s; cursor:pointer;" id="dropZoneContainer">
+                                        <input type="file" id="ssInput" accept="image/*" onchange="processScreenshot(event)" style="opacity: 0; position: absolute; z-index: 2; top:0; left:0; width:100%; height:100%; cursor:pointer;" />
+                                        <div style="display:flex; flex-direction:column; align-items:center; opacity:0.8;">
+                                            <svg width="32" height="32" fill="none" stroke="var(--gold)" stroke-width="1.5" viewBox="0 0 24 24" style="margin-bottom:12px;">
+                                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                                <circle cx="8.5" cy="8.5" r="1.5"/>
+                                                <polyline points="21 15 16 10 5 21"/>
+                                            </svg>
+                                            <span style="font-size:14px; font-weight:600; color:var(--navy);" id="ssFileText">Tap to select image</span>
+                                            <span style="font-size:12px; color:var(--muted); margin-top:4px;">PNG, JPG, JPEG</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div id="ocrStatus" style="font-size: 14px; margin-top: 16px; color: var(--navy); font-weight: 600; display:none; align-items: center; justify-content:center; gap: 8px;">
+                                        <svg class="spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-6.219-8.56"></path></svg>
+                                        Extracting UTR...
+                                    </div>
+                                    <div id="ocrResult" style="margin-top: 16px; padding: 14px; border-radius: 12px; font-size: 14px; display:none; line-height:1.5; text-align:center; max-width:320px; margin-left:auto; margin-right:auto;"></div>
+                                </div>
+                                
+                            </div>
+                        </div>
+
+                        <button class="utr-verify-btn" id="payBtn" onclick="doPayment()"
+                            style="width:100%; justify-content:center; padding:18px; font-size:16px; background:linear-gradient(135deg, rgba(95,37,159,1) 0%, rgba(123,53,196,1) 100%); color:white; border:none; cursor:pointer; font-weight:600; transition:all 0.2s; display:flex; align-items:center;">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+                                viewBox="0 0 24 24" style="margin-right:10px;">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                                <rect x="7" y="7" width="3" height="3" />
+                                <rect x="14" y="7" width="3" height="3" />
+                                <rect x="7" y="14" width="3" height="3" />
+                                <rect x="14" y="14" width="3" height="3" />
+                            </svg>
+                            Generate Payment QR
+                        </button>
+
+                        <div class="pay-status" id="payStatus"
+                            style="margin-top:0px; padding:0 20px; justify-content:center; opacity:0; transition:opacity 0.3s; height:0; overflow:hidden;">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Confirm Registration button (shown always) -->
+                <div class="subbtn-wrap" id="subWrap">
+                    <button class="subbtn" onclick="submitForm()" id="subBtn">
+                        <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                            <polyline points="22 4 12 14.01 9 11.01" />
+                        </svg>
+                        Confirm Registration
+                    </button>
+                </div>
+
+            </div>
+            <div class="sw" id="sw" style="display:none; text-align:center;">
+                <div class="sring"
+                    style="width:80px; height:80px; border-radius:50%; background:linear-gradient(135deg, #2d8c4e, #1a7c4a); display:flex; align-items:center; justify-content:center; margin:0 auto 24px; box-shadow:0 8px 24px rgba(45,140,78,0.3);">
+                    <svg width="40" height="40" fill="none" stroke="white" stroke-width="2.5" viewBox="0 0 24 24">
+                        <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                </div>
+                <h2
+                    style="font-family:'Cormorant Garamond', serif; font-size:36px; color:var(--navy); margin:0 0 12px 0;">
+                    Registration Received!</h2>
+                <p style="font-size:15px; color:var(--muted); line-height:1.6; margin:0 0 24px 0;">
+                    Thank you for registering for<br />
+                    <strong style="color:var(--navy); font-size:16px;">Rotary Excellence Awards 2025</strong>
+                </p>
+                <div
+                    style="background:#fff8ec; border:1px solid #e8b84b; border-radius:12px; padding:16px; margin:0 auto 30px; max-width:400px; display:inline-block;">
+                    <div style="display:flex; align-items:flex-start; gap:12px; text-align:left;">
+                        <div style="color:#c9952a; padding-top:2px;">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+                                viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="10" />
+                                <line x1="12" y1="8" x2="12" y2="12" />
+                                <line x1="12" y1="16" x2="12.01" y2="16" />
+                            </svg>
+                        </div>
+                        <div style="font-size:14px; color:#9e7320; font-weight:600; line-height:1.4;">
+                            We will manually verify your payment and send a confirmation on WhatsApp within 2-3 days.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="srf" id="sRef"
+                    style="background:#f8f9fc; border-radius:12px; padding:24px; text-align:left; border:1px solid rgba(0,51,102,0.06); margin-bottom:30px;">
+                    <!-- JS injected content goes here -->
+                </div>
+
+                <button class="bo" onclick="again()"
+                    style="background:transparent; border:1.5px solid var(--navy-m); color:var(--navy-m); padding:12px 24px; border-radius:8px; font-weight:600; cursor:pointer; font-size:14px; transition:all 0.2s; display:inline-flex; align-items:center; gap:8px;">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                        <circle cx="8.5" cy="7" r="4" />
+                        <line x1="20" y1="8" x2="20" y2="14" />
+                        <line x1="23" y1="11" x2="17" y2="11" />
+                    </svg>
+                    Register Another
+                </button>
+            </div>
+    </div>
+    </main>
+    <footer>Rotary Anubandha Awards 2026 · District 3181</footer>
+    </div>
+
+    <!-- PAGE 2 — ADMIN LOGIN -->
+    <div class="pg" id="pgLogin">
+        <nav>
+            <div class="nb" onclick="go('pgReg')">
+                <span class="nn">Rotary <span>Awards 2025</span></span>
+            </div>
+            <div class="nr">
+                <button class="na" onclick="go('pgReg')">
+                    <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                    </svg>
+                    Register
+                </button>
+                <button class="na cur adm" onclick="window.location.href='/admin/login'">
+                    <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    </svg>
+                    Admin Login
+                </button>
+            </div>
+        </nav>
+        <div class="lw">
+            <div class="lcard">
+                <div class="lt">
+                    <h2>Admin Portal</h2>
+                    <p>Rotary Excellence Awards 2025</p>
+                </div>
+                <div class="lb">
+                    <div class="errbox" id="lerr">
+                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="15" y1="9" x2="9" y2="15" />
+                            <line x1="9" y1="9" x2="15" y2="15" />
+                        </svg>
+                        Invalid username or password
+                    </div>
+                    <form onsubmit="event.preventDefault(); doLogin();" style="margin: 0;">
+                        <div class="field"><label>Username</label><input type="text" id="lu" placeholder="Enter username"
+                                autocomplete="username" /></div>
+                        <div class="field"><label>Password</label><input type="password" id="lp"
+                                placeholder="Enter password" autocomplete="current-password" /></div>
+                        <button type="submit" class="lbtn">
+                            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"
+                                viewBox="0 0 24 24" style="margin-right:4px;vertical-align:middle">
+                                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+                                <polyline points="10 17 15 12 10 7" />
+                                <line x1="15" y1="12" x2="3" y2="12" />
+                            </svg>
+                            Login to Dashboard
+                        </button>
+                    </form>
+                    <div class="bkl" onclick="go('pgReg')">
+                        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <polyline points="15 18 9 12 15 6" />
+                        </svg>
+                        Back to Registration
+                    </div>
+                    <div class="snap" id="snap">
+                        <div class="snap-t"><svg width="11" height="11" fill="none" stroke="currentColor"
+                                stroke-width="2" viewBox="0 0 24 24">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                            </svg>Current Snapshot</div>
+                        <div class="snap-r"><span>Registrations</span><strong id="sn1">—</strong></div>
+                        <div class="snap-r"><span>Total Pax</span><strong id="sn2">—</strong></div>
+                        <div class="snap-r"><span>Revenue</span><strong id="sn3" style="color:var(--gold-d)">—</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer>Rotary Excellence Awards 2025 · District 3181</footer>
+    </div>
+
+    <!-- PAGE 3 — ADMIN DASHBOARD -->
+    <div class="pg" id="pgDash">
+        <nav>
+            <div class="nb" onclick="go('pgReg')">
+                <span class="nn">Rotary <span>Awards 2025</span></span>
+            </div>
+            <div class="nr">
+                <button class="na out" onclick="doLogout()">
+                    <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                        <polyline points="16 17 21 12 16 7" />
+                        <line x1="21" y1="12" x2="9" y2="12" />
+                    </svg>
+                    Logout
+                </button>
+            </div>
+        </nav>
+        <div class="dbanner">
+            <div class="dbt">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                </svg>
+                Admin Dashboard
+            </div>
+            <div class="dba">
+                <button class="dbtn d" onclick="clearAll()"><svg width="13" height="13" fill="none"
+                        stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <polyline points="3 6 5 6 21 6" />
+                        <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                    </svg>Clear All</button>
+                <button class="dbtn g" onclick="dlCSV()"><svg width="13" height="13" fill="none" stroke="currentColor"
+                        stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        <polyline points="7 10 12 15 17 10" />
+                        <line x1="12" y1="15" x2="12" y2="3" />
+                    </svg>Download CSV</button>
+            </div>
+        </div>
+        <div class="dbody">
+            <div class="sgrid">
+                <div class="sc">
+                    <div class="sv2" id="d1">0</div>
+                    <div class="sl">Registrations</div>
+                </div>
+                <div class="sc">
+                    <div class="sv2" id="d2">0</div>
+                    <div class="sl">Total Pax</div>
+                    <div class="ss" id="d2s"></div>
+                </div>
+                <div class="sc">
+                    <div class="sv2" id="d3">0</div>
+                    <div class="sl">Veg Meals 🥦</div>
+                </div>
+                <div class="sc">
+                    <div class="sv2" id="d4">0</div>
+                    <div class="sl">Non-Veg Meals 🍗</div>
+                </div>
+                <div class="sc">
+                    <div class="sv2" id="d5">0</div>
+                    <div class="sl">Children (U12)</div>
+                    <div class="ss">₹900 each</div>
+                </div>
+                <div class="sc">
+                    <div class="sv2" id="d6" style="font-size:22px">₹0</div>
+                    <div class="sl">Total Revenue</div>
+                </div>
+            </div>
+            <div class="tc">
+                <div class="th">
+                    <div class="tt"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                            <circle cx="9" cy="7" r="4" />
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                        </svg>All Registrations</div>
+                    <div class="sb"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <circle cx="11" cy="11" r="8" />
+                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                        </svg><input type="text" id="srch" placeholder="Search name, club, mobile…"
+                            oninput="renderTable()" /></div>
+                </div>
+                <div class="tw">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Reg ID</th>
+                                <th>Name</th>
+                                <th>Club</th>
+                                <th>Zone</th>
+                                <th>Mobile</th>
+                                <th>Pax</th>
+                                <th>Adults</th>
+                                <th>Children</th>
+                                <th>Veg</th>
+                                <th>Non-Veg</th>
+                                <th>UTR</th>
+                                <th>Amount</th>
+                                <th>Date &amp; Time</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tBody"></tbody>
+                    </table>
+                </div>
+                <div class="pg-row">
+                    <div id="pgInfo">—</div>
+                    <div class="pgbtns" id="pgBtns"></div>
+                </div>
+            </div>
+        </div>
+        <footer>Rotary Excellence Awards 2025 · District 3181 · Admin Dashboard</footer>
+    </div>
+
+    <script>
+        // ══ CONFIG — Change UPI ID here ══
+        const UPI_ID = 'qmic@hdfcbank';
+        const UPI_NAME = encodeURIComponent('Rotary Awards');
+        const UPI_NOTE_PREFIX = 'REG-';
+
+        const ADMIN_USER = 's', ADMIN_PASS = 's';
+        const KEY = 'rotary_rea2025', FA = 1400, FC = 900, PP = 15;
+        let pgN = 1, paymentConfirmed = false, currentUPILink = '';
+
+        // ══ ZONE MAP ══
+        const ZONE_MAP = {
+            "Mangalore Region": ["Rotary Club of Mangalore Sunrise", "Rotary Club of Mangalore Central", "Rotary Club of Mangalore", "Rotary Club of Mangalore Port Town", "Rotary Club of Mangalore Coastal", "Rotary Club of Surathkal", "Rotary Club of Mangalore East", "Rotary Club of Mangalore North", "Rotary Club of Mangalore Hillside", "Rotary Club of Mangalore Seaside", "Rotary Club of Mangalore Metro", "Rotary Club of Mangalore Midtown", "Rotary Club of Mangalore Downtown", "Rotary Club of Mangalore South", "Rotary Club of Mangalore City", "Rotary Club of Deralakatte", "Rotary Club of Baikampady", "Rotary Club of Mulki", "Rotary Club of Bajpe", "Rotary Club of Kinnigoli", "Rotary Club of Midtown Moodbidri"],
+            "Moodbidri Region": ["Rotary Club of Moodbidri", "Rotary Club of Moodbidri Temple Town", "Rotary Club of Siddakatte", "Rotary Club of Phalguni"],
+            "Bantwal Region": ["Rotary Club of Bantwal", "Rotary Club of Loretto Hills Bantwal", "Rotary Club of Bantwal Town", "Rotary Club of Belthangady", "Rotary Club of Bantwal Madanthyar", "Rotary Club of Modankap", "Rotary Club of Farangipete", "Rotary Club of BC Road City", "Rotary Club of Uppinangadi"],
+            "Puttur Region": ["Rotary Club of Puttur City", "Rotary Club of Vittal", "Rotary Club of Subramanya", "Rotary Club of Puttur", "Rotary Club of Puttur Central", "Rotary Club of Kadaba Town", "Rotary Club of Puttur East", "Rotary Club of Puttur Yuva", "Rotary Club of Puttur Swarna", "Rotary Club of Puttur Elite"],
+            "Sullia Region": ["Rotary Club of Sullia", "Rotary Club of Sullia City", "Rotary Club of Bellare Town", "Rotary Club of Birumale Hills"],
+            "Kodagu Region": ["Rotary Club of Gonikoppal", "Rotary Club of Virajpet", "Rotary Club of Madikeri Woods", "Rotary Club of Madikeri", "Rotary Club of Madikeri Misty Hills", "Rotary Club of Alur", "Rotary Club of Siddapura", "Rotary Club of Shanivarasante", "Rotary Club of Hemavathi", "Rotary Club of Kodlipet", "Rotary Club of Somwarpet Hills", "Rotary Club of Kushalnagar"],
+            "Mysore Region": ["Rotary Club of Krishnarajanagar", "Rotary Club of Periyapatna Midtown", "Rotary Club of Periyapatna Icon", "Rotary Club of Hunsur", "Rotary Club of Panchsheel Mysore", "Rotary Club of Ivory City Mysore", "Rotary Club of Krishnaraja Mysore", "Rotary Club of Mysore Shreegandha", "Rotary Club of Mysore Metro E-Club", "Rotary Club of Mysore Center", "Rotary Club of Mysore Midtown", "Rotary Club of Mysore Diamond Central", "Rotary Club of Mysore JP Nagar", "Rotary Club of Mysore East", "Rotary Club of Mysore Elite", "Rotary Club of Mysore West", "Rotary Club of Mysore Royal", "Rotary Club of Mysore Stars", "Rotary Club of HD Kote Heritage Mysore", "Rotary Club of Mysore South East", "Rotary Club of Mysore Brindavan", "Rotary Club of Vijayanagar Mysore", "Rotary Club of Mysore North", "Rotary Club of Mysore Ambari"],
+            "Chamarajanagar Region": ["Rotary Club of Chamarajanagar", "Rotary Club of Chamarajanagar Silk City", "Rotary Club of Nanjungud", "Rotary Club of Bannur", "Rotary Club of Yelanduru Greenway", "Rotary Club of Kollegal", "Rotary Club of Kollegal Midtown"]
+        };
+
+        const ZONE_COLORS = {
+            "Mangalore Region": { bg: "#dbeafe", color: "#1e40af", dot: "#3b82f6" },
+            "Moodbidri Region": { bg: "#d1fae5", color: "#065f46", dot: "#10b981" },
+            "Bantwal Region": { bg: "#ffedd5", color: "#9a3412", dot: "#f97316" },
+            "Puttur Region": { bg: "#fce7f3", color: "#831843", dot: "#ec4899" },
+            "Sullia Region": { bg: "#ede9fe", color: "#4c1d95", dot: "#8b5cf6" },
+            "Kodagu Region": { bg: "#cffafe", color: "#164e63", dot: "#06b6d4" },
+            "Mysore Region": { bg: "#fef3c7", color: "#92400e", dot: "#f59e0b" },
+            "Chamarajanagar Region": { bg: "#ecfccb", color: "#3f6212", dot: "#84cc16" }
+        };
+
+        function getZone(clubName) {
+            for (const [zone, clubs] of Object.entries(ZONE_MAP)) {
+                if (clubs.includes(clubName)) return zone;
+            }
+            return '';
+        }
+
+
+        let currentRegId = '', utrNumber = '', paymentDone = false;
+
+        function updateUPIBox() {
+            const amount = calcAmount();
+            document.getElementById('upiAmtDisplay').textContent = '₹ ' + amount.toLocaleString('en-IN');
+        }
+
+        function calcAmount() {
+            const cards = getCards();
+            const ad = cards.filter(x => x.isA).length;
+            const ch = cards.filter(x => !x.isA).length;
+            return ad * FA + ch * FC;
+        }
+
+        async function doPayment() {
+            const name = document.getElementById('fn').value.trim();
+            const club = document.getElementById('fc').value;
+            const mob = document.getElementById('fm').value.trim().replace(/[\s\-]/g, '');
+            const cards = getCards();
+            se('n', !name); se('c', !club);
+            se('m', !/^(\+91)?[6-9]\d{9}$/.test(mob));
+            const allM = cards.every(c => c.hasMeal);
+            document.getElementById('ecard').classList.toggle('on', !allM);
+            if (!name || !club || !/^(\+91)?[6-9]\d{9}$/.test(mob) || !allM) return;
+
+            const btn = document.getElementById('payBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Checking details...';
+
+            try {
+                const mobCheck = await fetch('/api/check-mobile?mobile=' + mob);
+                const mobData = await mobCheck.json();
+                if (mobData.exists) {
+                    alert('This phone number is already registered! Please use a different number or contact support.');
+                    btn.disabled = false;
+                    btn.innerHTML = '<svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><rect x="7" y="7" width="3" height="3"/><rect x="14" y="7" width="3" height="3"/><rect x="7" y="14" width="3" height="3"/><rect x="14" y="14" width="3" height="3"/></svg> Generate Payment QR';
+                    return;
+                }
+            } catch (e) {
+                console.error("Mobile check failed", e);
+            }
+
+            // Generate a local Registration ID for the Note
+            currentRegId = 'REA' + Date.now().toString().slice(-6) + Math.floor(Math.random() * 100).toString().padStart(2, "0");
+
+            // Testing amount is hardcoded to 1 rs
+            const amount = calcAmount(); // Real amount: calcAmount();
+            const upiUrl = `upi://pay?pa=santhoshgrao13@okhdfcbank&pn=Rotary%20Awards&am=${amount}&tn=${currentRegId}`;
+
+            // Generate QR Code
+            const qrContainer = document.getElementById('qrcode');
+            qrContainer.innerHTML = ''; // clear previous
+            new QRCode(qrContainer, {
+                text: upiUrl,
+                width: 200,
+                height: 200,
+                colorDark: "#003366",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+
+            document.getElementById('payLinkBtn').href = upiUrl;
+            document.getElementById('qrSection').style.display = 'block';
+            document.getElementById('subWrap').style.display = 'block';
+            paymentDone = true;
+
+            btn.style.display = 'none'; // hide generate btn
+            const pStatus = document.getElementById('payStatus');
+            pStatus.className = 'pay-status ok';
+            pStatus.style.opacity = '1';
+            pStatus.style.height = 'auto';
+            pStatus.style.marginTop = '16px';
+            pStatus.style.padding = '12px 20px';
+            pStatus.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> QR Code Generated. You may scan to pay, then submit below.';
+
+            setTimeout(() => { document.getElementById('qrSection').scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 100);
+        }
+
+        function onMobileChange() { updateUPIBox(); }
+
+        function autoZone() {
+            const club = document.getElementById('fc').value;
+            const zf = document.getElementById('zoneField');
+            const zi = document.getElementById('fz');
+            if (!club) { zf.style.display = 'none'; zi.value = ''; return; }
+            const zone = getZone(club);
+            if (zone) {
+                zi.value = zone;
+                const col = ZONE_COLORS[zone] || { bg: '#f5f2ec', color: '#003366', dot: '#c9952a' };
+                zi.style.background = `linear-gradient(135deg,${col.bg},${col.bg}cc)`;
+                zi.style.borderColor = col.dot;
+                zi.style.color = col.color;
+                zi.style.fontWeight = '700';
+                zf.style.display = 'block';
+                zf.style.animation = 'rise .3s ease both';
+            }
+        }
+
+        // ══ STORAGE ══
+        const load = () => { try { return JSON.parse(localStorage.getItem(KEY) || '[]') } catch { return [] } };
+        const save = d => localStorage.setItem(KEY, JSON.stringify(d));
+
+        // ══ ROUTER ══
+        function go(id) {
+            document.querySelectorAll('.pg').forEach(p => p.classList.remove('on'));
+            document.getElementById(id).classList.add('on');
+            window.scrollTo(0, 0);
+            if (id === 'pgLogin') loadSnap();
+            if (id === 'pgDash') renderDash();
+        }
+
+        // ══ LOGIN ══
+        function doLogin() {
+            const u = document.getElementById('lu').value.trim();
+            const p = document.getElementById('lp').value;
+            if (u === ADMIN_USER && p === ADMIN_PASS) { go('pgDash'); }
+            else {
+                document.getElementById('lerr').classList.add('on');
+                document.getElementById('lu').classList.add('er');
+                document.getElementById('lp').value = '';
+                document.getElementById('lp').classList.add('er');
+            }
+        }
+        function doLogout() { window.location.href = '/admin/login'; }
+        document.getElementById('lp').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+        ['lu', 'lp'].forEach(id => document.getElementById(id).addEventListener('input', () => {
+            document.getElementById('lerr').classList.remove('on');
+            document.getElementById('lu').classList.remove('er');
+            document.getElementById('lp').classList.remove('er');
+        }));
+
+        function loadSnap() {
+            const d = load();
+            const pax = d.reduce((s, r) => s + (+r.pax || 0), 0);
+            const amt = d.reduce((s, r) => s + (+r.amount || 0), 0);
+            document.getElementById('sn1').textContent = d.length;
+            document.getElementById('sn2').textContent = pax;
+            document.getElementById('sn3').textContent = '₹' + amt.toLocaleString('en-IN');
+        }
+
+        // ══ PAX CARDS ══
+        function chPax(d2) {
+            const i = document.getElementById('fp');
+            i.value = Math.max(1, Math.min(10, +i.value + d2));
+            buildCards(+i.value);
+            updateUPIBox();
+        }
+
+        function buildCards(n) {
+            const w = document.getElementById('pcWrap');
+            while (w.children.length < n) w.appendChild(makeCard(w.children.length + 1));
+            while (w.children.length > n) w.removeChild(w.lastChild);
+            calcSum();
+            updateUPIBox();
+        }
+
+        function makeCard(i) {
+            const d2 = document.createElement('div'); d2.className = 'pc';
+            d2.innerHTML = `
+  <div class="pch">
+    <div class="pcb2">
+      <div class="pcbdg">${i}</div>
+      <div class="pclbl">Guest ${i}</div>
+    </div>
+    <div class="pctag ad" id="pt${i}">₹1,400</div>
+  </div>
+  <div class="pcb">
+    <div class="atog" style="margin-bottom:12px">
+      <label class="ao sa" id="aa${i}" onclick="setAge(${i},'a')">
+        <input type="radio" name="age${i}" checked/>
+        <div class="adot"></div>
+        <div>
+          <div style="font-size:13px;font-weight:500">Adult (12+)</div>
+          <div style="font-size:10.5px;opacity:.65;margin-top:1px">₹1,400 per person</div>
+        </div>
+      </label>
+      <label class="ao" id="ac${i}" onclick="setAge(${i},'c')">
+        <input type="radio" name="age${i}"/>
+        <div class="adot"></div>
+        <div>
+          <div style="font-size:13px;font-weight:500">Child (U12)</div>
+          <div style="font-size:10.5px;opacity:.65;margin-top:1px">₹900 per person</div>
+        </div>
+      </label>
+    </div>
+    <div class="meal-section-label">
+      <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+      Meal Preference
+    </div>
+    <div class="mtog">
+      <label class="mo" id="mv${i}" onclick="setMeal(${i},'v')">
+        <input type="radio" name="m${i}"/>
+        <div class="mdot"></div>
+        <span class="mo-icon">🥦</span>
+        <div class="mo-info">
+          <div class="mo-name">Vegetarian</div>
+          <div class="mo-sub">Pure veg meal</div>
+        </div>
+      </label>
+      <label class="mo" id="mn${i}" onclick="setMeal(${i},'n')">
+        <input type="radio" name="m${i}"/>
+        <div class="mdot"></div>
+        <span class="mo-icon">🍗</span>
+        <div class="mo-info">
+          <div class="mo-name">Non-Vegetarian</div>
+          <div class="mo-sub">Non-veg meal</div>
+        </div>
+      </label>
+    </div>
+  </div>`;
+            return d2;
+        }
+
+        function setAge(i, t) {
+            document.getElementById('aa' + i).className = 'ao' + (t === 'a' ? ' sa' : '');
+            document.getElementById('ac' + i).className = 'ao' + (t === 'c' ? ' sc' : '');
+            document.getElementById('pt' + i).textContent = t === 'a' ? '₹1,400' : '₹900';
+            document.getElementById('pt' + i).className = 'pctag ' + (t === 'a' ? 'ad' : 'ch');
+            calcSum(); updateUPIBox();
+        }
+        function setMeal(i, t) {
+            document.getElementById('mv' + i).className = 'mo' + (t === 'v' ? ' sv' : '');
+            document.getElementById('mn' + i).className = 'mo' + (t === 'n' ? ' sn' : '');
+            calcSum();
+        }
+
+        function getCards() {
+            const n = +document.getElementById('fp').value, c = [];
+            for (let i = 1; i <= n; i++) {
+                const aa = document.getElementById('aa' + i); if (!aa) continue;
+                const mv = document.getElementById('mv' + i), mn = document.getElementById('mn' + i);
+                c.push({ i, isA: aa.classList.contains('sa'), hasMeal: mv.classList.contains('sv') || mn.classList.contains('sn'), isV: mv.classList.contains('sv'), isN: mn.classList.contains('sn') });
+            }
+            return c;
+        }
+
+        function calcSum() {
+            const c = getCards(), ad = c.filter(x => x.isA).length, ch = c.filter(x => !x.isA).length;
+            const vg = c.filter(x => x.isV).length, nv = c.filter(x => x.isN).length;
+            const tot = ad * FA + ch * FC;
+            document.getElementById('sAd').textContent = ad;
+            document.getElementById('sCh').textContent = ch;
+            document.getElementById('sPx').textContent = c.length;
+            document.getElementById('sTot').textContent = '₹ ' + tot.toLocaleString('en-IN');
+            const p = []; if (ad) p.push(ad + '×₹1,400'); if (ch) p.push(ch + '×₹900');
+            document.getElementById('sBrk').textContent = p.join(' + ');
+            const m = []; if (vg) m.push(vg + ' 🥦'); if (nv) m.push(nv + ' 🍗');
+            document.getElementById('sMs').textContent = m.join('  ');
+        }
+
+        // ══ CUSTOM CLUB DROPDOWN ══
+        const CDD_DATA = [
+            { region: "Mangalore Region", bg: "#1a3c8c", clubs: ["Rotary Club of Mangalore Sunrise", "Rotary Club of Mangalore Central", "Rotary Club of Mangalore", "Rotary Club of Mangalore Port Town", "Rotary Club of Mangalore Coastal", "Rotary Club of Surathkal", "Rotary Club of Mangalore East", "Rotary Club of Mangalore North", "Rotary Club of Mangalore Hillside", "Rotary Club of Mangalore Seaside", "Rotary Club of Mangalore Metro", "Rotary Club of Mangalore Midtown", "Rotary Club of Mangalore Downtown", "Rotary Club of Mangalore South", "Rotary Club of Mangalore City", "Rotary Club of Deralakatte", "Rotary Club of Baikampady", "Rotary Club of Mulki", "Rotary Club of Bajpe", "Rotary Club of Kinnigoli", "Rotary Club of Midtown Moodbidri"] },
+            { region: "Moodbidri Region", bg: "#1b5e20", clubs: ["Rotary Club of Moodbidri", "Rotary Club of Moodbidri Temple Town", "Rotary Club of Siddakatte", "Rotary Club of Phalguni"] },
+            { region: "Bantwal Region", bg: "#e65100", clubs: ["Rotary Club of Bantwal", "Rotary Club of Loretto Hills Bantwal", "Rotary Club of Bantwal Town", "Rotary Club of Belthangady", "Rotary Club of Bantwal Madanthyar", "Rotary Club of Modankap", "Rotary Club of Farangipete", "Rotary Club of BC Road City", "Rotary Club of Uppinangadi"] },
+            { region: "Puttur Region", bg: "#880e4f", clubs: ["Rotary Club of Puttur City", "Rotary Club of Vittal", "Rotary Club of Subramanya", "Rotary Club of Puttur", "Rotary Club of Puttur Central", "Rotary Club of Kadaba Town", "Rotary Club of Puttur East", "Rotary Club of Puttur Yuva", "Rotary Club of Puttur Swarna", "Rotary Club of Puttur Elite"] },
+            { region: "Sullia Region", bg: "#4527a0", clubs: ["Rotary Club of Sullia", "Rotary Club of Sullia City", "Rotary Club of Bellare Town", "Rotary Club of Birumale Hills"] },
+            { region: "Kodagu Region", bg: "#006064", clubs: ["Rotary Club of Gonikoppal", "Rotary Club of Virajpet", "Rotary Club of Madikeri Woods", "Rotary Club of Madikeri", "Rotary Club of Madikeri Misty Hills", "Rotary Club of Alur", "Rotary Club of Siddapura", "Rotary Club of Shanivarasante", "Rotary Club of Hemavathi", "Rotary Club of Kodlipet", "Rotary Club of Somwarpet Hills", "Rotary Club of Kushalnagar"] },
+            { region: "Mysore Region", bg: "#c17900", clubs: ["Rotary Club of Krishnarajanagar", "Rotary Club of Periyapatna Midtown", "Rotary Club of Periyapatna Icon", "Rotary Club of Hunsur", "Rotary Club of Panchsheel Mysore", "Rotary Club of Ivory City Mysore", "Rotary Club of Krishnaraja Mysore", "Rotary Club of Mysore Shreegandha", "Rotary Club of Mysore Metro E-Club", "Rotary Club of Mysore Center", "Rotary Club of Mysore Midtown", "Rotary Club of Mysore Diamond Central", "Rotary Club of Mysore JP Nagar", "Rotary Club of Mysore East", "Rotary Club of Mysore Elite", "Rotary Club of Mysore West", "Rotary Club of Mysore Royal", "Rotary Club of Mysore Stars", "Rotary Club of HD Kote Heritage Mysore", "Rotary Club of Mysore South East", "Rotary Club of Mysore Brindavan", "Rotary Club of Vijayanagar Mysore", "Rotary Club of Mysore North", "Rotary Club of Mysore Ambari"] },
+            { region: "Chamarajanagar Region", bg: "#33691e", clubs: ["Rotary Club of Chamarajanagar", "Rotary Club of Chamarajanagar Silk City", "Rotary Club of Nanjungud", "Rotary Club of Bannur", "Rotary Club of Yelanduru Greenway", "Rotary Club of Kollegal", "Rotary Club of Kollegal Midtown"] }
+        ];
+
+        let cddOpen = false, cddSelected = '';
+        function cddRender(filter = '') {
+            const list = document.getElementById('cddList');
+            const q = filter.toLowerCase().trim();
+            let html = '';
+            CDD_DATA.forEach(g => {
+                const matches = g.clubs.filter(c => !q || c.toLowerCase().includes(q));
+                if (!matches.length) return;
+                html += `<div class="cdd-group-hd" style="background:${g.bg}">${g.region}</div>`;
+                matches.forEach(c => {
+                    const sel = c === cddSelected ? ' selected' : '';
+                    html += `<div class="cdd-item${sel}" onclick="cddPick(this)" data-val="${c.replace(/"/g, '&quot;')}">${c}</div>`;
+                });
+            });
+            if (!html) html = '<div style="padding:12px 14px;color:var(--muted);font-size:13px">No clubs found</div>';
+            list.innerHTML = html;
+        }
+        function cddToggle() {
+            cddOpen = !cddOpen;
+            const trig = document.getElementById('cddTrig');
+            const panel = document.getElementById('cddPanel');
+            trig.classList.toggle('open', cddOpen);
+            panel.classList.toggle('open', cddOpen);
+            if (cddOpen) {
+                document.getElementById('cddSearch').value = '';
+                cddRender();
+                setTimeout(() => document.getElementById('cddSearch').focus(), 50);
+                setTimeout(() => { const s = document.querySelector('.cdd-item.selected'); if (s) s.scrollIntoView({ block: 'center' }); }, 80);
+            }
+        }
+        function cddPick(el) {
+            const club = el.dataset.val;
+            cddSelected = club;
+            document.getElementById('fc').value = club;
+            document.getElementById('cddLabel').textContent = club;
+            document.getElementById('cddTrig').classList.add('has-val');
+            cddOpen = false;
+            document.getElementById('cddTrig').classList.remove('open');
+            document.getElementById('cddPanel').classList.remove('open');
+            autoZone();
+            const ec = document.getElementById('ec'); if (ec) ec.style.display = 'none';
+        }
+        function cddFilter() { cddRender(document.getElementById('cddSearch').value); }
+        function cddKey(e) {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); cddToggle(); }
+            if (e.key === 'Escape' && cddOpen) { cddOpen = false; document.getElementById('cddTrig').classList.remove('open'); document.getElementById('cddPanel').classList.remove('open'); }
+        }
+        document.addEventListener('click', function (e) {
+            if (cddOpen && !document.getElementById('clubDd').contains(e.target)) {
+                cddOpen = false;
+                document.getElementById('cddTrig').classList.remove('open');
+                document.getElementById('cddPanel').classList.remove('open');
+            }
+        });
+
+        // Init
+        buildCards(1);
+        updateUPIBox();
+        async function fetchRegCount() {
+            try {
+                const res = await fetch('/api/count');
+                const data = await res.json();
+                document.getElementById('regNum').textContent = data.count || 0;
+            } catch (e) {
+                document.getElementById('regNum').textContent = load().length;
+            }
+        }
+        fetchRegCount();
+
+        // ══ SUBMIT ══
+        function se(id, show) {
+            document.getElementById('e' + id).classList.toggle('on', show);
+            if (id === 'c') {
+                const trig = document.getElementById('cddTrig');
+                if (trig) trig.style.borderColor = show ? 'var(--err)' : '';
+            } else {
+                const el = document.getElementById('f' + id);
+                if (el) el.classList.toggle('er', show);
+            }
+        }
+
+        let scannedUtr = '';
+
+        async function processScreenshot(e) {
+            const file = e.target.files[0];
+            const dropText = document.getElementById('ssFileText');
+            if(!file) {
+                scannedUtr = '';
+                if(dropText) dropText.textContent = 'Tap to select image';
+                document.getElementById('ocrStatus').style.display = 'none';
+                document.getElementById('ocrResult').style.display = 'none';
+                return;
+            }
+            
+            if(dropText) dropText.textContent = file.name;
+            
+            const statusEl = document.getElementById('ocrStatus');
+            const resultEl = document.getElementById('ocrResult');
+            const subBtn = document.getElementById('subBtn');
+            const ssInput = document.getElementById('ssInput');
+            
+            statusEl.style.display = 'flex';
+            resultEl.style.display = 'none';
+            subBtn.disabled = true;
+            ssInput.style.borderColor = '';
+            
+            try {
+                // Tesseract
+                const { data: { text } } = await Tesseract.recognize(file, 'eng');
+                
+                // OCR might be messy, extract 12-digit numbers
+                const utrMatches = text.match(/\b\d{12}\b/g);
+                
+                statusEl.style.display = 'none';
+                resultEl.style.display = 'block';
+                
+                if (utrMatches && utrMatches.length > 0) {
+                    scannedUtr = utrMatches[0];
+                    resultEl.style.background = '#edfbf2';
+                    resultEl.style.border = '1px solid #a3d9b5';
+                    resultEl.style.color = '#1a7c4a';
+                    resultEl.innerHTML = `<strong>Payment Verified!</strong><br>Found UTR: ${scannedUtr}`;
+                } else {
+                    scannedUtr = 'Pending';
+                    resultEl.style.background = '#fcf3f3';
+                    resultEl.style.border = '1px solid #f5c6c6';
+                    resultEl.style.color = '#c0392b';
+                    resultEl.innerHTML = `<strong>Could not detect 12-digit UTR.</strong><br>Please ensure the screenshot clearly shows the transaction reference number. You may still submit, but your payment will require manual review.`;
+                }
+                subBtn.disabled = false;
+            } catch (err) {
+                console.error(err);
+                statusEl.style.display = 'none';
+                resultEl.style.display = 'block';
+                resultEl.style.color = '#c0392b';
+                resultEl.style.background = '#fcf3f3';
+                resultEl.style.border = '1px solid #f5c6c6';
+                resultEl.innerHTML = `Error scanning image. Please try again or submit directly.`;
+                scannedUtr = 'Pending';
+                subBtn.disabled = false;
+            }
+        }
+
+        async function submitForm() {
+            if (paymentDone && !scannedUtr) {
+                const ssInput = document.getElementById('ssInput');
+                if (!ssInput.files[0]) {
+                    alert("Please upload your payment screenshot before submitting.");
+                    ssInput.style.border = '1px solid var(--err)';
+                    ssInput.scrollIntoView({behavior: 'smooth', block: 'center'});
+                    return;
+                }
+            }
+
+            let utrNumber = scannedUtr || 'Pending';
+
+            if (!currentRegId) {
+                currentRegId = 'REA' + Date.now().toString().slice(-6) + Math.floor(Math.random() * 100).toString().padStart(2, "0");
+            }
+
+            const name = document.getElementById('fn').value.trim();
+            const club = document.getElementById('fc').value;
+            const zone = document.getElementById('fz').value || getZone(club) || '—';
+            const mob = document.getElementById('fm').value.trim().replace(/[\s\-]/g, '');
+            const pax = +document.getElementById('fp').value;
+            const cards = getCards();
+            se('n', !name); se('c', !club);
+            se('m', !/^(\+91)?[6-9]\d{9}$/.test(mob));
+            const allM = cards.every(c => c.hasMeal);
+            document.getElementById('ecard').classList.toggle('on', !allM);
+            if (!name || !club || !/^(\+91)?[6-9]\d{9}$/.test(mob) || !allM) return;
+
+            const ad = cards.filter(c => c.isA).length, ch = cards.filter(c => !c.isA).length;
+            const vg = cards.filter(c => c.isV).length, nv = cards.filter(c => c.isN).length;
+            const amount = calcAmount(); // Real amount
+            const gd = cards.map((c, i) => `Guest ${i + 1}: ${c.isA ? 'Adult' : 'Child'} / ${c.isV ? 'Veg' : 'Non-Veg'}`).join(' | ');
+
+            const subBtn = document.querySelector('.subbtn');
+            if (subBtn) { subBtn.disabled = true; subBtn.innerHTML = '⏳ Submitting...'; }
+
+            try {
+                const res = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        registrationId: currentRegId,
+                        name, club, zone, mobile: mob, pax, adults: ad, children: ch,
+                        vegCount: vg, nvegCount: nv, amount, guestDetails: gd,
+                        paymentId: utrNumber
+                    })
+                });
+                const apiData = await res.json();
+                if (!res.ok) throw new Error(apiData.error || 'Registration failed');
+
+                const regId = currentRegId;
+                const d = load();
+                d.push({ id: regId, name, club, zone, mobile: mob, pax, adults: ad, children: ch, vegCount: vg, nvegCount: nv, utr: utrNumber, amount, guestDetails: gd, timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) });
+                save(d);
+                fetchRegCount();
+                document.getElementById('sRef').innerHTML = `
+        <div style="display:flex; justify-content:space-between; margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid rgba(0,0,0,0.05);"><span style="color:var(--muted); font-size:13px;">Registration ID</span><strong style="color:var(--navy); font-size:14px;">${regId}</strong></div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid rgba(0,0,0,0.05);"><span style="color:var(--muted); font-size:13px;">Name</span><strong style="color:var(--navy); font-size:14px; text-align:right;">${name}</strong></div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid rgba(0,0,0,0.05);"><span style="color:var(--muted); font-size:13px;">Club</span><strong style="color:var(--navy); font-size:14px; text-align:right;">${club}</strong></div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid rgba(0,0,0,0.05);"><span style="color:var(--muted); font-size:13px;">Mobile</span><strong style="color:var(--navy); font-size:14px; text-align:right;">${mob}</strong></div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid rgba(0,0,0,0.05);"><span style="color:var(--muted); font-size:13px;">Pax</span><strong style="color:var(--navy); font-size:14px; text-align:right;">${pax} (${ad} adult${ad !== 1 ? 's' : ''}, ${ch} child${ch !== 1 ? 'ren' : ''})</strong></div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:0; padding-bottom:0; border-bottom:none;"><span style="color:var(--muted); font-size:13px;">Amount Payable</span><strong style="color:var(--gold-d); font-size:16px;">₹${amount.toLocaleString('en-IN')}</strong></div>`;
+                document.getElementById('fb').style.display = 'none';
+                document.getElementById('cardTitle').style.display = 'none';
+                document.getElementById('subWrap').style.display = 'none';
+                document.querySelector('#pgReg .card').style.display = 'none';
+                document.getElementById('sw').style.display = 'block';
+                document.getElementById('sw').classList.add('on');
+            } catch (e) {
+                alert('Registration failed: ' + e.message + '\n\nPlease try again or contact support.');
+                if (subBtn) { subBtn.disabled = false; subBtn.innerHTML = '✓ Confirm Registration'; }
+            }
+        }
+
+        function again() {
+            ['fn', 'fm'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+            document.getElementById('fc').value = '';
+            cddSelected = '';
+            const lbl = document.getElementById('cddLabel'); if (lbl) lbl.textContent = '— Select your club —';
+            const trig = document.getElementById('cddTrig'); if (trig) trig.classList.remove('has-val');
+            document.getElementById('fp').value = 1;
+            document.getElementById('fz').value = '';
+            document.getElementById('zoneField').style.display = 'none';
+            ['n', 'c', 'm', 'card', 'eutr'].forEach(id => { const e = document.getElementById('e' + id); if (e) e.classList.remove('on'); });
+            
+            const ssInput = document.getElementById('ssInput');
+            if (ssInput) { ssInput.value = ''; ssInput.style.border = ''; }
+            const ocrRes = document.getElementById('ocrResult');
+            if (ocrRes) { ocrRes.style.display = 'none'; ocrRes.innerHTML = ''; }
+
+            const utrEl = document.getElementById('utrCode');
+            if (utrEl) { utrEl.value = ''; utrEl.classList.remove('er'); }
+
+            paymentConfirmed = false;
+            paymentDone = false;
+            currentRegId = '';
+            scannedUtr = '';
+
+            const btn = document.getElementById('payBtn');
+            if (btn) {
+                btn.style.display = 'flex';
+                btn.classList.remove('verified');
+                btn.innerHTML = '<svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><rect x="7" y="7" width="3" height="3"/><rect x="14" y="7" width="3" height="3"/><rect x="7" y="14" width="3" height="3"/><rect x="14" y="14" width="3" height="3"/></svg> Generate Payment QR';
+                btn.disabled = false;
+            }
+            const statusEl = document.getElementById('payStatus');
+            if (statusEl) { statusEl.className = 'pay-status'; statusEl.innerHTML = ''; statusEl.style.opacity = '0'; statusEl.style.height = '0'; statusEl.style.marginTop = '0'; statusEl.style.padding = '0 20px'; }
+            document.getElementById('qrSection').style.display = 'none';
+            const subBtn = document.querySelector('.subbtn');
+            if (subBtn) { subBtn.disabled = false; subBtn.innerHTML = '✓ Confirm Registration'; }
+            buildCards(1);
+            updateUPIBox();
+            document.querySelector('#pgReg .card').style.display = 'block';
+            document.getElementById('fb').style.display = 'block';
+            document.getElementById('cardTitle').style.display = 'flex';
+            document.getElementById('subWrap').style.display = 'block';
+            document.getElementById('sw').style.display = 'none';
+            document.getElementById('sw').classList.remove('on');
+        }
+
+        // ══ DASHBOARD ══
+        function renderDash() {
+            const d = load();
+            const pax = d.reduce((s, r) => s + (+r.pax || 0), 0);
+            const adults = d.reduce((s, r) => s + (+r.adults || 0), 0);
+            const child = d.reduce((s, r) => s + (+r.children || 0), 0);
+            const veg = d.reduce((s, r) => s + (+r.vegCount || 0), 0);
+            const nveg = d.reduce((s, r) => s + (+r.nvegCount || 0), 0);
+            const amt = d.reduce((s, r) => s + (+r.amount || 0), 0);
+            document.getElementById('d1').textContent = d.length;
+            document.getElementById('d2').textContent = pax;
+            document.getElementById('d2s').textContent = adults + ' adults · ' + child + ' children';
+            document.getElementById('d3').textContent = veg;
+            document.getElementById('d4').textContent = nveg;
+            document.getElementById('d5').textContent = child;
+            document.getElementById('d6').textContent = '₹' + amt.toLocaleString('en-IN');
+            pgN = 1; renderTable();
+        }
+
+        function renderTable() {
+            const q = (document.getElementById('srch').value || '').toLowerCase();
+            const all = load();
+            const f = q ? all.filter(r => (r.name || '').toLowerCase().includes(q) || (r.club || '').toLowerCase().includes(q) || (r.zone || '').toLowerCase().includes(q) || (r.mobile || '').includes(q) || (r.id || '').toLowerCase().includes(q)) : all;
+            const tot = f.length, st = (pgN - 1) * PP, page = f.slice(st, st + PP);
+            const tb = document.getElementById('tBody');
+            if (!tot) {
+                tb.innerHTML = `<tr><td colspan="14"><div class="empty"><svg width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><p>No registrations found</p></div></td></tr>`;
+            } else {
+                tb.innerHTML = page.map((r, i) => {
+                    const col = ZONE_COLORS[r.zone] || { bg: '#f5f2ec', color: '#666', dot: '#999' };
+                    return `<tr>
+        <td class="tmu">${st + i + 1}</td>
+        <td class="tid">${r.id}</td>
+        <td><strong>${r.name}</strong></td>
+        <td class="tmu" style="max-width:150px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${r.club}</td>
+        <td><span style="background:${col.bg};color:${col.color};font-size:10.5px;font-weight:600;padding:2px 8px;border-radius:10px;white-space:nowrap">${r.zone || '—'}</span></td>
+        <td class="tmu">${r.mobile}</td>
+        <td style="font-weight:700;color:var(--navy)">${r.pax}</td>
+        <td>${r.adults || 0}</td>
+        <td>${r.children || 0 ? `<span class="bdg c">👶 ${r.children}</span>` : '—'}</td>
+        <td>${r.vegCount || 0 ? `<span class="bdg v">🥦 ${r.vegCount}</span>` : '—'}</td>
+        <td>${r.nvegCount || 0 ? `<span class="bdg n">🍗 ${r.nvegCount}</span>` : '—'}</td>
+        <td class="tmu" style="font-size:11.5px;font-weight:600;color:#7c3aed">${r.utr || '—'}</td>
+        <td style="font-weight:700;color:var(--gold-d)">₹${(+r.amount || 0).toLocaleString('en-IN')}</td>
+        <td class="tmu" style="white-space:nowrap;font-size:11px">${r.timestamp}</td>
+      </tr>`;
+                }).join('');
+            }
+            const tp = Math.ceil(tot / PP);
+            document.getElementById('pgInfo').textContent = tot ? `Showing ${Math.min(st + 1, tot)}–${Math.min(st + PP, tot)} of ${tot}` : 'No results';
+            const pb = document.getElementById('pgBtns'); pb.innerHTML = '';
+            const prev = Object.assign(document.createElement('button'), { className: 'pgb', textContent: '‹', disabled: pgN <= 1 });
+            prev.onclick = () => { pgN--; renderTable(); }; pb.appendChild(prev);
+            for (let p2 = 1; p2 <= tp; p2++) {
+                const b = Object.assign(document.createElement('button'), { className: 'pgb' + (p2 === pgN ? ' cur' : ''), textContent: p2 });
+                b.onclick = (x => () => { pgN = x; renderTable(); })(p2); pb.appendChild(b);
+            }
+            const next = Object.assign(document.createElement('button'), { className: 'pgb', textContent: '›', disabled: pgN >= tp });
+            next.onclick = () => { pgN++; renderTable(); }; pb.appendChild(next);
+        }
+
+        // ══ CSV ══
+        function dlCSV() {
+            const d = load();
+            if (!d.length) { alert('No registrations yet.'); return; }
+            const h = ['Reg ID', 'Name', 'Club', 'Zone', 'Mobile', 'Pax', 'Adults', 'Children', 'Veg', 'Non-Veg', 'UTR / Txn ID', 'Amount (₹)', 'Guest Details', 'Registered At'];
+            const rows = d.map(r => [r.id, r.name, r.club, r.zone || '', r.mobile, r.pax, r.adults, r.children, r.vegCount, r.nvegCount, r.utr || '', r.amount, r.guestDetails, r.timestamp].map(v => '"' + String(v || 0).replace(/"/g, '""') + '"').join(','));
+            const csv = [h.join(','), ...rows].join('\r\n');
+            const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' })), download: 'Rotary_Excellence_Awards_2025.csv' });
+            a.click();
+        }
+
+        // ══ CLEAR ══
+        function clearAll() {
+            if (confirm('Delete ALL registration data? This cannot be undone.')) {
+                localStorage.removeItem(KEY); renderDash();
+                document.getElementById('regNum').textContent = 0;
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,78 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Admin {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String   @default("Admin")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("admins")
+}
+
+model Registration {
+  id              String   @id @default(cuid())
+  registrationId  String   @unique
+  name            String
+  club            String
+  zone            String?
+  mobile          String
+  whatsappNumber  String?
+  pax             Int
+  adults          Int      @default(0)
+  children        Int      @default(0)
+  vegCount        Int      @default(0)
+  nvegCount       Int      @default(0)
+  amount          Float    @default(0)
+  guestDetails    String?
+  paymentId       String?
+  paymentOrderId  String?
+  paymentSignature String?
+  paymentStatus   String   @default("pending")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  messageLogs MessageLog[]
+
+  @@map("registrations")
+}
+
+model MessageLog {
+  id             String   @id @default(cuid())
+  registrationId String
+  registration   Registration @relation(fields: [registrationId], references: [id], onDelete: Cascade)
+  type           String   // "whatsapp" or "email"
+  status         String   // "sent" or "failed"
+  errorMessage   String?
+  messageId      String?
+  sentAt         DateTime @default(now())
+
+  @@map("message_logs")
+}
+
+model WhatsAppConfig {
+  id            String   @id @default(cuid())
+  wabaId        String
+  phoneNumberId String
+  accessToken   String
+  appId         String?
+  appSecret     String?
+  verifyToken   String?
+  graphBaseUrl   String   @default("https://graph.facebook.com/v24.0")
+  apiVersion    String   @default("v24.0")
+  templateName  String   @default("welcome_registration")
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("whatsapp_configs")
+}
