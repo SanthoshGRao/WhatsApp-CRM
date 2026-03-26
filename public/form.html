@@ -553,11 +553,20 @@
             height: 26px
         }
 
-        .hide { display: none !important; }
-        
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-        .spin { animation: spin 1s linear infinite; }
-        
+        .hide {
+            display: none !important;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .spin {
+            animation: spin 1s linear infinite;
+        }
+
         .pxi {
             flex: 1;
             border: none !important;
@@ -2112,23 +2121,37 @@
                         </div>
 
                         <div id="qrSection" style="display:none; text-align:center; padding: 0 20px 24px;">
-                            <div style="background:#fff; border-radius:16px; margin-bottom:24px; border:1px solid rgba(0,51,102,0.08); box-shadow: 0 4px 20px rgba(0,0,0,0.03); overflow: hidden;">
-                                
+                            <div
+                                style="background:#fff; border-radius:16px; margin-bottom:24px; border:1px solid rgba(0,51,102,0.08); box-shadow: 0 4px 20px rgba(0,0,0,0.03); overflow: hidden;">
+
                                 <!-- Step 1 -->
                                 <div style="padding: 24px; border-bottom: 1px solid rgba(0,0,0,0.05);">
-                                    <div style="display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:16px;">
-                                        <div style="background:var(--navy); color:#fff; width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700;">1</div>
-                                        <div style="font-size:15px; font-weight:700; color:var(--navy);">Scan & Pay</div>
+                                    <div
+                                        style="display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:16px;">
+                                        <div
+                                            style="background:var(--navy); color:#fff; width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700;">
+                                            1</div>
+                                        <div style="font-size:15px; font-weight:700; color:var(--navy);">Scan & Pay
+                                        </div>
                                     </div>
-                                    
-                                    <div id="qrcode" style="display:flex; justify-content:center; padding:16px; background:#fff; border-radius:12px; display:inline-block; border: 1.5px solid rgba(95,37,159,0.15); box-shadow:0 8px 24px rgba(95,37,159,0.08); margin-bottom:16px;"></div>
-                                    
-                                    <div style="font-size:13px; color:var(--muted); margin-bottom:16px;">Scan with your preferred UPI app<br><span style="font-size:11.5px; margin-top:5px; display:block;">Or tap the button below if you are on mobile</span></div>
-                                    
-                                    <a id="payLinkBtn" href="#" style="display:inline-flex; width:100%; max-width:280px; margin:0 auto; justify-content:center; text-decoration:none; background:linear-gradient(135deg, rgba(95,37,159,1) 0%, rgba(123,53,196,1) 100%); color:white; border-radius:12px; padding:14px 0; font-weight:700; font-size:15px; box-shadow:0 8px 24px rgba(95,37,159,0.25); border:none; transition:all 0.3s; align-items:center;">
-                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:8px;">
-                                            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-                                            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+
+                                    <div id="qrcode"
+                                        style="display:flex; justify-content:center; padding:16px; background:#fff; border-radius:12px; display:inline-block; border: 1.5px solid rgba(95,37,159,0.15); box-shadow:0 8px 24px rgba(95,37,159,0.08); margin-bottom:16px;">
+                                    </div>
+
+                                    <div style="font-size:13px; color:var(--muted); margin-bottom:16px;">Scan with your
+                                        preferred UPI app<br><span
+                                            style="font-size:11.5px; margin-top:5px; display:block;">Or tap the button
+                                            below if you are on mobile</span></div>
+
+                                    <a id="payLinkBtn" href="#"
+                                        style="display:inline-flex; width:100%; max-width:280px; margin:0 auto; justify-content:center; text-decoration:none; background:linear-gradient(135deg, rgba(95,37,159,1) 0%, rgba(123,53,196,1) 100%); color:white; border-radius:12px; padding:14px 0; font-weight:700; font-size:15px; box-shadow:0 8px 24px rgba(95,37,159,0.25); border:none; transition:all 0.3s; align-items:center;">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2.5" style="margin-right:8px;">
+                                            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71">
+                                            </path>
+                                            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71">
+                                            </path>
                                         </svg>
                                         Open UPI App
                                     </a>
@@ -2136,36 +2159,55 @@
 
                                 <!-- Step 2 -->
                                 <div style="padding: 24px; background: rgba(201,149,42,0.03);">
-                                    <div style="display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:16px;">
-                                        <div style="background:var(--gold); color:#fff; width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700;">2</div>
-                                        <div style="font-size:15px; font-weight:700; color:var(--navy);">Upload Screenshot</div>
+                                    <div
+                                        style="display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:16px;">
+                                        <div
+                                            style="background:var(--gold); color:#fff; width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700;">
+                                            2</div>
+                                        <div style="font-size:15px; font-weight:700; color:var(--navy);">Upload
+                                            Screenshot</div>
                                     </div>
-                                    
-                                    <div style="font-size: 13px; color: var(--muted); margin-bottom: 20px; line-height: 1.5; text-align:center; max-width:320px; margin-left:auto; margin-right:auto;">
-                                        Please securely upload a screenshot of your successful payment so we can automatically verify the UTR.
+
+                                    <div
+                                        style="font-size: 13px; color: var(--muted); margin-bottom: 20px; line-height: 1.5; text-align:center; max-width:320px; margin-left:auto; margin-right:auto;">
+                                        Please securely upload a screenshot of your successful payment so we can
+                                        automatically verify the UTR.
                                     </div>
-                                    
+
                                     <!-- File input styled as a drag/drop zone -->
-                                    <div style="position:relative; width:100%; max-width:320px; margin:0 auto; background:#fff; border: 1.5px dashed var(--gold); border-radius: 16px; padding:24px; transition:border 0.2s; cursor:pointer;" id="dropZoneContainer">
-                                        <input type="file" id="ssInput" accept="image/*" onchange="processScreenshot(event)" style="opacity: 0; position: absolute; z-index: 2; top:0; left:0; width:100%; height:100%; cursor:pointer;" />
-                                        <div style="display:flex; flex-direction:column; align-items:center; opacity:0.8;">
-                                            <svg width="32" height="32" fill="none" stroke="var(--gold)" stroke-width="1.5" viewBox="0 0 24 24" style="margin-bottom:12px;">
-                                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                                                <circle cx="8.5" cy="8.5" r="1.5"/>
-                                                <polyline points="21 15 16 10 5 21"/>
+                                    <div style="position:relative; width:100%; max-width:320px; margin:0 auto; background:#fff; border: 1.5px dashed var(--gold); border-radius: 16px; padding:24px; transition:border 0.2s; cursor:pointer;"
+                                        id="dropZoneContainer">
+                                        <input type="file" id="ssInput" accept="image/*"
+                                            onchange="processScreenshot(event)"
+                                            style="opacity: 0; position: absolute; z-index: 2; top:0; left:0; width:100%; height:100%; cursor:pointer;" />
+                                        <div
+                                            style="display:flex; flex-direction:column; align-items:center; opacity:0.8;">
+                                            <svg width="32" height="32" fill="none" stroke="var(--gold)"
+                                                stroke-width="1.5" viewBox="0 0 24 24" style="margin-bottom:12px;">
+                                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                                                <circle cx="8.5" cy="8.5" r="1.5" />
+                                                <polyline points="21 15 16 10 5 21" />
                                             </svg>
-                                            <span style="font-size:14px; font-weight:600; color:var(--navy);" id="ssFileText">Tap to select image</span>
-                                            <span style="font-size:12px; color:var(--muted); margin-top:4px;">PNG, JPG, JPEG</span>
+                                            <span style="font-size:14px; font-weight:600; color:var(--navy);"
+                                                id="ssFileText">Tap to select image</span>
+                                            <span style="font-size:12px; color:var(--muted); margin-top:4px;">PNG, JPG,
+                                                JPEG</span>
                                         </div>
                                     </div>
-                                    
-                                    <div id="ocrStatus" style="font-size: 14px; margin-top: 16px; color: var(--navy); font-weight: 600; display:none; align-items: center; justify-content:center; gap: 8px;">
-                                        <svg class="spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-6.219-8.56"></path></svg>
+
+                                    <div id="ocrStatus"
+                                        style="font-size: 14px; margin-top: 16px; color: var(--navy); font-weight: 600; display:none; align-items: center; justify-content:center; gap: 8px;">
+                                        <svg class="spin" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2">
+                                            <path d="M21 12a9 9 0 11-6.219-8.56"></path>
+                                        </svg>
                                         Extracting UTR...
                                     </div>
-                                    <div id="ocrResult" style="margin-top: 16px; padding: 14px; border-radius: 12px; font-size: 14px; display:none; line-height:1.5; text-align:center; max-width:320px; margin-left:auto; margin-right:auto;"></div>
+                                    <div id="ocrResult"
+                                        style="margin-top: 16px; padding: 14px; border-radius: 12px; font-size: 14px; display:none; line-height:1.5; text-align:center; max-width:320px; margin-left:auto; margin-right:auto;">
+                                    </div>
                                 </div>
-                                
+
                             </div>
                         </div>
 
@@ -2292,8 +2334,8 @@
                         Invalid username or password
                     </div>
                     <form onsubmit="event.preventDefault(); doLogin();" style="margin: 0;">
-                        <div class="field"><label>Username</label><input type="text" id="lu" placeholder="Enter username"
-                                autocomplete="username" /></div>
+                        <div class="field"><label>Username</label><input type="text" id="lu"
+                                placeholder="Enter username" autocomplete="username" /></div>
                         <div class="field"><label>Password</label><input type="password" id="lp"
                                 placeholder="Enter password" autocomplete="current-password" /></div>
                         <button type="submit" class="lbtn">
@@ -2531,7 +2573,7 @@
             currentRegId = 'REA' + Date.now().toString().slice(-6) + Math.floor(Math.random() * 100).toString().padStart(2, "0");
 
             // Testing amount is hardcoded to 1 rs
-            const amount = calcAmount(); // Real amount: calcAmount();
+            const amount = 1; // Real amount: calcAmount();
             const upiUrl = `upi://pay?pa=santhoshgrao13@okhdfcbank&pn=Rotary%20Awards&am=${amount}&tn=${currentRegId}`;
 
             // Generate QR Code
@@ -2833,36 +2875,36 @@
         async function processScreenshot(e) {
             const file = e.target.files[0];
             const dropText = document.getElementById('ssFileText');
-            if(!file) {
+            if (!file) {
                 scannedUtr = '';
-                if(dropText) dropText.textContent = 'Tap to select image';
+                if (dropText) dropText.textContent = 'Tap to select image';
                 document.getElementById('ocrStatus').style.display = 'none';
                 document.getElementById('ocrResult').style.display = 'none';
                 return;
             }
-            
-            if(dropText) dropText.textContent = file.name;
-            
+
+            if (dropText) dropText.textContent = file.name;
+
             const statusEl = document.getElementById('ocrStatus');
             const resultEl = document.getElementById('ocrResult');
             const subBtn = document.getElementById('subBtn');
             const ssInput = document.getElementById('ssInput');
-            
+
             statusEl.style.display = 'flex';
             resultEl.style.display = 'none';
             subBtn.disabled = true;
             ssInput.style.borderColor = '';
-            
+
             try {
                 // Tesseract
                 const { data: { text } } = await Tesseract.recognize(file, 'eng');
-                
+
                 // OCR might be messy, extract 12-digit numbers
                 const utrMatches = text.match(/\b\d{12}\b/g);
-                
+
                 statusEl.style.display = 'none';
                 resultEl.style.display = 'block';
-                
+
                 if (utrMatches && utrMatches.length > 0) {
                     scannedUtr = utrMatches[0];
                     resultEl.style.background = '#edfbf2';
@@ -2896,7 +2938,7 @@
                 if (!ssInput.files[0]) {
                     alert("Please upload your payment screenshot before submitting.");
                     ssInput.style.border = '1px solid var(--err)';
-                    ssInput.scrollIntoView({behavior: 'smooth', block: 'center'});
+                    ssInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     return;
                 }
             }
@@ -2975,7 +3017,7 @@
             document.getElementById('fz').value = '';
             document.getElementById('zoneField').style.display = 'none';
             ['n', 'c', 'm', 'card', 'eutr'].forEach(id => { const e = document.getElementById('e' + id); if (e) e.classList.remove('on'); });
-            
+
             const ssInput = document.getElementById('ssInput');
             if (ssInput) { ssInput.value = ''; ssInput.style.border = ''; }
             const ocrRes = document.getElementById('ocrResult');
