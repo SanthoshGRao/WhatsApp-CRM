@@ -2141,20 +2141,31 @@
 
                                     <div style="font-size:13px; color:var(--muted); margin-bottom:16px;">Scan with your
                                         preferred UPI app<br><span
-                                            style="font-size:11.5px; margin-top:5px; display:block;">Or tap the button
-                                            below if you are on mobile</span></div>
+                                            style="font-size:11.5px; margin-top:5px; display:block;">Or use the buttons
+                                            below</span></div>
 
-                                    <a id="payLinkBtn" href="#"
-                                        style="display:inline-flex; width:100%; max-width:280px; margin:0 auto; justify-content:center; text-decoration:none; background:linear-gradient(135deg, rgba(95,37,159,1) 0%, rgba(123,53,196,1) 100%); color:white; border-radius:12px; padding:14px 0; font-weight:700; font-size:15px; box-shadow:0 8px 24px rgba(95,37,159,0.25); border:none; transition:all 0.3s; align-items:center;">
-                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                                            stroke="currentColor" stroke-width="2.5" style="margin-right:8px;">
-                                            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71">
-                                            </path>
-                                            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71">
-                                            </path>
-                                        </svg>
-                                        Open UPI App
-                                    </a>
+                                    <div style="display:flex; flex-direction:column; gap:10px; max-width:280px; margin:0 auto;">
+                                        <a id="payLinkBtn" href="#"
+                                            style="display:inline-flex; width:100%; justify-content:center; text-decoration:none; background:linear-gradient(135deg, rgba(95,37,159,1) 0%, rgba(123,53,196,1) 100%); color:white; border-radius:12px; padding:14px 0; font-weight:700; font-size:15px; box-shadow:0 8px 24px rgba(95,37,159,0.25); border:none; transition:all 0.3s; align-items:center;">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2.5" style="margin-right:8px;">
+                                                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71">
+                                                </path>
+                                                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71">
+                                                </path>
+                                            </svg>
+                                            Open UPI App
+                                        </a>
+
+                                        <button onclick="copyVPA()"
+                                            style="display:inline-flex; width:100%; justify-content:center; background:#f0f4f8; color:var(--navy); border:1px solid #d1d9e0; border-radius:12px; padding:12px 0; font-weight:600; font-size:14px; cursor:pointer; transition:all 0.2s; align-items:center; gap:8px;">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                            </svg>
+                                            Copy UPI ID
+                                        </button>
+                                    </div>
                                 </div>
 
                                 <!-- Step 2 -->
@@ -2488,7 +2499,7 @@
 
     <script>
         // ══ CONFIG — Change UPI ID here ══
-        const UPI_ID = 'qmic@hdfcbank';
+        const UPI_ID = '9611466787-2@ybl';
         const UPI_NAME = encodeURIComponent('Rotary Awards');
         const UPI_NOTE_PREFIX = 'REG-';
 
@@ -2572,9 +2583,9 @@
             // Generate a local Registration ID for the Note
             currentRegId = 'REA' + Date.now().toString().slice(-6) + Math.floor(Math.random() * 100).toString().padStart(2, "0");
 
-            // Testing amount is hardcoded to 1 rs
-            const amount = 1; // Real amount: calcAmount();
-            const upiUrl = `upi://pay?pa=9611466787-2@ybl&pn=Rotary%20Awards&am=${amount}&tn=${currentRegId}`;
+            // Simplified UPI URL to avoid app security filters
+            const amount = 1; // Testing amount: 1 INR
+            const upiUrl = `upi://pay?pa=${UPI_ID}&pn=${UPI_NAME}&am=${amount}&tn=${currentRegId}`;
 
             // Generate QR Code
             const qrContainer = document.getElementById('qrcode');
@@ -2603,6 +2614,12 @@
             pStatus.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> QR Code Generated. You may scan to pay, then submit below.';
 
             setTimeout(() => { document.getElementById('qrSection').scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 100);
+        }
+
+        function copyVPA() {
+            navigator.clipboard.writeText(UPI_ID).then(() => {
+                alert("UPI ID Copied: " + UPI_ID + "\n\nYou can now paste this in any UPI app to pay.");
+            });
         }
 
         function onMobileChange() { updateUPIBox(); }
