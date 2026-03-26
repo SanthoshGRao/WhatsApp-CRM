@@ -1,15 +1,17 @@
 import nodemailer from "nodemailer";
 import { prisma } from "./prisma";
 
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST || "smtp.gmail.com",
-  port: parseInt(process.env.SMTP_PORT || "587"),
-  secure: false,
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-});
+function getTransporter() {
+  return nodemailer.createTransport({
+    host: process.env.SMTP_HOST || "smtp.gmail.com",
+    port: parseInt(process.env.SMTP_PORT || "587"),
+    secure: false,
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
+    },
+  });
+}
 
 interface RegistrationData {
   id: string;
@@ -62,7 +64,7 @@ export async function sendAdminNotification(data: RegistrationData): Promise<voi
       </div>
     `;
 
-    await transporter.sendMail({
+    await getTransporter().sendMail({
       from: `"Rotary Registration" <${senderEmail}>`,
       to: recipientEmails,
       subject: `New Registration: ${data.name} — ${data.club} (₹${data.amount})`,
