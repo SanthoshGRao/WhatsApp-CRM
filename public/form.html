@@ -2561,10 +2561,10 @@
                 console.error("Mobile check failed", e);
             }
 
-            // Generate a local Registration ID for the Note
             currentRegId = 'REA' + Date.now().toString().slice(-6) + Math.floor(Math.random() * 100).toString().padStart(2, "0");
-            const amount = 1;
-            const upiUrl = `upi://pay?pa=323625397377815@cnrb&pn=ROTARY%20CLUBOF%20MYSORENORTH&mc=7999&tr=${currentRegId}&am=${amount}&mam=${amount}&cu=INR&refUrl=http://npci.org/upi/schema/`;
+            const amount = calcAmount();
+            // Simplified UPI URI to bypass security filters
+            const upiUrl = `upi://pay?pa=323625397377815@cnrb&pn=ROTARY%20CLUBOF%20MYSORENORTH&mc=7999&am=${amount}&cu=INR&tn=REG-${currentRegId}`;
 
             // QR Code generation completely removed for a cleaner link-only flow
 
