@@ -2562,7 +2562,7 @@
             }
 
             currentRegId = 'REA' + Date.now().toString().slice(-6) + Math.floor(Math.random() * 100).toString().padStart(2, "0");
-            const amount = calcAmount();
+            const amount = 1;
             // Simplified UPI URI to bypass security filters
             const upiUrl = `upi://pay?pa=323625397377815@cnrb&pn=ROTARY%20CLUBOF%20MYSORENORTH&mc=7999&am=${amount}&cu=INR&tn=REG-${currentRegId}`;
 
