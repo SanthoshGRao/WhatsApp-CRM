@@ -2123,27 +2123,9 @@
                         <div id="qrSection" style="display:none; text-align:center; padding: 0 20px 24px;">
                             <div
                                 style="background:#fff; border-radius:16px; margin-bottom:24px; border:1px solid rgba(0,51,102,0.08); box-shadow: 0 4px 20px rgba(0,0,0,0.03); overflow: hidden;">
-
-                                <!-- Commented out QR Scan Step
-                                <div style="display:none;">
-                                    <div
-                                        style="display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:16px;">
-                                        <div
-                                            style="background:var(--navy); color:#fff; width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700;">
-                                            1</div>
-                                        <div style="font-size:15px; font-weight:700; color:var(--navy);">Payment Details
-                                        </div>
-                                    </div>
-                                </div>
-
-                                    <!-- QR div completely commented out by user and refined by assistant
-                                    <div id="qrcode" style="display:none;"></div>
-                                    -->
-
-                                <div style="font-size:15px; font-weight:700; color:var(--navy); margin-bottom:12px;">
-                                    Step 1: Make Payment</div>
-                                <div style="font-size:13px; color:var(--muted); margin-bottom:16px;">Click the button
-                                    below to pay using any UPI app.</div>
+                                <div style="padding: 24px; border-bottom: 1px solid rgba(0,0,0,0.05);">
+                                    <div style="font-size:15px; font-weight:700; color:var(--navy); margin-bottom:12px;">Step 1: Make Payment</div>
+                                    <div style="font-size:13px; color:var(--muted); margin-bottom:16px;">Click the button below to pay using any UPI app.</div>
 
                                 <div
                                     style="display:flex; flex-direction:column; gap:10px; max-width:280px; margin:0 auto;">
@@ -2234,7 +2216,7 @@
                             <rect x="7" y="14" width="3" height="3" />
                             <rect x="14" y="14" width="3" height="3" />
                         </svg>
-                        Generate Payment QR
+                        Generate Payment Link
                     </button>
 
                     <div class="pay-status" id="payStatus"
@@ -2285,7 +2267,7 @@
         </div>
 
         <div class="srf" id="sRef"
-            style="background:#f8f9fc; border-radius:12px; padding:24px; text-align:left; border:1px solid rgba(0,51,102,0.06); margin-bottom:30px;">
+            style="background:#f8f9fc; border:1px solid rgba(0,51,102,0.06); border-radius:12px; padding:24px; text-align:left; margin-bottom:30px;">
             <!-- JS injected content goes here -->
         </div>
 
@@ -2511,7 +2493,7 @@
             "Mangalore Region": ["Rotary Club of Mangalore Sunrise", "Rotary Club of Mangalore Central", "Rotary Club of Mangalore", "Rotary Club of Mangalore Port Town", "Rotary Club of Mangalore Coastal", "Rotary Club of Surathkal", "Rotary Club of Mangalore East", "Rotary Club of Mangalore North", "Rotary Club of Mangalore Hillside", "Rotary Club of Mangalore Seaside", "Rotary Club of Mangalore Metro", "Rotary Club of Mangalore Midtown", "Rotary Club of Mangalore Downtown", "Rotary Club of Mangalore South", "Rotary Club of Mangalore City", "Rotary Club of Deralakatte", "Rotary Club of Baikampady", "Rotary Club of Mulki", "Rotary Club of Bajpe", "Rotary Club of Kinnigoli", "Rotary Club of Midtown Moodbidri"],
             "Moodbidri Region": ["Rotary Club of Moodbidri", "Rotary Club of Moodbidri Temple Town", "Rotary Club of Siddakatte", "Rotary Club of Phalguni"],
             "Bantwal Region": ["Rotary Club of Bantwal", "Rotary Club of Loretto Hills Bantwal", "Rotary Club of Bantwal Town", "Rotary Club of Belthangady", "Rotary Club of Bantwal Madanthyar", "Rotary Club of Modankap", "Rotary Club of Farangipete", "Rotary Club of BC Road City", "Rotary Club of Uppinangadi"],
-            "Puttur Region": ["Rotary Club of Puttur City", "Rotary Club of Vittal", "Rotary Club of Subramanya", "Rotary Club of Puttur", "Rotary Club of Puttur Central", "Rotary Club of Kadaba Town", "Rotary Club of Puttur East", "Rotary Club of Puttur Yuva", "Rotary Club of Puttur Swarna", "Rotary Club of Puttur Elite"],
+            "Puttur Region": ["Rotary Club of Puttur City", "Rotary Club of Vittal", "Rotary Club of Subramanya", "Rotary Club of Puttur", "Rotary Club of Puttur Central", "Rotary Club of Puttur East", "Rotary Club of Puttur Yuva", "Rotary Club of Puttur Swarna", "Rotary Club of Puttur Elite"],
             "Sullia Region": ["Rotary Club of Sullia", "Rotary Club of Sullia City", "Rotary Club of Bellare Town", "Rotary Club of Birumale Hills"],
             "Kodagu Region": ["Rotary Club of Gonikoppal", "Rotary Club of Virajpet", "Rotary Club of Madikeri Woods", "Rotary Club of Madikeri", "Rotary Club of Madikeri Misty Hills", "Rotary Club of Alur", "Rotary Club of Siddapura", "Rotary Club of Shanivarasante", "Rotary Club of Hemavathi", "Rotary Club of Kodlipet", "Rotary Club of Somwarpet Hills", "Rotary Club of Kushalnagar"],
             "Mysore Region": ["Rotary Club of Krishnarajanagar", "Rotary Club of Periyapatna Midtown", "Rotary Club of Periyapatna Icon", "Rotary Club of Hunsur", "Rotary Club of Panchsheel Mysore", "Rotary Club of Ivory City Mysore", "Rotary Club of Krishnaraja Mysore", "Rotary Club of Mysore Shreegandha", "Rotary Club of Mysore Metro E-Club", "Rotary Club of Mysore Center", "Rotary Club of Mysore Midtown", "Rotary Club of Mysore Diamond Central", "Rotary Club of Mysore JP Nagar", "Rotary Club of Mysore East", "Rotary Club of Mysore Elite", "Rotary Club of Mysore West", "Rotary Club of Mysore Royal", "Rotary Club of Mysore Stars", "Rotary Club of HD Kote Heritage Mysore", "Rotary Club of Mysore South East", "Rotary Club of Mysore Brindavan", "Rotary Club of Vijayanagar Mysore", "Rotary Club of Mysore North", "Rotary Club of Mysore Ambari"],
@@ -2572,7 +2554,7 @@
                 if (mobData.exists) {
                     alert('This phone number is already registered! Please use a different number or contact support.');
                     btn.disabled = false;
-                    btn.innerHTML = '<svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><rect x="7" y="7" width="3" height="3"/><rect x="14" y="7" width="3" height="3"/><rect x="7" y="14" width="3" height="3"/><rect x="14" y="14" width="3" height="3"/></svg> Generate Payment QR';
+                    btn.innerHTML = '<svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="margin-right:10px;"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><rect x="7" y="7" width="3" height="3"/><rect x="14" y="7" width="3" height="3"/><rect x="7" y="14" width="3" height="3"/><rect x="14" y="14" width="3" height="3"/></svg> Generate Payment Link';
                     return;
                 }
             } catch (e) {
@@ -2581,8 +2563,7 @@
 
             // Generate a local Registration ID for the Note
             currentRegId = 'REA' + Date.now().toString().slice(-6) + Math.floor(Math.random() * 100).toString().padStart(2, "0");
-
-            const amount = 1;
+            const amount = calcAmount();
             const upiUrl = `upi://pay?pa=323625397377815@cnrb&pn=ROTARY%20CLUBOF%20MYSORENORTH&mc=7999&tr=${currentRegId}&am=${amount}&mam=${amount}&cu=INR&refUrl=http://npci.org/upi/schema/`;
 
             // QR Code generation completely removed for a cleaner link-only flow
@@ -2599,7 +2580,7 @@
             pStatus.style.height = 'auto';
             pStatus.style.marginTop = '16px';
             pStatus.style.padding = '12px 20px';
-            pStatus.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Payment Link Generated. You may open the app to pay, then submit below.';
+            pStatus.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Payment Link Ready. Tap "Open UPI App" below to pay, then upload the screenshot.';
 
             setTimeout(() => { document.getElementById('qrSection').scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 100);
         }
