@@ -2131,18 +2131,15 @@
                                         <div
                                             style="background:var(--navy); color:#fff; width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700;">
                                             1</div>
-                                        <div style="font-size:15px; font-weight:700; color:var(--navy);">Scan & Pay
+                                        <div style="font-size:15px; font-weight:700; color:var(--navy);">Payment Details
                                         </div>
                                     </div>
 
                                     <div id="qrcode"
-                                        style="display:flex; justify-content:center; padding:16px; background:#fff; border-radius:12px; display:inline-block; border: 1.5px solid rgba(95,37,159,0.15); box-shadow:0 8px 24px rgba(95,37,159,0.08); margin-bottom:16px;">
+                                        style="display:none; justify-content:center; padding:16px; background:#fff; border-radius:12px; border: 1.5px solid rgba(95,37,159,0.15); box-shadow:0 8px 24px rgba(95,37,159,0.08); margin-bottom:16px;">
                                     </div>
 
-                                    <div style="font-size:13px; color:var(--muted); margin-bottom:16px;">Scan with your
-                                        preferred UPI app<br><span
-                                            style="font-size:11.5px; margin-top:5px; display:block;">Or use the buttons
-                                            below</span></div>
+                                    <div style="font-size:13px; color:var(--muted); margin-bottom:16px;">Please use the buttons below to complete your payment.</div>
 
                                     <div style="display:flex; flex-direction:column; gap:10px; max-width:280px; margin:0 auto;">
                                         <a id="payLinkBtn" href="#"
@@ -2499,8 +2496,8 @@
 
     <script>
         // ══ CONFIG — Change UPI ID here ══
-        const UPI_ID = '9611466787-2@ybl';
-        const UPI_NAME = encodeURIComponent('Rotary Awards');
+        const UPI_ID = '323625397377815@cnrb';
+        const UPI_NAME = encodeURIComponent('ROTARY CLUBOF MYSORENORTH');
         const UPI_NOTE_PREFIX = 'REG-';
 
         const ADMIN_USER = 's', ADMIN_PASS = 's';
@@ -2583,11 +2580,11 @@
             // Generate a local Registration ID for the Note
             currentRegId = 'REA' + Date.now().toString().slice(-6) + Math.floor(Math.random() * 100).toString().padStart(2, "0");
 
-            // Simplified UPI URL to avoid app security filters
-            const amount = 1; // Testing amount: 1 INR
-            const upiUrl = `upi://pay?pa=${UPI_ID}&pn=${UPI_NAME}&am=${amount}&tn=${currentRegId}`;
+            // Simplified UPI URL as per user request
+            const upiUrl = `upi://pay?pa=323625397377815@cnrb&pn=ROTARY CLUBOF MYSORENORTH&mc=7999&tr=1234567887654321&am=0&mam=0&cu=INR&refUrl=http://npci.org/upi/schema/`;
 
-            // Generate QR Code
+            // QR Code generation commented out as per user request
+            /*
             const qrContainer = document.getElementById('qrcode');
             qrContainer.innerHTML = ''; // clear previous
             new QRCode(qrContainer, {
@@ -2598,6 +2595,7 @@
                 colorLight: "#ffffff",
                 correctLevel: QRCode.CorrectLevel.H
             });
+            */
 
             document.getElementById('payLinkBtn').href = upiUrl;
             document.getElementById('qrSection').style.display = 'block';
