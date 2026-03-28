@@ -2136,8 +2136,26 @@
                                         </div>
                                     </div>
 
-                                    <div style="font-size:13px; color:var(--muted); margin-bottom:16px; line-height: 1.4;">
-                                        Tap <b>"Open UPI App"</b> to pay instantly, or <b>"Save QR to Gallery"</b> to scan it manually from inside your payment app.
+                                    <div style="font-size:13px; color:var(--muted); margin-bottom:16px; line-height: 1.6; text-align:center;">
+                                        <b>Recommended:</b> Tap <b>"Save QR to Gallery"</b> below, then open your UPI app (GPay / PhonePe) and scan the saved QR image from gallery.
+                                    </div>
+
+                                    <!-- Step-by-step mini guide -->
+                                    <div style="display:flex; justify-content:center; gap:6px; margin-bottom:18px; flex-wrap:wrap;">
+                                        <div style="display:flex; align-items:center; gap:5px; background:#f0f4f8; border-radius:20px; padding:5px 12px; font-size:11px; font-weight:600; color:var(--navy);">
+                                            <span style="background:var(--gold); color:#fff; width:18px; height:18px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:10px; font-weight:700;">1</span>
+                                            Save QR
+                                        </div>
+                                        <div style="color:var(--muted); display:flex; align-items:center; font-size:12px;">→</div>
+                                        <div style="display:flex; align-items:center; gap:5px; background:#f0f4f8; border-radius:20px; padding:5px 12px; font-size:11px; font-weight:600; color:var(--navy);">
+                                            <span style="background:var(--gold); color:#fff; width:18px; height:18px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:10px; font-weight:700;">2</span>
+                                            Open UPI App
+                                        </div>
+                                        <div style="color:var(--muted); display:flex; align-items:center; font-size:12px;">→</div>
+                                        <div style="display:flex; align-items:center; gap:5px; background:#f0f4f8; border-radius:20px; padding:5px 12px; font-size:11px; font-weight:600; color:var(--navy);">
+                                            <span style="background:var(--gold); color:#fff; width:18px; height:18px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:10px; font-weight:700;">3</span>
+                                            Scan from Gallery
+                                        </div>
                                     </div>
 
                                     <!-- Hidden download link -->
@@ -2145,27 +2163,29 @@
 
                                     <div
                                         style="display:flex; flex-direction:column; gap:10px; max-width:280px; margin:0 auto;">
-                                        <button id="payLinkBtn" onclick="launchUPIApp()"
-                                            style="display:inline-flex; width:100%; justify-content:center; text-decoration:none; background:linear-gradient(135deg, rgba(95,37,159,1) 0%, rgba(123,53,196,1) 100%); color:white; border-radius:12px; padding:12px 0; font-weight:700; font-size:15px; box-shadow:0 8px 24px rgba(95,37,159,0.25); border:none; transition:all 0.3s; align-items:center; cursor:pointer;">
-                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                                                stroke="currentColor" stroke-width="2.5" style="margin-right:8px;">
-                                                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71">
-                                                </path>
-                                                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71">
-                                                </path>
-                                            </svg>
-                                            Open UPI App
-                                        </button>
-
+                                        <!-- PRIMARY: Save QR to Gallery -->
                                         <button onclick="triggerQRDownload()"
-                                            style="display:inline-flex; width:100%; justify-content:center; background:#f0f4f8; color:var(--navy); border:1px solid #d1d9e0; border-radius:12px; padding:12px 0; font-weight:600; font-size:14px; cursor:pointer; transition:all 0.2s; align-items:center; gap:8px;">
-                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                            style="display:inline-flex; width:100%; justify-content:center; text-decoration:none; background:linear-gradient(135deg, rgba(95,37,159,1) 0%, rgba(123,53,196,1) 100%); color:white; border-radius:12px; padding:14px 0; font-weight:700; font-size:15px; box-shadow:0 8px 24px rgba(95,37,159,0.25); border:none; transition:all 0.3s; align-items:center; cursor:pointer; gap:8px;">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
                                                 stroke="currentColor" stroke-width="2.5">
                                                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                                                 <polyline points="7 10 12 15 17 10"></polyline>
                                                 <line x1="12" y1="15" x2="12" y2="3"></line>
                                             </svg>
                                             Save QR to Gallery
+                                        </button>
+
+                                        <!-- SECONDARY: Open UPI App (fallback) -->
+                                        <button id="payLinkBtn" onclick="launchUPIApp()"
+                                            style="display:inline-flex; width:100%; justify-content:center; background:#f0f4f8; color:var(--navy); border:1px solid #d1d9e0; border-radius:12px; padding:12px 0; font-weight:600; font-size:14px; cursor:pointer; transition:all 0.2s; align-items:center; gap:8px;">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2.5">
+                                                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71">
+                                                </path>
+                                                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71">
+                                                </path>
+                                            </svg>
+                                            Try Open UPI App
                                         </button>
                                     </div>
                                 </div>
@@ -2613,9 +2633,9 @@
             pStatus.style.padding = '12px 20px';
             
             if (isMobile()) {
-                pStatus.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> <b>Payment Details Ready</b><br/><small>Open the UPI app to pay, or <b>"Save QR to Gallery"</b> to scan it manually from inside your payment app.</small>';
+                pStatus.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> <b>Payment QR Ready!</b><br/><small>Tap <b>"Save QR to Gallery"</b>, then open GPay / PhonePe and scan the saved image from your gallery.</small>';
             } else {
-                pStatus.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> <b>QR Code Generated</b><br/><small>Scan the code with your phone, or save it for later.</small>';
+                pStatus.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> <b>QR Code Generated</b><br/><small>Save the QR and scan from your phone\'s UPI app, or scan directly from screen.</small>';
             }
 
             setTimeout(() => { document.getElementById('qrSection').scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 400);
