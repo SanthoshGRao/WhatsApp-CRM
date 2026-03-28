@@ -2573,20 +2573,15 @@
                 return;
             }
 
-            if (!isMobile()) {
-                alert("UPI payment apps are usually only available on mobile devices. Please open this link on your phone, or use the 'Copy UPI ID' option below to pay manually.");
-                document.getElementById('qrSection').style.display = 'block';
-                document.getElementById('subWrap').style.display = 'block';
-                return;
-            }
-
             currentRegId = 'REA' + Date.now().toString().slice(-6) + Math.floor(Math.random() * 100).toString().padStart(2, "0");
 
             // requirement: pa, pn, am, cu=INR (NO EXTRA PARAMS)
             const upiUrl = `upi://pay?pa=${UPI_ID}&pn=${UPI_NAME}&am=${amount}&cu=INR`;
 
-            // redirect instantly (synchronously in click event)
-            window.location.href = upiUrl;
+            // redirect on mobile
+            if (isMobile()) {
+                window.location.href = upiUrl;
+            }
 
             // show fallback UI
             document.getElementById('payLinkBtn').href = upiUrl;
@@ -2640,7 +2635,12 @@
             pStatus.style.height = 'auto';
             pStatus.style.marginTop = '16px';
             pStatus.style.padding = '12px 20px';
-            pStatus.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> <b>UPI App Opening...</b><br/><small>A copy of the QR code was also downloaded to your gallery. If the app fails, click "Scan" and choose the image.</small>';
+            
+            if (isMobile()) {
+                pStatus.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> <b>UPI App Opening...</b><br/><small>A copy of the QR code was also downloaded to your gallery. If the app fails, click "Scan" and choose the image.</small>';
+            } else {
+                pStatus.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> <b>Payment Details Generated</b><br/><small>Please scan the QR code above with your mobile UPI app to pay.</small>';
+            }
 
             setTimeout(() => { document.getElementById('qrSection').scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 400);
         }
