@@ -567,6 +567,135 @@
             animation: spin 1s linear infinite;
         }
 
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); max-height: 0; }
+            to { opacity: 1; transform: translateY(0); max-height: 1000px; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.85); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(95,37,159,0.3); }
+            50% { box-shadow: 0 0 0 12px rgba(95,37,159,0); }
+        }
+
+        @keyframes checkDraw {
+            from { stroke-dashoffset: 30; }
+            to { stroke-dashoffset: 0; }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        .pay-step-card {
+            background: #fff;
+            border: 1px solid rgba(0,51,102,0.08);
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 14px;
+            transition: all 0.4s cubic-bezier(.22,.68,0,1.15);
+            opacity: 0;
+            transform: translateY(16px);
+        }
+
+        .pay-step-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .pay-step-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #5f259f, #7b35c4);
+            color: #fff;
+            font-size: 13px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .pay-step-num.done {
+            background: linear-gradient(135deg, #10b981, #059669);
+            animation: scaleIn 0.3s ease;
+        }
+
+        .pay-action-btn {
+            display: inline-flex;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            border-radius: 12px;
+            padding: 14px 0;
+            font-weight: 700;
+            font-size: 15px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .pay-action-btn.primary {
+            background: linear-gradient(135deg, #5f259f 0%, #7b35c4 100%);
+            color: #fff;
+            box-shadow: 0 8px 24px rgba(95,37,159,0.25);
+        }
+
+        .pay-action-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(95,37,159,0.35);
+        }
+
+        .pay-action-btn.primary:active {
+            transform: translateY(0);
+        }
+
+        .pay-action-btn.primary.pulse {
+            animation: pulseGlow 2s ease-in-out infinite;
+        }
+
+        .pay-action-btn.secondary {
+            background: #f0f4f8;
+            color: var(--navy);
+            border: 1px solid #d1d9e0;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 12px 0;
+        }
+
+        .pay-action-btn.secondary:hover {
+            background: #e5eaf0;
+            transform: translateY(-1px);
+        }
+
+        .pay-reg-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, rgba(95,37,159,0.08), rgba(123,53,196,0.08));
+            border: 1px solid rgba(95,37,159,0.15);
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #5f259f;
+            font-family: monospace;
+            letter-spacing: 0.5px;
+        }
+
         .pxi {
             flex: 1;
             border: none !important;
@@ -2120,128 +2249,100 @@
                                 style="font-size:36px; font-weight:800; color:var(--navy); line-height:1;">₹ 1,400</div>
                         </div>
 
-                        <div id="qrSection" style="display:none; text-align:center; padding: 0 20px 24px;">
-                            <div
-                                style="background:#fff; border-radius:16px; margin-bottom:24px; border:1px solid rgba(0,51,102,0.08); box-shadow: 0 4px 20px rgba(0,0,0,0.03); overflow: hidden;">
-                                <div style="padding: 24px; border-bottom: 1px solid rgba(0,0,0,0.05);">
-                                    <div
-                                        style="font-size:15px; font-weight:700; color:var(--navy); margin-bottom:12px;">
-                                        Step 1: Make Payment</div>
-                                    
-                                    <!-- QR Code Display -->
-                                    <div style="margin: 20px 0;">
-                                        <div style="font-size: 12px; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Scan to Pay</div>
-                                        <div id="qr-container" style="padding: 15px; background: #fff; border: 2px solid var(--gold-pale); border-radius: 16px; display: inline-block; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-                                            <div id="qrcode"></div>
-                                        </div>
-                                    </div>
+                        <!-- Hidden QR generation container (not visible, used for download only) -->
+                        <div id="qrGenHidden" style="visibility:hidden; height:0; overflow:hidden; position:absolute; pointer-events:none;">
+                            <div id="qrcode"></div>
+                        </div>
+                        <a id="qrDownloadLink" style="display:none;"></a>
 
-                                    <div style="font-size:13px; color:var(--muted); margin-bottom:16px; line-height: 1.6; text-align:center;">
-                                        <b>Recommended:</b> Tap <b>"Save QR to Gallery"</b> below, then open your UPI app (GPay / PhonePe) and scan the saved QR image from gallery.
-                                    </div>
+                        <div id="qrSection" style="display:none; padding: 0 20px 24px;">
 
-                                    <!-- Step-by-step mini guide -->
-                                    <div style="display:flex; justify-content:center; gap:6px; margin-bottom:18px; flex-wrap:wrap;">
-                                        <div style="display:flex; align-items:center; gap:5px; background:#f0f4f8; border-radius:20px; padding:5px 12px; font-size:11px; font-weight:600; color:var(--navy);">
-                                            <span style="background:var(--gold); color:#fff; width:18px; height:18px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:10px; font-weight:700;">1</span>
-                                            Save QR
-                                        </div>
-                                        <div style="color:var(--muted); display:flex; align-items:center; font-size:12px;">→</div>
-                                        <div style="display:flex; align-items:center; gap:5px; background:#f0f4f8; border-radius:20px; padding:5px 12px; font-size:11px; font-weight:600; color:var(--navy);">
-                                            <span style="background:var(--gold); color:#fff; width:18px; height:18px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:10px; font-weight:700;">2</span>
-                                            Open UPI App
-                                        </div>
-                                        <div style="color:var(--muted); display:flex; align-items:center; font-size:12px;">→</div>
-                                        <div style="display:flex; align-items:center; gap:5px; background:#f0f4f8; border-radius:20px; padding:5px 12px; font-size:11px; font-weight:600; color:var(--navy);">
-                                            <span style="background:var(--gold); color:#fff; width:18px; height:18px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:10px; font-weight:700;">3</span>
-                                            Scan from Gallery
-                                        </div>
-                                    </div>
-
-                                    <!-- Hidden download link -->
-                                    <a id="qrDownloadLink" style="display:none;"></a>
-
-                                    <div
-                                        style="display:flex; flex-direction:column; gap:10px; max-width:280px; margin:0 auto;">
-                                        <!-- PRIMARY: Save QR to Gallery -->
-                                        <button onclick="triggerQRDownload()"
-                                            style="display:inline-flex; width:100%; justify-content:center; text-decoration:none; background:linear-gradient(135deg, rgba(95,37,159,1) 0%, rgba(123,53,196,1) 100%); color:white; border-radius:12px; padding:14px 0; font-weight:700; font-size:15px; box-shadow:0 8px 24px rgba(95,37,159,0.25); border:none; transition:all 0.3s; align-items:center; cursor:pointer; gap:8px;">
-                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                                                stroke="currentColor" stroke-width="2.5">
-                                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                                <polyline points="7 10 12 15 17 10"></polyline>
-                                                <line x1="12" y1="15" x2="12" y2="3"></line>
-                                            </svg>
-                                            Save QR to Gallery
-                                        </button>
-
-                                        <!-- SECONDARY: Open UPI App (fallback) -->
-                                        <button id="payLinkBtn" onclick="launchUPIApp()"
-                                            style="display:inline-flex; width:100%; justify-content:center; background:#f0f4f8; color:var(--navy); border:1px solid #d1d9e0; border-radius:12px; padding:12px 0; font-weight:600; font-size:14px; cursor:pointer; transition:all 0.2s; align-items:center; gap:8px;">
-                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                                stroke="currentColor" stroke-width="2.5">
-                                                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71">
-                                                </path>
-                                                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71">
-                                                </path>
-                                            </svg>
-                                            Try Open UPI App
-                                        </button>
-                                    </div>
+                            <!-- Registration ID badge -->
+                            <div style="text-align:center; margin-bottom:18px;">
+                                <div class="pay-reg-badge" id="payRegBadge">
+                                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                        <circle cx="12" cy="7" r="4"/>
+                                    </svg>
+                                    <span id="payRegIdText">REA------</span>
                                 </div>
-
-                                <!-- Step 2 -->
-                                <div style="padding: 24px; background: rgba(201,149,42,0.03);">
-                                    <div
-                                        style="display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:16px;">
-                                        <div
-                                            style="background:var(--gold); color:#fff; width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700;">
-                                            2</div>
-                                        <div style="font-size:15px; font-weight:700; color:var(--navy);">Upload
-                                            Screenshot</div>
-                                    </div>
-
-                                    <div
-                                        style="font-size: 13px; color: var(--muted); margin-bottom: 20px; line-height: 1.5; text-align:center; max-width:320px; margin-left:auto; margin-right:auto;">
-                                        Please securely upload a screenshot of your successful payment so we can
-                                        automatically verify the UTR.
-                                    </div>
-
-                                    <!-- File input styled as a drag/drop zone -->
-                                    <div style="position:relative; width:100%; max-width:320px; margin:0 auto; background:#fff; border: 1.5px dashed var(--gold); border-radius: 16px; padding:24px; transition:border 0.2s; cursor:pointer;"
-                                        id="dropZoneContainer">
-                                        <input type="file" id="ssInput" accept="image/*"
-                                            onchange="processScreenshot(event)"
-                                            style="opacity: 0; position: absolute; z-index: 2; top:0; left:0; width:100%; height:100%; cursor:pointer;" />
-                                        <div
-                                            style="display:flex; flex-direction:column; align-items:center; opacity:0.8;">
-                                            <svg width="32" height="32" fill="none" stroke="var(--gold)"
-                                                stroke-width="1.5" viewBox="0 0 24 24" style="margin-bottom:12px;">
-                                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                                                <circle cx="8.5" cy="8.5" r="1.5" />
-                                                <polyline points="21 15 16 10 5 21" />
-                                            </svg>
-                                            <span style="font-size:14px; font-weight:600; color:var(--navy);"
-                                                id="ssFileText">Tap to select image</span>
-                                            <span style="font-size:12px; color:var(--muted); margin-top:4px;">PNG, JPG,
-                                                JPEG</span>
-                                        </div>
-                                    </div>
-
-                                    <div id="ocrStatus"
-                                        style="font-size: 14px; margin-top: 16px; color: var(--navy); font-weight: 600; display:none; align-items: center; justify-content:center; gap: 8px;">
-                                        <svg class="spin" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                            stroke="currentColor" stroke-width="2">
-                                            <path d="M21 12a9 9 0 11-6.219-8.56"></path>
-                                        </svg>
-                                        Extracting UTR...
-                                    </div>
-                                    <div id="ocrResult"
-                                        style="margin-top: 16px; padding: 14px; border-radius: 12px; font-size: 14px; display:none; line-height:1.5; text-align:center; max-width:320px; margin-left:auto; margin-right:auto;">
-                                    </div>
-                                </div>
-
                             </div>
+
+                            <!-- Step 1: Save & Pay -->
+                            <div class="pay-step-card" id="payStep1">
+                                <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+                                    <div class="pay-step-num" id="step1Num">1</div>
+                                    <div>
+                                        <div style="font-size:15px; font-weight:700; color:var(--navy);">Save QR & Pay</div>
+                                        <div style="font-size:12px; color:var(--muted); margin-top:2px;">Download QR, then scan from your UPI app</div>
+                                    </div>
+                                </div>
+
+                                <div style="font-size:13px; color:var(--muted); line-height:1.6; margin-bottom:16px; padding:12px 16px; background:rgba(95,37,159,0.04); border-radius:10px; border-left:3px solid #5f259f;">
+                                    <b>How to pay:</b> Save the QR → Open <b>GPay</b> or <b>PhonePe</b> → Tap <b>Scan</b> → Select saved QR from <b>Gallery</b>
+                                </div>
+
+                                <div style="display:flex; flex-direction:column; gap:10px;">
+                                    <button class="pay-action-btn primary pulse" onclick="triggerQRDownload()">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                            <polyline points="7 10 12 15 17 10"></polyline>
+                                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                                        </svg>
+                                        Save QR to Gallery
+                                    </button>
+
+                                    <button class="pay-action-btn secondary" id="payLinkBtn" onclick="launchUPIApp()">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                                            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                                        </svg>
+                                        Try Open UPI App Directly
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Step 2: Upload Screenshot -->
+                            <div class="pay-step-card" id="payStep2">
+                                <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+                                    <div class="pay-step-num" id="step2Num">2</div>
+                                    <div>
+                                        <div style="font-size:15px; font-weight:700; color:var(--navy);">Upload Payment Screenshot</div>
+                                        <div style="font-size:12px; color:var(--muted); margin-top:2px;">We'll auto-extract the UTR for verification</div>
+                                    </div>
+                                </div>
+
+                                <!-- File input styled as a drag/drop zone -->
+                                <div style="position:relative; width:100%; max-width:320px; margin:0 auto; background:#fff; border: 1.5px dashed var(--gold); border-radius: 16px; padding:24px; transition:all 0.3s; cursor:pointer;"
+                                    id="dropZoneContainer">
+                                    <input type="file" id="ssInput" accept="image/*"
+                                        onchange="processScreenshot(event)"
+                                        style="opacity: 0; position: absolute; z-index: 2; top:0; left:0; width:100%; height:100%; cursor:pointer;" />
+                                    <div style="display:flex; flex-direction:column; align-items:center; opacity:0.8;">
+                                        <svg width="32" height="32" fill="none" stroke="var(--gold)"
+                                            stroke-width="1.5" viewBox="0 0 24 24" style="margin-bottom:12px;">
+                                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                                            <circle cx="8.5" cy="8.5" r="1.5" />
+                                            <polyline points="21 15 16 10 5 21" />
+                                        </svg>
+                                        <span style="font-size:14px; font-weight:600; color:var(--navy);" id="ssFileText">Tap to select image</span>
+                                        <span style="font-size:12px; color:var(--muted); margin-top:4px;">PNG, JPG, JPEG</span>
+                                    </div>
+                                </div>
+
+                                <div id="ocrStatus"
+                                    style="font-size: 14px; margin-top: 16px; color: var(--navy); font-weight: 600; display:none; align-items: center; justify-content:center; gap: 8px;">
+                                    <svg class="spin" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2">
+                                        <path d="M21 12a9 9 0 11-6.219-8.56"></path>
+                                    </svg>
+                                    Extracting UTR...
+                                </div>
+                                <div id="ocrResult"
+                                    style="margin-top: 16px; padding: 14px; border-radius: 12px; font-size: 14px; display:none; line-height:1.5; text-align:center; max-width:320px; margin-left:auto; margin-right:auto;">
+                                </div>
+                            </div>
+
                         </div>
 
                         <button class="utr-verify-btn" id="payBtn" onclick="doPayment()"
@@ -2594,51 +2695,62 @@
 
             currentRegId = 'REA' + Date.now().toString().slice(-6) + Math.floor(Math.random() * 100).toString().padStart(2, "0");
 
-            // requirement: pa, pn, am, cu=INR (NO EXTRA PARAMS)
-            const upiUrl = `upi://pay?pa=${UPI_ID}&pn=${UPI_NAME}&am=${amount}&cu=INR`;
-            currentUPILink = upiUrl; // Store for use by launchUPIApp()
+            // Include transaction note with registration ID
+            const upiNote = encodeURIComponent(UPI_NOTE_PREFIX + currentRegId);
+            const upiUrl = `upi://pay?pa=${UPI_ID}&pn=${UPI_NAME}&am=${amount}&tn=${upiNote}&cu=INR`;
+            currentUPILink = upiUrl;
 
-            // show fallback UI
+            // Hide generate button with fade
+            const btn = document.getElementById('payBtn');
+            btn.style.transition = 'opacity 0.3s, transform 0.3s';
+            btn.style.opacity = '0';
+            btn.style.transform = 'translateY(-8px)';
+            setTimeout(() => { btn.style.display = 'none'; }, 300);
+
+            // Generate QR in hidden container (for download only)
+            const qrcodeContainer = document.getElementById("qrcode");
+            qrcodeContainer.innerHTML = "";
+            if (typeof QRCode !== "undefined") {
+                new QRCode(qrcodeContainer, {
+                    text: upiUrl,
+                    width: 300,
+                    height: 300,
+                    colorDark: "#000000",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+            }
+
+            // Show payment section with staggered animations
             document.getElementById('qrSection').style.display = 'block';
             document.getElementById('subWrap').style.display = 'block';
             paymentDone = true;
 
-            const btn = document.getElementById('payBtn');
-            btn.style.display = 'none'; // hide generate btn
+            // Set registration ID badge
+            document.getElementById('payRegIdText').textContent = currentRegId;
 
-            const qrcodeContainer = document.getElementById("qrcode");
-            qrcodeContainer.innerHTML = ""; // Clear existing
+            // Animate step cards sequentially
+            const step1 = document.getElementById('payStep1');
+            const step2 = document.getElementById('payStep2');
 
-            // Delay QR generation slightly to ensure container is visible/rendered
             setTimeout(() => {
-                if (typeof QRCode !== "undefined") {
-                    new QRCode(qrcodeContainer, {
-                        text: upiUrl,
-                        width: 300,
-                        height: 300,
-                        colorDark: "#000000",
-                        colorLight: "#ffffff",
-                        correctLevel: QRCode.CorrectLevel.H
-                    });
-                } else {
-                    qrcodeContainer.innerHTML = '<p style="font-size:10px;color:red;">QR Service unavailable. Please use the "Open App" or "Copy ID" buttons.</p>';
-                }
-            }, 50);
+                step1.classList.add('visible');
+            }, 150);
 
+            setTimeout(() => {
+                step2.classList.add('visible');
+            }, 400);
+
+            // Show status message
             const pStatus = document.getElementById('payStatus');
             pStatus.className = 'pay-status ok';
             pStatus.style.opacity = '1';
             pStatus.style.height = 'auto';
             pStatus.style.marginTop = '16px';
             pStatus.style.padding = '12px 20px';
-            
-            if (isMobile()) {
-                pStatus.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> <b>Payment QR Ready!</b><br/><small>Tap <b>"Save QR to Gallery"</b>, then open GPay / PhonePe and scan the saved image from your gallery.</small>';
-            } else {
-                pStatus.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> <b>QR Code Generated</b><br/><small>Save the QR and scan from your phone\'s UPI app, or scan directly from screen.</small>';
-            }
+            pStatus.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> <b>Payment Ready</b><br/><small>Save the QR, then scan it from inside your UPI app to pay.</small>';
 
-            setTimeout(() => { document.getElementById('qrSection').scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 400);
+            setTimeout(() => { document.getElementById('qrSection').scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 500);
         }
 
         function launchUPIApp() {
