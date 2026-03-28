@@ -2145,8 +2145,8 @@
 
                                     <div
                                         style="display:flex; flex-direction:column; gap:10px; max-width:280px; margin:0 auto;">
-                                        <a id="payLinkBtn" href="#"
-                                            style="display:inline-flex; width:100%; justify-content:center; text-decoration:none; background:linear-gradient(135deg, rgba(95,37,159,1) 0%, rgba(123,53,196,1) 100%); color:white; border-radius:12px; padding:12px 0; font-weight:700; font-size:15px; box-shadow:0 8px 24px rgba(95,37,159,0.25); border:none; transition:all 0.3s; align-items:center;">
+                                        <button id="payLinkBtn" onclick="launchUPIApp()"
+                                            style="display:inline-flex; width:100%; justify-content:center; text-decoration:none; background:linear-gradient(135deg, rgba(95,37,159,1) 0%, rgba(123,53,196,1) 100%); color:white; border-radius:12px; padding:12px 0; font-weight:700; font-size:15px; box-shadow:0 8px 24px rgba(95,37,159,0.25); border:none; transition:all 0.3s; align-items:center; cursor:pointer;">
                                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
                                                 stroke="currentColor" stroke-width="2.5" style="margin-right:8px;">
                                                 <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71">
@@ -2155,7 +2155,7 @@
                                                 </path>
                                             </svg>
                                             Open UPI App
-                                        </a>
+                                        </button>
 
                                         <button onclick="triggerQRDownload()"
                                             style="display:inline-flex; width:100%; justify-content:center; background:#f0f4f8; color:var(--navy); border:1px solid #d1d9e0; border-radius:12px; padding:12px 0; font-weight:600; font-size:14px; cursor:pointer; transition:all 0.2s; align-items:center; gap:8px;">
@@ -2576,9 +2576,9 @@
 
             // requirement: pa, pn, am, cu=INR (NO EXTRA PARAMS)
             const upiUrl = `upi://pay?pa=${UPI_ID}&pn=${UPI_NAME}&am=${amount}&cu=INR`;
+            currentUPILink = upiUrl; // Store for use by launchUPIApp()
 
             // show fallback UI
-            document.getElementById('payLinkBtn').href = upiUrl;
             document.getElementById('qrSection').style.display = 'block';
             document.getElementById('subWrap').style.display = 'block';
             paymentDone = true;
@@ -2619,6 +2619,38 @@
             }
 
             setTimeout(() => { document.getElementById('qrSection').scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 400);
+        }
+
+        function launchUPIApp() {
+            if (!currentUPILink) {
+                alert('Please generate a payment link first.');
+                return;
+            }
+
+            const ua = navigator.userAgent || '';
+            const isAndroid = /android/i.test(ua);
+            const isChrome = /chrome/i.test(ua) && !/edg/i.test(ua);
+            const isIOS = /iphone|ipad|ipod/i.test(ua);
+
+            if (isAndroid && isChrome) {
+                // Chrome on Android blocks upi:// from HTTPS pages.
+                // Use Android Intent URL which Chrome officially supports.
+                const params = currentUPILink.replace('upi://pay?', '');
+                const intentUrl = `intent://pay?${params}#Intent;scheme=upi;action=android.intent.action.VIEW;end;`;
+                window.location.href = intentUrl;
+            } else if (isAndroid) {
+                // Non-Chrome Android browsers (Samsung, Firefox, etc.)
+                // Try direct location assignment which works on most
+                window.location.href = currentUPILink;
+            } else if (isIOS) {
+                // iOS - direct assignment works for UPI apps
+                window.location.href = currentUPILink;
+            } else {
+                // Desktop or unknown - show QR guidance
+                const pStatus = document.getElementById('payStatus');
+                pStatus.className = 'pay-status ok';
+                pStatus.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> <b>Desktop Detected</b><br/><small>Please scan the QR code above with your phone\'s UPI app, or use <b>"Save QR to Gallery"</b>.</small>';
+            }
         }
 
         function triggerQRDownload() {
