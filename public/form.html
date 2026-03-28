@@ -2585,35 +2585,6 @@
             // requirement: pa, pn, am, cu=INR (NO EXTRA PARAMS)
             const upiUrl = `upi://pay?pa=${UPI_ID}&pn=${UPI_NAME}&am=${amount}&cu=INR`;
 
-            // Generate QR Code
-            const qrcodeContainer = document.getElementById("qrcode");
-            qrcodeContainer.innerHTML = ""; // Clear existing
-            const qr = new QRCode(qrcodeContainer, {
-                text: upiUrl,
-                width: 180,
-                height: 180,
-                colorDark: "#000000",
-                colorLight: "#ffffff",
-                correctLevel: QRCode.CorrectLevel.H
-            });
-
-            // Trigger QR Download Fallback
-            setTimeout(() => {
-                const qrImg = qrcodeContainer.querySelector('img');
-                const qrCanvas = qrcodeContainer.querySelector('canvas');
-                let imgData = "";
-                
-                if (qrCanvas) imgData = qrCanvas.toDataURL("image/png");
-                else if (qrImg) imgData = qrImg.src;
-
-                if (imgData) {
-                    const dlink = document.getElementById('qrDownloadLink');
-                    dlink.href = imgData;
-                    dlink.download = `Rotary_Payment_QR_${amount}.png`;
-                    dlink.click();
-                }
-            }, 100);
-
             // redirect instantly (synchronously in click event)
             window.location.href = upiUrl;
 
@@ -2625,6 +2596,44 @@
 
             const btn = document.getElementById('payBtn');
             btn.style.display = 'none'; // hide generate btn
+
+            const qrcodeContainer = document.getElementById("qrcode");
+            qrcodeContainer.innerHTML = ""; // Clear existing
+
+            // Delay QR generation slightly to ensure container is visible/rendered
+            setTimeout(() => {
+                if (typeof QRCode !== "undefined") {
+                    new QRCode(qrcodeContainer, {
+                        text: upiUrl,
+                        width: 180,
+                        height: 180,
+                        colorDark: "#000000",
+                        colorLight: "#ffffff",
+                        correctLevel: QRCode.CorrectLevel.H
+                    });
+
+                    // Trigger QR Download Fallback once rendered
+                    setTimeout(() => {
+                        const qrImg = qrcodeContainer.querySelector('img');
+                        const qrCanvas = qrcodeContainer.querySelector('canvas');
+                        let imgData = "";
+                        if (qrCanvas) imgData = qrCanvas.toDataURL("image/png");
+                        else if (qrImg) imgData = qrImg.src;
+
+                        if (imgData) {
+                            const dlink = document.getElementById('qrDownloadLink');
+                            if (dlink) {
+                                dlink.href = imgData;
+                                dlink.download = `Rotary_Payment_QR_${amount}.png`;
+                                dlink.click();
+                            }
+                        }
+                    }, 200);
+                } else {
+                    qrcodeContainer.innerHTML = '<p style="font-size:10px;color:red;">QR Service unavailable. Please use the "Open App" or "Copy ID" buttons.</p>';
+                }
+            }, 50);
+
             const pStatus = document.getElementById('payStatus');
             pStatus.className = 'pay-status ok';
             pStatus.style.opacity = '1';
