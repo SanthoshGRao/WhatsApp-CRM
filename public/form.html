@@ -2272,14 +2272,7 @@
                             <div class="pay-step-card" id="payStep1">
                                 <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
                                     <div class="pay-step-num" id="step1Num">1</div>
-                                    <div>
-                                        <div style="font-size:15px; font-weight:700; color:var(--navy);">Save QR & Pay</div>
-                                        <div style="font-size:12px; color:var(--muted); margin-top:2px;">Download QR, then scan from your UPI app</div>
-                                    </div>
-                                </div>
-
-                                <div style="font-size:13px; color:var(--muted); line-height:1.6; margin-bottom:16px; padding:12px 16px; background:rgba(95,37,159,0.04); border-radius:10px; border-left:3px solid #5f259f;">
-                                    <b>How to pay:</b> Save the QR → Open <b>GPay</b> or <b>PhonePe</b> → Tap <b>Scan</b> → Select saved QR from <b>Gallery</b>
+                                    <div style="font-size:15px; font-weight:700; color:var(--navy);">Save QR & Pay</div>
                                 </div>
 
                                 <div style="display:flex; flex-direction:column; gap:10px;">
@@ -2306,10 +2299,7 @@
                             <div class="pay-step-card" id="payStep2">
                                 <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
                                     <div class="pay-step-num" id="step2Num">2</div>
-                                    <div>
-                                        <div style="font-size:15px; font-weight:700; color:var(--navy);">Upload Payment Screenshot</div>
-                                        <div style="font-size:12px; color:var(--muted); margin-top:2px;">We'll auto-extract the UTR for verification</div>
-                                    </div>
+                                    <div style="font-size:15px; font-weight:700; color:var(--navy);">Upload Payment Screenshot</div>
                                 </div>
 
                                 <!-- File input styled as a drag/drop zone -->
@@ -2771,7 +2761,7 @@
             pStatus.style.height = 'auto';
             pStatus.style.marginTop = '16px';
             pStatus.style.padding = '12px 20px';
-            pStatus.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> <b>Session Restored</b><br/><small>Your form data was preserved. Upload your payment screenshot to continue. Reg: <b>' + currentRegId + '</b></small>';
+            pStatus.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Upload your payment screenshot to continue.';
 
             return true;
         }
@@ -2853,15 +2843,6 @@
             setTimeout(() => {
                 step2.classList.add('visible');
             }, 400);
-
-            // Show status message
-            const pStatus = document.getElementById('payStatus');
-            pStatus.className = 'pay-status ok';
-            pStatus.style.opacity = '1';
-            pStatus.style.height = 'auto';
-            pStatus.style.marginTop = '16px';
-            pStatus.style.padding = '12px 20px';
-            pStatus.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> <b>Payment Ready</b><br/><small>Save the QR, then scan it from inside your UPI app to pay.</small>';
 
             setTimeout(() => { document.getElementById('qrSection').scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 500);
 
@@ -3221,6 +3202,7 @@
         }
 
         let scannedUtr = '';
+        let paymentBlocked = false; // Blocks submission on critical mismatch
 
         async function processScreenshot(e) {
             const file = e.target.files[0];
@@ -3278,14 +3260,15 @@
                 const expectedAmount = calcAmount();
                 let resultParts = [];
                 let hasWarning = false;
+                let hasCriticalError = false;
 
                 // UTR result
                 if (utrMatches && utrMatches.length > 0) {
                     scannedUtr = utrMatches[0];
-                    resultParts.push(`✅ <b>UTR Found:</b> ${scannedUtr}`);
+                    resultParts.push(`✅ UTR: ${scannedUtr}`);
                 } else {
                     scannedUtr = 'Pending';
-                    resultParts.push(`⚠️ <b>UTR not detected</b> — manual review required`);
+                    resultParts.push(`⚠️ UTR not detected`);
                     hasWarning = true;
                 }
 
@@ -3293,44 +3276,46 @@
                 if (extractedAmounts.length > 0) {
                     const matchedAmt = extractedAmounts.find(a => a === expectedAmount);
                     if (matchedAmt) {
-                        resultParts.push(`✅ <b>Amount Matched:</b> ₹${matchedAmt.toLocaleString('en-IN')}`);
+                        resultParts.push(`✅ Amount: ₹${matchedAmt.toLocaleString('en-IN')}`);
                     } else {
                         const closest = extractedAmounts.sort((a, b) => Math.abs(a - expectedAmount) - Math.abs(b - expectedAmount))[0];
-                        resultParts.push(`⚠️ <b>Amount Mismatch:</b> Found ₹${closest.toLocaleString('en-IN')}, expected ₹${expectedAmount.toLocaleString('en-IN')}`);
-                        hasWarning = true;
+                        resultParts.push(`❌ Amount mismatch: Paid ₹${closest.toLocaleString('en-IN')}, expected ₹${expectedAmount.toLocaleString('en-IN')}`);
+                        hasCriticalError = true;
                     }
                 }
 
-                // Reg ID check (if visible in screenshot note field)
+                // Reg ID check
                 if (extractedRegId) {
                     if (extractedRegId === currentRegId) {
-                        resultParts.push(`✅ <b>Reg ID Matched:</b> ${extractedRegId}`);
+                        resultParts.push(`✅ Reg ID: ${extractedRegId}`);
                     } else {
-                        resultParts.push(`⚠️ <b>Reg ID Mismatch:</b> Screenshot shows ${extractedRegId}, current is ${currentRegId}`);
-                        hasWarning = true;
+                        resultParts.push(`❌ Wrong Reg ID: ${extractedRegId} (expected ${currentRegId})`);
+                        hasCriticalError = true;
                     }
                 }
 
-                if (!hasWarning && scannedUtr !== 'Pending') {
-                    resultEl.style.background = '#edfbf2';
-                    resultEl.style.border = '1px solid #a3d9b5';
-                    resultEl.style.color = '#1a7c4a';
-                } else if (scannedUtr !== 'Pending') {
-                    resultEl.style.background = '#fff8ec';
-                    resultEl.style.border = '1px solid #e8b84b';
-                    resultEl.style.color = '#92400e';
-                } else {
+                // Set blocking flag
+                paymentBlocked = hasCriticalError;
+
+                if (hasCriticalError) {
                     resultEl.style.background = '#fcf3f3';
                     resultEl.style.border = '1px solid #f5c6c6';
                     resultEl.style.color = '#c0392b';
+                    resultParts.push('<br/><b>Cannot submit.</b> Please upload the correct payment screenshot.');
+                } else if (!hasWarning && scannedUtr !== 'Pending') {
+                    resultEl.style.background = '#edfbf2';
+                    resultEl.style.border = '1px solid #a3d9b5';
+                    resultEl.style.color = '#1a7c4a';
+                } else {
+                    resultEl.style.background = '#fff8ec';
+                    resultEl.style.border = '1px solid #e8b84b';
+                    resultEl.style.color = '#92400e';
                 }
 
                 resultEl.innerHTML = resultParts.join('<br/>');
-                if (scannedUtr === 'Pending') {
-                    resultEl.innerHTML += '<br/><small style="opacity:0.7;">You can still submit — payment will require manual review.</small>';
-                }
 
-                subBtn.disabled = false;
+                // Only enable submit if no critical errors
+                subBtn.disabled = hasCriticalError;
             } catch (err) {
                 console.error(err);
                 statusEl.style.display = 'none';
@@ -3345,6 +3330,12 @@
         }
 
         async function submitForm() {
+            // Block if OCR detected amount/regId mismatch
+            if (paymentBlocked) {
+                alert('Payment verification failed. Please upload the correct payment screenshot.');
+                return;
+            }
+
             if (paymentDone && !scannedUtr) {
                 const ssInput = document.getElementById('ssInput');
                 if (!ssInput.files[0]) {
@@ -3441,6 +3432,7 @@
 
             paymentConfirmed = false;
             paymentDone = false;
+            paymentBlocked = false;
             currentRegId = '';
             currentUPILink = '';
             scannedUtr = '';
