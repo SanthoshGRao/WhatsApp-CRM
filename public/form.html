@@ -3265,10 +3265,10 @@
                 // UTR result
                 if (utrMatches && utrMatches.length > 0) {
                     scannedUtr = utrMatches[0];
-                    resultParts.push(`✅ UTR: ${scannedUtr}`);
+                    resultParts.push(`UTR: ${scannedUtr}`);
                 } else {
                     scannedUtr = 'Pending';
-                    resultParts.push(`⚠️ UTR not detected`);
+                    resultParts.push(`UTR not detected`);
                     hasWarning = true;
                 }
 
@@ -3276,10 +3276,10 @@
                 if (extractedAmounts.length > 0) {
                     const matchedAmt = extractedAmounts.find(a => a === expectedAmount);
                     if (matchedAmt) {
-                        resultParts.push(`✅ Amount: ₹${matchedAmt.toLocaleString('en-IN')}`);
+                        resultParts.push(`Amount: ₹${matchedAmt.toLocaleString('en-IN')}`);
                     } else {
                         const closest = extractedAmounts.sort((a, b) => Math.abs(a - expectedAmount) - Math.abs(b - expectedAmount))[0];
-                        resultParts.push(`❌ Amount mismatch: Paid ₹${closest.toLocaleString('en-IN')}, expected ₹${expectedAmount.toLocaleString('en-IN')}`);
+                        resultParts.push(`Amount mismatch: Paid ₹${closest.toLocaleString('en-IN')}, expected ₹${expectedAmount.toLocaleString('en-IN')}`);
                         hasCriticalError = true;
                     }
                 }
