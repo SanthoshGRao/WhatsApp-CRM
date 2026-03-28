@@ -736,20 +736,18 @@
         }
 
         .upi-app-chip .app-icon {
-            width: 28px;
-            height: 28px;
-            border-radius: 6px;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 800;
-            font-size: 11px;
-            color: #fff;
+            overflow: hidden;
         }
 
-        .upi-app-chip.gpay .app-icon { background: linear-gradient(135deg, #4285f4, #1a73e8); }
-        .upi-app-chip.phonepe .app-icon { background: linear-gradient(135deg, #5f259f, #41176e); }
-        .upi-app-chip.paytm .app-icon { background: linear-gradient(135deg, #00b0f0, #0088cc); }
+        .upi-app-chip.gpay .app-icon { background: transparent; }
+        .upi-app-chip.phonepe .app-icon { background: transparent; }
+        .upi-app-chip.paytm .app-icon { background: transparent; }
 
         .pay-reg-badge {
             display: inline-flex;
@@ -2359,15 +2357,21 @@
 
                                     <div class="upi-app-grid">
                                         <button class="upi-app-chip gpay" onclick="launchUPIApp('gpay')">
-                                            <div class="app-icon">G</div>
+                                            <div class="app-icon">
+                                                <img src="https://play-lh.googleusercontent.com/HArtbyi53u0jnqhnnxkQnMx9dHOERNcprZyKnInd2nrfM7Wd5tyQCekFYQiP-9aBknA=w240-h480-rw" alt="Google Pay" width="32" height="32" style="border-radius:8px; object-fit:cover;">
+                                            </div>
                                             GPay
                                         </button>
                                         <button class="upi-app-chip phonepe" onclick="launchUPIApp('phonepe')">
-                                            <div class="app-icon">Pe</div>
+                                            <div class="app-icon">
+                                                <img src="https://play-lh.googleusercontent.com/6iyA2zVz_dgretlhEJoVIkHkECnmEIyOJ-VO1l_NLONMjqDNwXaYHdZO1uyxhCt3pw=w240-h480-rw" alt="PhonePe" width="32" height="32" style="border-radius:8px; object-fit:cover;">
+                                            </div>
                                             PhonePe
                                         </button>
                                         <button class="upi-app-chip paytm" onclick="launchUPIApp('paytm')">
-                                            <div class="app-icon">Pt</div>
+                                            <div class="app-icon">
+                                                <img src="https://play-lh.googleusercontent.com/B5cNBA15IxjCT-8UTXEWgiPcGkJ1C07iHKwm2Hbs8xR3PnJvbfKJK8HKZK5ValMOz_E=w240-h480-rw" alt="Paytm" width="32" height="32" style="border-radius:8px; object-fit:cover;">
+                                            </div>
                                             Paytm
                                         </button>
                                     </div>
