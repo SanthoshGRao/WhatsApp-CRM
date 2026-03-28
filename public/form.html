@@ -2540,8 +2540,9 @@
             const ch = cards.filter(x => !x.isA).length;
             return ad * FA + ch * FC;
         }
+        const isMobile = () => /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
 
-        async function doPayment() {
+        function doPayment() {
             const name = document.getElementById('fn').value.trim();
             const club = document.getElementById('fc').value;
             const mob = document.getElementById('fm').value.trim().replace(/[\s\-]/g, '');
@@ -2552,30 +2553,28 @@
             document.getElementById('ecard').classList.toggle('on', !allM);
             if (!name || !club || !/^(\+91)?[6-9]\d{9}$/.test(mob) || !allM) return;
 
-            const btn = document.getElementById('payBtn');
-            btn.disabled = true;
-            btn.innerHTML = '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Checking details...';
+            const amount = calcAmount();
+            if (!amount || isNaN(amount)) {
+                alert("Invalid amount calculation.");
+                return;
+            }
 
-            try {
-                const mobCheck = await fetch('/api/check-mobile?mobile=' + mob);
-                const mobData = await mobCheck.json();
-                if (mobData.exists) {
-                    alert('This phone number is already registered! Please use a different number or contact support.');
-                    btn.disabled = false;
-                    btn.innerHTML = '<svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="margin-right:10px;"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><rect x="7" y="7" width="3" height="3"/><rect x="14" y="7" width="3" height="3"/><rect x="7" y="14" width="3" height="3"/><rect x="14" y="14" width="3" height="3"/></svg> Generate Payment Link';
-                    return;
-                }
-            } catch (e) {
-                console.error("Mobile check failed", e);
+            if (!isMobile()) {
+                alert("UPI payment apps are usually only available on mobile devices. Please open this link on your phone, or use the 'Copy UPI ID' option below to pay manually.");
+                document.getElementById('qrSection').style.display = 'block';
+                document.getElementById('subWrap').style.display = 'block';
+                return;
             }
 
             currentRegId = 'REA' + Date.now().toString().slice(-6) + Math.floor(Math.random() * 100).toString().padStart(2, "0");
-            const amount = calcAmount();
-            // Simplified UPI URI to bypass security filters
+
+            // requirement: pa, pn, am, cu=INR (NO EXTRA PARAMS)
             const upiUrl = `upi://pay?pa=${UPI_ID}&pn=${UPI_NAME}&am=${amount}&cu=INR`;
 
-            // QR Code generation completely removed for a cleaner link-only flow
+            // redirect instantly (synchronously in click event)
+            window.location.href = upiUrl;
 
+            // show fallback UI after redirect attempt
             document.getElementById('payLinkBtn').href = upiUrl;
             document.getElementById('qrSection').style.display = 'block';
             document.getElementById('subWrap').style.display = 'block';
@@ -2588,9 +2587,9 @@
             pStatus.style.height = 'auto';
             pStatus.style.marginTop = '16px';
             pStatus.style.padding = '12px 20px';
-            pStatus.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Payment Link Ready. Tap "Open UPI App" below to pay, then upload the screenshot.';
+            pStatus.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> UPI app opened. Once paid, please upload the screenshot below.';
 
-            setTimeout(() => { document.getElementById('qrSection').scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 100);
+            setTimeout(() => { document.getElementById('qrSection').scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 300);
         }
 
         function copyVPA() {
