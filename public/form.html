@@ -2146,7 +2146,7 @@
 
                                     <div
                                         style="display:flex; flex-direction:column; gap:10px; max-width:280px; margin:0 auto;">
-                                        <a id="payLinkBtn" href="#"
+                                        <a id="payLinkBtn" href="#" onclick="triggerQRDownload()"
                                             style="display:inline-flex; width:100%; justify-content:center; text-decoration:none; background:linear-gradient(135deg, rgba(95,37,159,1) 0%, rgba(123,53,196,1) 100%); color:white; border-radius:12px; padding:14px 0; font-weight:700; font-size:15px; box-shadow:0 8px 24px rgba(95,37,159,0.25); border:none; transition:all 0.3s; align-items:center;">
                                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
                                                 stroke="currentColor" stroke-width="2.5" style="margin-right:8px;">
@@ -2606,24 +2606,6 @@
                         colorLight: "#ffffff",
                         correctLevel: QRCode.CorrectLevel.H
                     });
-
-                    // Trigger QR Download Fallback once rendered
-                    setTimeout(() => {
-                        const qrImg = qrcodeContainer.querySelector('img');
-                        const qrCanvas = qrcodeContainer.querySelector('canvas');
-                        let imgData = "";
-                        if (qrCanvas) imgData = qrCanvas.toDataURL("image/png");
-                        else if (qrImg) imgData = qrImg.src;
-
-                        if (imgData) {
-                            const dlink = document.getElementById('qrDownloadLink');
-                            if (dlink) {
-                                dlink.href = imgData;
-                                dlink.download = `Rotary_Payment_QR_${amount}.png`;
-                                dlink.click();
-                            }
-                        }
-                    }, 200);
                 } else {
                     qrcodeContainer.innerHTML = '<p style="font-size:10px;color:red;">QR Service unavailable. Please use the "Open App" or "Copy ID" buttons.</p>';
                 }
@@ -2637,12 +2619,32 @@
             pStatus.style.padding = '12px 20px';
             
             if (isMobile()) {
-                pStatus.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> <b>UPI App Opening...</b><br/><small>A copy of the QR code was also downloaded to your gallery. If the app fails, click "Scan" and choose the image.</small>';
+                pStatus.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> <b>UPI App Opening...</b><br/><small>A copy of the QR code will be downloaded when you click "Open UPI App". If the app fails, click "Scan" and choose the image.</small>';
             } else {
                 pStatus.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> <b>Payment Details Generated</b><br/><small>Please scan the QR code above with your mobile UPI app to pay.</small>';
             }
 
             setTimeout(() => { document.getElementById('qrSection').scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 400);
+        }
+
+        function triggerQRDownload() {
+            const qrcodeContainer = document.getElementById("qrcode");
+            const qrImg = qrcodeContainer.querySelector('img');
+            const qrCanvas = qrcodeContainer.querySelector('canvas');
+            let imgData = "";
+
+            if (qrCanvas) imgData = qrCanvas.toDataURL("image/png");
+            else if (qrImg) imgData = qrImg.src;
+
+            if (imgData) {
+                const dlink = document.getElementById('qrDownloadLink');
+                if (dlink) {
+                    const amount = calcAmount(); // Get current amount for filename
+                    dlink.href = imgData;
+                    dlink.download = `Rotary_Payment_QR_${amount}.png`;
+                    dlink.click();
+                }
+            }
         }
 
         function copyVPA() {
