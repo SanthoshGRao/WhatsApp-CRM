@@ -2566,7 +2566,7 @@
             document.getElementById('ecard').classList.toggle('on', !allM);
             if (!name || !club || !/^(\+91)?[6-9]\d{9}$/.test(mob) || !allM) return;
 
-            const amount = calcAmount();
+            const amount = 1;
             if (!amount || isNaN(amount)) {
                 alert("Invalid amount calculation.");
                 return;
