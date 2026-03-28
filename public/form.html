@@ -2570,7 +2570,7 @@
             }
 
             currentRegId = 'REA' + Date.now().toString().slice(-6) + Math.floor(Math.random() * 100).toString().padStart(2, "0");
-            const amount = 10;
+            const amount = 100;
             // Simplified UPI URI to bypass security filters
             const upiUrl = `upi://pay?pa=${UPI_ID}&pn=${UPI_NAME}&mc=7999&am=${amount}&cu=INR&tn=REG-${currentRegId}`;
 
