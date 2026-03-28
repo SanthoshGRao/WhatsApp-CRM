@@ -2663,6 +2663,119 @@
 
         let currentRegId = '', utrNumber = '', paymentDone = false;
 
+        // ══ SESSION PERSISTENCE ══
+        // Saves form state so it survives page reloads (e.g., when user goes to GPay to pay)
+        const SESSION_KEY = 'rotary_pay_session';
+
+        function saveSession() {
+            const cards = getCards();
+            const session = {
+                name: document.getElementById('fn').value,
+                club: document.getElementById('fc').value,
+                mobile: document.getElementById('fm').value,
+                pax: document.getElementById('fp').value,
+                regId: currentRegId,
+                amount: calcAmount(),
+                upiLink: currentUPILink,
+                guestCards: cards.map(c => ({ isA: c.isA, isV: c.isV, isN: c.isN })),
+                timestamp: Date.now()
+            };
+            sessionStorage.setItem(SESSION_KEY, JSON.stringify(session));
+        }
+
+        function loadSession() {
+            try {
+                const data = sessionStorage.getItem(SESSION_KEY);
+                if (!data) return null;
+                const session = JSON.parse(data);
+                // Expire after 30 minutes
+                if (Date.now() - session.timestamp > 30 * 60 * 1000) {
+                    sessionStorage.removeItem(SESSION_KEY);
+                    return null;
+                }
+                return session;
+            } catch { return null; }
+        }
+
+        function clearSession() {
+            sessionStorage.removeItem(SESSION_KEY);
+        }
+
+        function restoreSession() {
+            const session = loadSession();
+            if (!session || !session.regId) return false;
+
+            // Restore form fields
+            document.getElementById('fn').value = session.name || '';
+            document.getElementById('fm').value = session.mobile || '';
+
+            // Restore club selection
+            if (session.club) {
+                document.getElementById('fc').value = session.club;
+                document.getElementById('cddLabel').textContent = session.club;
+                document.getElementById('cddTrig').classList.add('has-val');
+                cddSelected = session.club;
+                autoZone();
+            }
+
+            // Restore pax & guest cards
+            const pax = parseInt(session.pax) || 1;
+            document.getElementById('fp').value = pax;
+            buildCards(pax);
+
+            // Restore guest card selections (age & meal)
+            if (session.guestCards) {
+                session.guestCards.forEach((card, i) => {
+                    const idx = i + 1;
+                    if (card.isA !== undefined) setAge(idx, card.isA ? 'a' : 'c');
+                    if (card.isV) setMeal(idx, 'v');
+                    else if (card.isN) setMeal(idx, 'n');
+                });
+            }
+            calcSum();
+            updateUPIBox();
+
+            // Restore payment state
+            currentRegId = session.regId;
+            currentUPILink = session.upiLink || '';
+            paymentDone = true;
+
+            // Regenerate QR for download (hidden)
+            if (currentUPILink) {
+                const qrcodeContainer = document.getElementById('qrcode');
+                qrcodeContainer.innerHTML = '';
+                if (typeof QRCode !== 'undefined') {
+                    new QRCode(qrcodeContainer, {
+                        text: currentUPILink,
+                        width: 300, height: 300,
+                        colorDark: '#000000', colorLight: '#ffffff',
+                        correctLevel: QRCode.CorrectLevel.H
+                    });
+                }
+            }
+
+            // Show payment UI
+            document.getElementById('payBtn').style.display = 'none';
+            document.getElementById('qrSection').style.display = 'block';
+            document.getElementById('subWrap').style.display = 'block';
+            document.getElementById('payRegIdText').textContent = currentRegId;
+
+            // Make step cards visible immediately (no animation on restore)
+            document.getElementById('payStep1').classList.add('visible');
+            document.getElementById('payStep2').classList.add('visible');
+
+            // Show restored status
+            const pStatus = document.getElementById('payStatus');
+            pStatus.className = 'pay-status ok';
+            pStatus.style.opacity = '1';
+            pStatus.style.height = 'auto';
+            pStatus.style.marginTop = '16px';
+            pStatus.style.padding = '12px 20px';
+            pStatus.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> <b>Session Restored</b><br/><small>Your form data was preserved. Upload your payment screenshot to continue. Reg: <b>' + currentRegId + '</b></small>';
+
+            return true;
+        }
+
         function updateUPIBox() {
             const amount = calcAmount();
             document.getElementById('upiAmtDisplay').textContent = '₹ ' + amount.toLocaleString('en-IN');
@@ -2751,6 +2864,9 @@
             pStatus.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> <b>Payment Ready</b><br/><small>Save the QR, then scan it from inside your UPI app to pay.</small>';
 
             setTimeout(() => { document.getElementById('qrSection').scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 500);
+
+            // Save session so form data survives page reload
+            saveSession();
         }
 
         function launchUPIApp() {
@@ -3077,6 +3193,10 @@
         // Init
         buildCards(1);
         updateUPIBox();
+
+        // Restore session if user is returning from UPI app
+        const sessionRestored = restoreSession();
+
         async function fetchRegCount() {
             try {
                 const res = await fetch('/api/count');
@@ -3126,28 +3246,90 @@
             ssInput.style.borderColor = '';
 
             try {
-                // Tesseract
                 const { data: { text } } = await Tesseract.recognize(file, 'eng');
 
-                // OCR might be messy, extract 12-digit numbers
+                // Extract 12-digit UTR
                 const utrMatches = text.match(/\b\d{12}\b/g);
+
+                // Extract amount (look for ₹, Rs, INR patterns)
+                const amtPatterns = [
+                    /[₹₨]\s*([\d,]+\.?\d*)/g,
+                    /Rs\.?\s*([\d,]+\.?\d*)/gi,
+                    /INR\s*([\d,]+\.?\d*)/gi,
+                    /Amount[:\s]*[₹₨]?\s*([\d,]+\.?\d*)/gi,
+                    /Paid[:\s]*[₹₨]?\s*([\d,]+\.?\d*)/gi
+                ];
+                let extractedAmounts = [];
+                for (const pat of amtPatterns) {
+                    let m;
+                    while ((m = pat.exec(text)) !== null) {
+                        const val = parseFloat(m[1].replace(/,/g, ''));
+                        if (val > 0 && !isNaN(val)) extractedAmounts.push(val);
+                    }
+                }
+
+                // Extract registration ID (REA pattern from transaction note)
+                const regMatch = text.match(/REA\d{6,10}/i);
+                const extractedRegId = regMatch ? regMatch[0].toUpperCase() : null;
 
                 statusEl.style.display = 'none';
                 resultEl.style.display = 'block';
 
+                const expectedAmount = calcAmount();
+                let resultParts = [];
+                let hasWarning = false;
+
+                // UTR result
                 if (utrMatches && utrMatches.length > 0) {
                     scannedUtr = utrMatches[0];
+                    resultParts.push(`✅ <b>UTR Found:</b> ${scannedUtr}`);
+                } else {
+                    scannedUtr = 'Pending';
+                    resultParts.push(`⚠️ <b>UTR not detected</b> — manual review required`);
+                    hasWarning = true;
+                }
+
+                // Amount validation
+                if (extractedAmounts.length > 0) {
+                    const matchedAmt = extractedAmounts.find(a => a === expectedAmount);
+                    if (matchedAmt) {
+                        resultParts.push(`✅ <b>Amount Matched:</b> ₹${matchedAmt.toLocaleString('en-IN')}`);
+                    } else {
+                        const closest = extractedAmounts.sort((a, b) => Math.abs(a - expectedAmount) - Math.abs(b - expectedAmount))[0];
+                        resultParts.push(`⚠️ <b>Amount Mismatch:</b> Found ₹${closest.toLocaleString('en-IN')}, expected ₹${expectedAmount.toLocaleString('en-IN')}`);
+                        hasWarning = true;
+                    }
+                }
+
+                // Reg ID check (if visible in screenshot note field)
+                if (extractedRegId) {
+                    if (extractedRegId === currentRegId) {
+                        resultParts.push(`✅ <b>Reg ID Matched:</b> ${extractedRegId}`);
+                    } else {
+                        resultParts.push(`⚠️ <b>Reg ID Mismatch:</b> Screenshot shows ${extractedRegId}, current is ${currentRegId}`);
+                        hasWarning = true;
+                    }
+                }
+
+                if (!hasWarning && scannedUtr !== 'Pending') {
                     resultEl.style.background = '#edfbf2';
                     resultEl.style.border = '1px solid #a3d9b5';
                     resultEl.style.color = '#1a7c4a';
-                    resultEl.innerHTML = `<strong>Payment Verified!</strong><br>Found UTR: ${scannedUtr}`;
+                } else if (scannedUtr !== 'Pending') {
+                    resultEl.style.background = '#fff8ec';
+                    resultEl.style.border = '1px solid #e8b84b';
+                    resultEl.style.color = '#92400e';
                 } else {
-                    scannedUtr = 'Pending';
                     resultEl.style.background = '#fcf3f3';
                     resultEl.style.border = '1px solid #f5c6c6';
                     resultEl.style.color = '#c0392b';
-                    resultEl.innerHTML = `<strong>Could not detect 12-digit UTR.</strong><br>Please ensure the screenshot clearly shows the transaction reference number. You may still submit, but your payment will require manual review.`;
                 }
+
+                resultEl.innerHTML = resultParts.join('<br/>');
+                if (scannedUtr === 'Pending') {
+                    resultEl.innerHTML += '<br/><small style="opacity:0.7;">You can still submit — payment will require manual review.</small>';
+                }
+
                 subBtn.disabled = false;
             } catch (err) {
                 console.error(err);
@@ -3218,6 +3400,7 @@
                 d.push({ id: regId, name, club, zone, mobile: mob, pax, adults: ad, children: ch, vegCount: vg, nvegCount: nv, utr: utrNumber, amount, guestDetails: gd, timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) });
                 save(d);
                 fetchRegCount();
+                clearSession(); // Clear saved session after successful submission
                 document.getElementById('sRef').innerHTML = `
         <div style="display:flex; justify-content:space-between; margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid rgba(0,0,0,0.05);"><span style="color:var(--muted); font-size:13px;">Registration ID</span><strong style="color:var(--navy); font-size:14px;">${regId}</strong></div>
         <div style="display:flex; justify-content:space-between; margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid rgba(0,0,0,0.05);"><span style="color:var(--muted); font-size:13px;">Name</span><strong style="color:var(--navy); font-size:14px; text-align:right;">${name}</strong></div>
@@ -3259,7 +3442,9 @@
             paymentConfirmed = false;
             paymentDone = false;
             currentRegId = '';
+            currentUPILink = '';
             scannedUtr = '';
+            clearSession();
 
             const btn = document.getElementById('payBtn');
             if (btn) {
@@ -3267,7 +3452,12 @@
                 btn.classList.remove('verified');
                 btn.innerHTML = '<svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><rect x="7" y="7" width="3" height="3"/><rect x="14" y="7" width="3" height="3"/><rect x="7" y="14" width="3" height="3"/><rect x="14" y="14" width="3" height="3"/></svg> Generate Payment QR';
                 btn.disabled = false;
+                btn.style.opacity = '1';
+                btn.style.transform = '';
             }
+            // Reset step card animations
+            const s1 = document.getElementById('payStep1'); if (s1) s1.classList.remove('visible');
+            const s2 = document.getElementById('payStep2'); if (s2) s2.classList.remove('visible');
             const statusEl = document.getElementById('payStatus');
             if (statusEl) { statusEl.className = 'pay-status'; statusEl.innerHTML = ''; statusEl.style.opacity = '0'; statusEl.style.height = '0'; statusEl.style.marginTop = '0'; statusEl.style.padding = '0 20px'; }
             document.getElementById('qrSection').style.display = 'none';
