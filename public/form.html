@@ -2680,17 +2680,17 @@
                 guestCards: cards.map(c => ({ isA: c.isA, isV: c.isV, isN: c.isN })),
                 timestamp: Date.now()
             };
-            sessionStorage.setItem(SESSION_KEY, JSON.stringify(session));
+            localStorage.setItem(SESSION_KEY, JSON.stringify(session));
         }
 
         function loadSession() {
             try {
-                const data = sessionStorage.getItem(SESSION_KEY);
+                const data = localStorage.getItem(SESSION_KEY);
                 if (!data) return null;
                 const session = JSON.parse(data);
                 // Expire after 30 minutes
                 if (Date.now() - session.timestamp > 30 * 60 * 1000) {
-                    sessionStorage.removeItem(SESSION_KEY);
+                    localStorage.removeItem(SESSION_KEY);
                     return null;
                 }
                 return session;
@@ -2698,7 +2698,7 @@
         }
 
         function clearSession() {
-            sessionStorage.removeItem(SESSION_KEY);
+            localStorage.removeItem(SESSION_KEY);
         }
 
         function restoreSession() {
