@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rotary Excellence Awards 2025</title>
-    <!-- QR Library Removed to ensure no QR can be generated -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
     <link
         href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@300;400;500;600;700&display=swap"
@@ -2127,8 +2127,19 @@
                                     <div
                                         style="font-size:15px; font-weight:700; color:var(--navy); margin-bottom:12px;">
                                         Step 1: Make Payment</div>
-                                    <div style="font-size:13px; color:var(--muted); margin-bottom:16px;">Click the
-                                        button below to pay using any UPI app.</div>
+                                    
+                                    <!-- QR Code Display -->
+                                    <div id="qr-container" style="margin: 15px auto; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 12px; display: inline-block;">
+                                        <div id="qrcode"></div>
+                                    </div>
+
+                                    <div style="font-size:13px; color:var(--muted); margin-bottom:16px; line-height: 1.4;">
+                                        Tap the button below to pay. <br/>
+                                        <span style="color:var(--ok); font-weight:600;">Pro Tip:</span> We've also downloaded a QR copy to your gallery! If the app doesn't open, use <b>"Scan from Gallery"</b> in your UPI app.
+                                    </div>
+
+                                    <!-- Hidden download link -->
+                                    <a id="qrDownloadLink" style="display:none;"></a>
 
                                     <div
                                         style="display:flex; flex-direction:column; gap:10px; max-width:280px; margin:0 auto;">
@@ -2571,15 +2582,45 @@
             // requirement: pa, pn, am, cu=INR (NO EXTRA PARAMS)
             const upiUrl = `upi://pay?pa=${UPI_ID}&pn=${UPI_NAME}&am=${amount}&cu=INR`;
 
+            // Generate QR Code
+            const qrcodeContainer = document.getElementById("qrcode");
+            qrcodeContainer.innerHTML = ""; // Clear existing
+            const qr = new QRCode(qrcodeContainer, {
+                text: upiUrl,
+                width: 180,
+                height: 180,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+
+            // Trigger QR Download Fallback
+            setTimeout(() => {
+                const qrImg = qrcodeContainer.querySelector('img');
+                const qrCanvas = qrcodeContainer.querySelector('canvas');
+                let imgData = "";
+                
+                if (qrCanvas) imgData = qrCanvas.toDataURL("image/png");
+                else if (qrImg) imgData = qrImg.src;
+
+                if (imgData) {
+                    const dlink = document.getElementById('qrDownloadLink');
+                    dlink.href = imgData;
+                    dlink.download = `Rotary_Payment_QR_${amount}.png`;
+                    dlink.click();
+                }
+            }, 100);
+
             // redirect instantly (synchronously in click event)
             window.location.href = upiUrl;
 
-            // show fallback UI after redirect attempt
+            // show fallback UI
             document.getElementById('payLinkBtn').href = upiUrl;
             document.getElementById('qrSection').style.display = 'block';
             document.getElementById('subWrap').style.display = 'block';
             paymentDone = true;
 
+            const btn = document.getElementById('payBtn');
             btn.style.display = 'none'; // hide generate btn
             const pStatus = document.getElementById('payStatus');
             pStatus.className = 'pay-status ok';
@@ -2587,9 +2628,9 @@
             pStatus.style.height = 'auto';
             pStatus.style.marginTop = '16px';
             pStatus.style.padding = '12px 20px';
-            pStatus.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> UPI app opened. Once paid, please upload the screenshot below.';
+            pStatus.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> <b>UPI App Opening...</b><br/><small>A copy of the QR code was also downloaded to your gallery. If the app fails, click "Scan" and choose the image.</small>';
 
-            setTimeout(() => { document.getElementById('qrSection').scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 300);
+            setTimeout(() => { document.getElementById('qrSection').scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 400);
         }
 
         function copyVPA() {
