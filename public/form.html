@@ -681,6 +681,76 @@
             transform: translateY(-1px);
         }
 
+        .upi-app-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .upi-app-chip {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            padding: 12px 8px;
+            border-radius: 12px;
+            border: 1.5px solid;
+            background: #fff;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Outfit', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .upi-app-chip:active {
+            transform: scale(0.95);
+        }
+
+        .upi-app-chip.gpay {
+            border-color: rgba(66,133,244,0.25);
+            color: #1a73e8;
+        }
+        .upi-app-chip.gpay:hover {
+            background: #eef4ff;
+            border-color: #1a73e8;
+        }
+
+        .upi-app-chip.phonepe {
+            border-color: rgba(95,37,159,0.25);
+            color: #5f259f;
+        }
+        .upi-app-chip.phonepe:hover {
+            background: #f5f0ff;
+            border-color: #5f259f;
+        }
+
+        .upi-app-chip.paytm {
+            border-color: rgba(0,176,240,0.25);
+            color: #00b0f0;
+        }
+        .upi-app-chip.paytm:hover {
+            background: #eef9ff;
+            border-color: #00b0f0;
+        }
+
+        .upi-app-chip .app-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 11px;
+            color: #fff;
+        }
+
+        .upi-app-chip.gpay .app-icon { background: linear-gradient(135deg, #4285f4, #1a73e8); }
+        .upi-app-chip.phonepe .app-icon { background: linear-gradient(135deg, #5f259f, #41176e); }
+        .upi-app-chip.paytm .app-icon { background: linear-gradient(135deg, #00b0f0, #0088cc); }
+
         .pay-reg-badge {
             display: inline-flex;
             align-items: center;
@@ -2285,13 +2355,22 @@
                                         Save QR to Gallery
                                     </button>
 
-                                    <button class="pay-action-btn secondary" id="payLinkBtn" onclick="launchUPIApp()">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                                            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-                                            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
-                                        </svg>
-                                        Try Open UPI App Directly
-                                    </button>
+                                    <div style="text-align:center; font-size:12px; color:var(--muted); font-weight:600; text-transform:uppercase; letter-spacing:1px; margin-top:4px;">or pay directly via</div>
+
+                                    <div class="upi-app-grid">
+                                        <button class="upi-app-chip gpay" onclick="launchUPIApp('gpay')">
+                                            <div class="app-icon">G</div>
+                                            GPay
+                                        </button>
+                                        <button class="upi-app-chip phonepe" onclick="launchUPIApp('phonepe')">
+                                            <div class="app-icon">Pe</div>
+                                            PhonePe
+                                        </button>
+                                        <button class="upi-app-chip paytm" onclick="launchUPIApp('paytm')">
+                                            <div class="app-icon">Pt</div>
+                                            Paytm
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
 
@@ -2850,35 +2929,39 @@
             saveSession();
         }
 
-        function launchUPIApp() {
+        function launchUPIApp(app) {
             if (!currentUPILink) {
                 alert('Please generate a payment link first.');
                 return;
             }
 
+            const params = currentUPILink.replace('upi://pay?', '');
             const ua = navigator.userAgent || '';
             const isAndroid = /android/i.test(ua);
-            const isChrome = /chrome/i.test(ua) && !/edg/i.test(ua);
             const isIOS = /iphone|ipad|ipod/i.test(ua);
 
-            if (isAndroid && isChrome) {
-                // Chrome on Android blocks upi:// from HTTPS pages.
-                // Use Android Intent URL which Chrome officially supports.
-                const params = currentUPILink.replace('upi://pay?', '');
-                const intentUrl = `intent://pay?${params}#Intent;scheme=upi;action=android.intent.action.VIEW;end;`;
-                window.location.href = intentUrl;
-            } else if (isAndroid) {
-                // Non-Chrome Android browsers (Samsung, Firefox, etc.)
-                // Try direct location assignment which works on most
-                window.location.href = currentUPILink;
+            // App-specific Android package names
+            const packages = {
+                gpay: 'com.google.android.apps.nbu.paisa.user',
+                phonepe: 'com.phonepe.app',
+                paytm: 'net.one97.paytm'
+            };
+
+            if (isAndroid) {
+                const pkg = packages[app];
+                if (pkg) {
+                    // Targeted intent with specific package
+                    const intentUrl = `intent://pay?${params}#Intent;scheme=upi;package=${pkg};end;`;
+                    window.location.href = intentUrl;
+                } else {
+                    // Generic fallback
+                    const intentUrl = `intent://pay?${params}#Intent;scheme=upi;end;`;
+                    window.location.href = intentUrl;
+                }
             } else if (isIOS) {
-                // iOS - direct assignment works for UPI apps
                 window.location.href = currentUPILink;
             } else {
-                // Desktop or unknown - show QR guidance
-                const pStatus = document.getElementById('payStatus');
-                pStatus.className = 'pay-status ok';
-                pStatus.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> <b>Desktop Detected</b><br/><small>Please scan the QR code above with your phone\'s UPI app, or use <b>"Save QR to Gallery"</b>.</small>';
+                alert('Please use the "Save QR to Gallery" button and scan from your UPI app.');
             }
         }
 
