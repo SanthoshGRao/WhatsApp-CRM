@@ -47,6 +47,17 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    // Prevent duplicate mobile number
+    const existingMobile = await prisma.registration.findFirst({
+      where: { mobile: mobile }
+    });
+    if (existingMobile) {
+      return NextResponse.json(
+        { error: "This mobile number is already registered." },
+        { status: 400 }
+      );
+    }
+
     // Create registration in database
     const registration = await prisma.registration.create({
       data: {
