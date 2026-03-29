@@ -3386,7 +3386,7 @@
 
             // Build merchant UPI link with transaction reference
             const trRef = currentRegId + Date.now().toString().slice(-6);
-            const upiUrl = `upi://pay?pa=${UPI_ID}&pn=${UPI_NAME}&mc=${UPI_MC}&tr=${trRef}&am=${amount}&mam=${amount}&cu=INR&refUrl=${UPI_REF_URL}`;
+            const upiUrl = `upi://pay?pa=${UPI_ID}&pn=${UPI_NAME}&mc=${UPI_MC}&tr=${trRef}&am=${amount}&mam=${amount}&cu=INR&refUrl=${UPI_REF_URL}&tn=${currentRegId}`;
             currentUPILink = upiUrl;
 
             // Hide generate button with fade
@@ -3990,7 +3990,7 @@
             const ad = cards.filter(c => c.isA).length, ch = cards.filter(c => !c.isA).length;
             const vg = cards.filter(c => c.isV).length, nv = cards.filter(c => c.isN).length;
             const trRef = currentRegId + Date.now().toString().slice(-6);
-            currentUPILink = `upi://pay?pa=${UPI_ID}&pn=${UPI_NAME}&mc=${UPI_MC}&tr=${trRef}&am=${amount}&mam=${amount}&cu=INR&refUrl=${UPI_REF_URL}`;
+            currentUPILink = `upi://pay?pa=${UPI_ID}&pn=${UPI_NAME}&mc=${UPI_MC}&tr=${trRef}&am=${amount}&mam=${amount}&cu=INR&refUrl=${UPI_REF_URL}&tn=${currentRegId}`;
             const qrc = document.getElementById('qrcode'); qrc.innerHTML = '';
             if (typeof QRCode !== 'undefined') new QRCode(qrc, { text: currentUPILink, width: 300, height: 300, colorDark: '#000', colorLight: '#fff', correctLevel: QRCode.CorrectLevel.H });
             document.getElementById('payRecapAmount').textContent = '₹ ' + amount.toLocaleString('en-IN');
