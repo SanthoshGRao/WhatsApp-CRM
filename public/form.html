@@ -3868,25 +3868,27 @@
                 }
 
                 // Amount validation
-                if (extractedAmounts.length > 0) {
-                    const matchedAmt = extractedAmounts.find(a => a === expectedAmount);
-                    if (matchedAmt) {
-                        resultParts.push(`Amount: ₹${matchedAmt.toLocaleString('en-IN')}`);
-                    } else {
-                        const closest = extractedAmounts.sort((a, b) => Math.abs(a - expectedAmount) - Math.abs(b - expectedAmount))[0];
-                        resultParts.push(`Amount mismatch: Paid ₹${closest.toLocaleString('en-IN')}, expected ₹${expectedAmount.toLocaleString('en-IN')}`);
-                        hasCriticalError = true;
-                    }
+                const matchedAmt = extractedAmounts.find(a => a === expectedAmount);
+                if (matchedAmt) {
+                    resultParts.push(`Amount: ₹${matchedAmt.toLocaleString('en-IN')}`);
+                } else if (extractedAmounts.length > 0) {
+                    const closest = extractedAmounts.sort((a, b) => Math.abs(a - expectedAmount) - Math.abs(b - expectedAmount))[0];
+                    resultParts.push(`Amount mismatch: Detected ₹${closest.toLocaleString('en-IN')}, expected ₹${expectedAmount.toLocaleString('en-IN')}`);
+                    hasCriticalError = true;
+                } else {
+                    resultParts.push(`Amount not detected (expected ₹${expectedAmount.toLocaleString('en-IN')})`);
+                    hasCriticalError = true;
                 }
 
                 // Reg ID check
-                if (extractedRegId) {
-                    if (extractedRegId === currentRegId) {
-                        resultParts.push(`Reg ID: ${extractedRegId}`);
-                    } else {
-                        resultParts.push(`Wrong Reg ID: ${extractedRegId} (expected ${currentRegId})`);
-                        hasCriticalError = true;
-                    }
+                if (extractedRegId === currentRegId) {
+                    resultParts.push(`Reg ID: ${extractedRegId}`);
+                } else if (extractedRegId) {
+                    resultParts.push(`Wrong Reg ID: ${extractedRegId} (expected ${currentRegId})`);
+                    hasCriticalError = true;
+                } else {
+                    resultParts.push(`Reg ID not detected. Ensure transaction note contains ${currentRegId}`);
+                    hasCriticalError = true;
                 }
 
                 // Set blocking flag
