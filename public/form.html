@@ -3360,7 +3360,8 @@
             const cards = getCards();
             const ad = cards.filter(x => x.isA).length;
             const ch = cards.filter(x => !x.isA).length;
-            return ad * FA + ch * FC;
+            // return ad * FA + ch * FC;
+            return 1;
         }
         const isMobile = () => /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
 
