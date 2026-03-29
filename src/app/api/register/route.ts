@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { sendWhatsAppTemplate } from "@/lib/whatsapp";
+// WhatsApp payment confirmation is sent by admin, not at registration time
 import { sendAdminNotification } from "@/lib/email";
 
 export async function POST(request: NextRequest) {
@@ -69,22 +69,8 @@ export async function POST(request: NextRequest) {
         paymentStatus: "pending",
       },
     });
-    // Send WhatsApp message asynchronously using standard template
-    sendWhatsAppTemplate(
-      mobile,
-      name,
-      club,
-      registration.id,
-      "rotary_welcome_registration"
-    ).then((result) => {
-      if (result.success) {
-        console.log("✅ Registration WA sent:", result.messageId);
-      } else {
-        console.error("❌ Registration WA failed:", result.error);
-      }
-    }).catch((err) => {
-      console.error("Registration WA send error:", err);
-    });
+    // WhatsApp payment confirmation will be sent by admin after manual payment verification
+    // No automatic WhatsApp message on registration
 
     // Send admin email notification asynchronously
     sendAdminNotification({

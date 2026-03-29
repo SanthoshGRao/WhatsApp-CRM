@@ -2109,6 +2109,469 @@
                 justify-content: center
             }
         }
+
+        /* ══ CONFIRMATION MODAL ══ */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(0, 15, 35, 0.65);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            animation: modalFadeIn 0.3s ease;
+        }
+        .modal-overlay.active { display: flex; }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes modalSlideUp {
+            from { opacity: 0; transform: translateY(40px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .modal-card {
+            background: rgba(255, 255, 255, 0.97);
+            border-radius: 24px;
+            box-shadow: 0 24px 80px rgba(0, 20, 60, 0.25), 0 0 0 1px rgba(201, 149, 42, 0.2);
+            width: 100%;
+            max-width: 480px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalSlideUp 0.4s cubic-bezier(0.22, 0.68, 0, 1.15);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--navy-d), var(--navy));
+            padding: 24px 28px;
+            border-radius: 24px 24px 0 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .modal-header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: .05;
+            background: repeating-linear-gradient(45deg, var(--gold-l) 0, var(--gold-l) 1px, transparent 0, transparent 50%);
+            background-size: 16px 16px;
+        }
+        .modal-header-icon {
+            width: 56px; height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold-d), var(--gold-l));
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 14px;
+            box-shadow: 0 4px 20px rgba(201, 149, 42, 0.35);
+            position: relative; z-index: 1;
+        }
+        .modal-header h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 24px;
+            color: #fff;
+            margin-bottom: 4px;
+            position: relative; z-index: 1;
+        }
+        .modal-header p {
+            font-size: 13px;
+            color: rgba(255,255,255,0.6);
+            position: relative; z-index: 1;
+        }
+
+        .modal-body { padding: 24px 28px; }
+
+        .modal-detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .modal-detail-row:last-child { border-bottom: none; padding-bottom: 0; }
+        .modal-detail-label {
+            font-size: 12.5px;
+            color: var(--muted);
+            font-weight: 500;
+        }
+        .modal-detail-value {
+            font-size: 13.5px;
+            color: var(--navy);
+            font-weight: 600;
+            text-align: right;
+            max-width: 60%;
+        }
+
+        .modal-warning {
+            background: #fff8ec;
+            border: 1px solid #e8b84b;
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin: 18px 0 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .modal-warning-icon { color: #c9952a; flex-shrink: 0; padding-top: 2px; }
+        .modal-warning-text {
+            font-size: 13px;
+            color: #92400e;
+            font-weight: 600;
+            line-height: 1.5;
+        }
+
+        .modal-footer {
+            padding: 0 28px 24px;
+            display: flex;
+            gap: 10px;
+        }
+        .modal-btn {
+            flex: 1;
+            padding: 14px 16px;
+            border-radius: 12px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border: none;
+        }
+        .modal-btn.secondary {
+            background: #f0f4f8;
+            color: var(--navy);
+            border: 1.5px solid #d1d9e0;
+        }
+        .modal-btn.secondary:hover { background: #e5eaf0; }
+        .modal-btn.primary {
+            background: linear-gradient(135deg, var(--gold-d), var(--gold), var(--gold-l));
+            background-size: 200%;
+            color: #fff;
+            box-shadow: 0 4px 18px rgba(201, 149, 42, 0.35);
+        }
+        .modal-btn.primary:hover {
+            background-position: right;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 24px rgba(201, 149, 42, 0.48);
+        }
+
+        /* ══ PAYMENT PAGE ══ */
+        .pay-page-header {
+            background: linear-gradient(160deg, var(--navy-d), var(--navy) 55%, var(--navy-m));
+            position: relative;
+            overflow: hidden;
+            padding: 36px 24px 48px;
+            text-align: center;
+        }
+        .pay-page-header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: .04;
+            background: repeating-linear-gradient(45deg, var(--gold-l) 0, var(--gold-l) 1px, transparent 0, transparent 50%);
+            background-size: 20px 20px;
+        }
+        .pay-page-header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0; right: 0;
+            height: 44px;
+            background: var(--bg);
+            clip-path: ellipse(55% 100% at 50% 100%);
+        }
+        .pay-page-header h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(24px, 5vw, 36px);
+            color: #fff;
+            position: relative; z-index: 1;
+            margin-bottom: 6px;
+        }
+        .pay-page-header p {
+            font-size: 14px;
+            color: rgba(255,255,255,0.55);
+            position: relative; z-index: 1;
+        }
+
+        .pay-page-content {
+            max-width: 560px;
+            margin: -20px auto 0;
+            padding: 0 16px 48px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Summary recap card */
+        .pay-recap {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 0 rgba(201, 149, 42, 0.4), 0 8px 32px rgba(0, 31, 69, 0.1);
+            overflow: hidden;
+            margin-bottom: 24px;
+            animation: rise 0.5s cubic-bezier(.22,.68,0,1.15) both;
+        }
+        .pay-recap-header {
+            background: linear-gradient(135deg, var(--navy-d), var(--navy));
+            padding: 16px 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .pay-recap-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 18px;
+            color: #fff;
+        }
+        .pay-recap-amount {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--gold-l);
+            line-height: 1;
+        }
+        .pay-recap-body {
+            padding: 16px 22px;
+        }
+        .pay-recap-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.04);
+        }
+        .pay-recap-row:last-child { border-bottom: none; }
+        .pay-recap-row span { color: var(--muted); }
+        .pay-recap-row strong { color: var(--navy); }
+
+        /* Stepper */
+        .stepper {
+            position: relative;
+            padding-left: 0;
+        }
+        .step {
+            position: relative;
+            padding-left: 56px;
+            padding-bottom: 20px;
+            animation: fadeInUp 0.5s ease both;
+        }
+        .step:nth-child(2) { animation-delay: 0.08s; }
+        .step:nth-child(3) { animation-delay: 0.16s; }
+        .step:last-child { padding-bottom: 0; }
+
+        /* Vertical line */
+        .step::before {
+            content: '';
+            position: absolute;
+            left: 18px;
+            top: 38px;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, rgba(95,37,159,0.2), rgba(95,37,159,0.05));
+        }
+        .step:last-child::before { display: none; }
+
+        .step-circle {
+            position: absolute;
+            left: 4px;
+            top: 2px;
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #5f259f, #7b35c4);
+            color: #fff;
+            font-size: 14px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 14px rgba(95,37,159,0.3);
+            z-index: 2;
+        }
+        .step-circle.done {
+            background: linear-gradient(135deg, #10b981, #059669);
+            box-shadow: 0 4px 14px rgba(16,185,129,0.3);
+        }
+
+        .step-content {
+            background: #fff;
+            border-radius: 14px;
+            padding: 16px 18px;
+            box-shadow: 0 2px 12px rgba(0,31,69,0.06);
+            border: 1px solid rgba(0,51,102,0.06);
+        }
+        .step-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .step-desc {
+            font-size: 12.5px;
+            color: var(--muted);
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+        .step-desc:last-child { margin-bottom: 0; }
+
+        /* Download QR button on payment page */
+        .download-qr-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 13px 18px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(135deg, #5f259f 0%, #7b35c4 100%);
+            color: #fff;
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 6px 20px rgba(95,37,159,0.25);
+            animation: pulseGlow 2.5s ease-in-out infinite;
+        }
+        .download-qr-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(95,37,159,0.35);
+        }
+        .download-qr-btn:active { transform: translateY(0); }
+        .download-qr-btn.downloaded {
+            background: linear-gradient(135deg, #10b981, #059669);
+            box-shadow: 0 6px 20px rgba(16,185,129,0.25);
+            animation: none;
+        }
+
+        /* Upload zone on payment page */
+        .upload-zone {
+            position: relative;
+            width: 100%;
+            background: #fdfcfa;
+            border: 2px dashed rgba(201,149,42,0.4);
+            border-radius: 12px;
+            padding: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        .upload-zone:hover {
+            border-color: var(--upi);
+            background: rgba(95,37,159,0.02);
+        }
+        .upload-zone input[type="file"] {
+            opacity: 0;
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        /* Confirm button on payment page */
+        .confirm-reg-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--gold-d), var(--gold), var(--gold-l));
+            background-size: 200%;
+            color: #fff;
+            border: none;
+            border-radius: 14px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-position 0.4s, transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 6px 24px rgba(201, 149, 42, 0.38);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 28px;
+        }
+        .confirm-reg-btn:hover {
+            background-position: right;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(201, 149, 42, 0.5);
+        }
+        .confirm-reg-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Proceed button on form page */
+        .proceed-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--gold-d), var(--gold), var(--gold-l));
+            background-size: 200%;
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-position 0.4s, transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 18px rgba(201, 149, 42, 0.38);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 8px;
+        }
+        .proceed-btn:hover {
+            background-position: right;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 24px rgba(201, 149, 42, 0.48);
+        }
+
+        /* Info tip cards */
+        .info-tip {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            background: linear-gradient(135deg, rgba(95,37,159,0.04), rgba(123,53,196,0.04));
+            border: 1px solid rgba(95,37,159,0.12);
+            border-radius: 10px;
+            padding: 12px 14px;
+            margin-top: 10px;
+        }
+        .info-tip-icon {
+            color: #7c3aed;
+            flex-shrink: 0;
+            padding-top: 1px;
+        }
+        .info-tip-text {
+            font-size: 12.5px;
+            color: #6d28d9;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        @media(max-width:540px) {
+            .modal-card { max-width: 100%; border-radius: 20px; }
+            .modal-header { padding: 20px 20px; }
+            .modal-body { padding: 20px 20px; }
+            .modal-footer { padding: 0 20px 20px; flex-direction: column; }
+            .pay-page-content { padding: 0 12px 40px; }
+            .step { padding-left: 48px; }
+            .step-circle { width: 28px; height: 28px; font-size: 12px; left: 4px; }
+            .step::before { left: 16px; }
+        }
     </style>
 </head>
 
@@ -2285,227 +2748,259 @@
                         </div>
                     </div>
 
-                    <!-- ══ DIRECT UPI PAYMENT BOX ══ -->
-                    <div class="upi-box" id="upiBox"
-                        style="background:#fff; border-radius:16px; border:1px solid rgba(0,51,102,0.1); margin-top:24px; box-shadow:0 8px 32px rgba(0,31,69,0.06); overflow:hidden; transition:all 0.3s ease;">
-                        <div class="upi-header"
-                            style="background: linear-gradient(135deg, rgba(95, 37, 159, 1) 0%, rgba(67, 24, 115, 1) 100%); color:#fff; padding:18px 24px; display:flex; align-items:center; justify-content:space-between;">
-                            <div class="upi-title"
-                                style="color:#fff; font-weight:700; font-size:16px; display:flex; align-items:center; gap:8px;">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff"
-                                    stroke-width="2">
-                                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-                                </svg>
-                                Pay via UPI App
-                            </div>
-                            <div class="upi-secure"
-                                style="color:rgba(255,255,255,0.9); font-size:12px; font-weight:600; display:flex; align-items:center; gap:4px; background:rgba(255,255,255,0.15); padding:4px 12px; border-radius:20px;">
-                                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"
-                                    viewBox="0 0 24 24">
-                                    <rect x="3" y="11" width="18" height="11" rx="2" />
-                                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                                </svg>
-                                Secure
-                            </div>
-                        </div>
-
-                        <!-- Amount display -->
-                        <div class="upi-amount-display"
-                            style="display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:28px 20px 20px; background: linear-gradient(to bottom, rgba(95,37,159,0.03) 0%, transparent 100%); border-bottom:1px dashed rgba(0,0,0,0.08);">
-                            <div class="upi-amt-label"
-                                style="margin-bottom:6px; font-size:13px; color:var(--muted); font-weight:600; text-transform:uppercase; letter-spacing:0.5px;">
-                                Total Payable Amount</div>
-                            <div class="upi-amt-value" id="upiAmtDisplay"
-                                style="font-size:36px; font-weight:800; color:var(--navy); line-height:1;">₹ 1,400</div>
-                        </div>
-
-                        <!-- Hidden QR generation container (not visible, used for download only) -->
-                        <div id="qrGenHidden" style="visibility:hidden; height:0; overflow:hidden; position:absolute; pointer-events:none;">
-                            <div id="qrcode"></div>
-                        </div>
-                        <a id="qrDownloadLink" style="display:none;"></a>
-
-                        <div id="qrSection" style="display:none; padding: 0 20px 24px;">
-
-                            <!-- Registration ID badge -->
-                            <div style="text-align:center; margin-bottom:18px;">
-                                <div class="pay-reg-badge" id="payRegBadge">
-                                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                                        <circle cx="12" cy="7" r="4"/>
-                                    </svg>
-                                    <span id="payRegIdText">REA------</span>
-                                </div>
-                            </div>
-
-                            <!-- Step 1: Save & Pay -->
-                            <div class="pay-step-card" id="payStep1">
-                                <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
-                                    <div class="pay-step-num" id="step1Num">1</div>
-                                    <div style="font-size:15px; font-weight:700; color:var(--navy);">Save QR & Pay</div>
-                                </div>
-
-                                <div style="display:flex; flex-direction:column; gap:10px;">
-                                    <button class="pay-action-btn primary pulse" onclick="triggerQRDownload()">
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                            <polyline points="7 10 12 15 17 10"></polyline>
-                                            <line x1="12" y1="15" x2="12" y2="3"></line>
-                                        </svg>
-                                        Save QR to Gallery
-                                    </button>
-
-                                    <div style="text-align:center; font-size:12px; color:var(--muted); font-weight:600; text-transform:uppercase; letter-spacing:1px; margin-top:4px;">or pay directly via</div>
-
-                                    <div class="upi-app-grid">
-                                        <button class="upi-app-chip gpay" onclick="launchUPIApp('gpay')">
-                                            <div class="app-icon">
-                                                <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 48 48">
-<path fill="#e64a19" d="M42.858,11.975c-4.546-2.624-10.359-1.065-12.985,3.481L23.25,26.927	c-1.916,3.312,0.551,4.47,3.301,6.119l6.372,3.678c2.158,1.245,4.914,0.506,6.158-1.649l6.807-11.789	C48.176,19.325,46.819,14.262,42.858,11.975z"></path><path fill="#fbc02d" d="M35.365,16.723l-6.372-3.678c-3.517-1.953-5.509-2.082-6.954,0.214l-9.398,16.275	c-2.624,4.543-1.062,10.353,3.481,12.971c3.961,2.287,9.024,0.93,11.311-3.031l9.578-16.59	C38.261,20.727,37.523,17.968,35.365,16.723z"></path><path fill="#43a047" d="M36.591,8.356l-4.476-2.585c-4.95-2.857-11.28-1.163-14.137,3.787L9.457,24.317	c-1.259,2.177-0.511,4.964,1.666,6.22l5.012,2.894c2.475,1.43,5.639,0.582,7.069-1.894l9.735-16.86	c2.017-3.492,6.481-4.689,9.974-2.672L36.591,8.356z"></path><path fill="#1e88e5" d="M19.189,13.781l-4.838-2.787c-2.158-1.242-4.914-0.506-6.158,1.646l-5.804,10.03	c-2.857,4.936-1.163,11.252,3.787,14.101l3.683,2.121l4.467,2.573l1.939,1.115c-3.442-2.304-4.535-6.92-2.43-10.555l1.503-2.596	l5.504-9.51C22.083,17.774,21.344,15.023,19.189,13.781z"></path>
-</svg>
-                                            </div>
-                                            GPay
-                                        </button>
-                                        <button class="upi-app-chip phonepe" onclick="launchUPIApp('phonepe')">
-                                            <div class="app-icon">
-                                                <svg width="24" height="24" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"><circle cx="-25.926" cy="41.954" r="29.873" fill="#5f259f" transform="rotate(-76.714 -48.435 5.641) scale(8.56802)"/><path d="M372.164 189.203c0-10.008-8.576-18.593-18.584-18.593h-34.323l-78.638-90.084c-7.154-8.577-18.592-11.439-30.03-8.577l-27.17 8.577c-4.292 1.43-5.723 7.154-2.862 10.007l85.8 81.508H136.236c-4.293 0-7.154 2.861-7.154 7.154v14.292c0 10.016 8.585 18.592 18.592 18.592h20.015v68.639c0 51.476 27.17 81.499 72.931 81.499 14.292 0 25.739-1.431 40.03-7.146v45.753c0 12.87 10.016 22.886 22.885 22.886h20.015c4.293 0 8.577-4.293 8.577-8.586V210.648h32.893c4.292 0 7.145-2.861 7.145-7.145v-14.3zM280.65 312.17c-8.576 4.292-20.015 5.723-28.591 5.723-22.886 0-34.324-11.438-34.324-37.176v-68.639h62.915v100.092z" fill="#fff" fill-rule="nonzero"/></svg>
-                                            </div>
-                                            PhonePe
-                                        </button>
-                                        <button class="upi-app-chip paytm" onclick="launchUPIApp('paytm')">
-                                            <div class="app-icon">
-                                                <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 48 48">
-<path fill="#0d47a1" d="M5.446 18.01H.548c-.277 0-.502.167-.503.502L0 30.519c-.001.3.196.45.465.45.735 0 1.335 0 2.07 0C2.79 30.969 3 30.844 3 30.594 3 29.483 3 28.111 3 27l2.126.009c1.399-.092 2.335-.742 2.725-2.052.117-.393.14-.733.14-1.137l.11-2.862C7.999 18.946 6.949 18.181 5.446 18.01zM4.995 23.465C4.995 23.759 4.754 24 4.461 24H3v-3h1.461c.293 0 .534.24.534.535V23.465zM13.938 18h-3.423c-.26 0-.483.08-.483.351 0 .706 0 1.495 0 2.201C10.06 20.846 10.263 21 10.552 21h2.855c.594 0 .532.972 0 1H11.84C10.101 22 9 23.562 9 25.137c0 .42.005 1.406 0 1.863-.008.651-.014 1.311.112 1.899C9.336 29.939 10.235 31 11.597 31h4.228c.541 0 1.173-.474 1.173-1.101v-8.274C17.026 19.443 15.942 18.117 13.938 18zM14 27.55c0 .248-.202.45-.448.45h-1.105C12.201 28 12 27.798 12 27.55v-2.101C12 25.202 12.201 25 12.447 25h1.105C13.798 25 14 25.202 14 25.449V27.55zM18 18.594v5.608c.124 1.6 1.608 2.798 3.171 2.798h1.414c.597 0 .561.969 0 .969H19.49c-.339 0-.462.177-.462.476v2.152c0 .226.183.396.422.396h2.959c2.416 0 3.592-1.159 3.591-3.757v-8.84c0-.276-.175-.383-.342-.383h-2.302c-.224 0-.355.243-.355.422v5.218c0 .199-.111.316-.29.316H21.41c-.264 0-.409-.143-.409-.396v-5.058C21 18.218 20.88 18 20.552 18c-.778 0-1.442 0-2.22 0C18.067 18 18 18.263 18 18.594L18 18.594z"></path><path fill="#00adee" d="M27.038 20.569v-2.138c0-.237.194-.431.43-.431H28c1.368-.285 1.851-.62 2.688-1.522.514-.557.966-.704 1.298-.113L32 18h1.569C33.807 18 34 18.194 34 18.431v2.138C34 20.805 33.806 21 33.569 21H32v9.569C32 30.807 31.806 31 31.57 31h-2.14C29.193 31 29 30.807 29 30.569V21h-1.531C27.234 21 27.038 20.806 27.038 20.569L27.038 20.569zM42.991 30.465c0 .294-.244.535-.539.535h-1.91c-.297 0-.54-.241-.54-.535v-6.623-1.871c0-1.284-2.002-1.284-2.002 0v8.494C38 30.759 37.758 31 37.461 31H35.54C35.243 31 35 30.759 35 30.465V18.537C35 18.241 35.243 18 35.54 18h1.976c.297 0 .539.241.539.537v.292c1.32-1.266 3.302-.973 4.416.228 2.097-2.405 5.69-.262 5.523 2.375 0 2.916-.026 6.093-.026 9.033 0 .294-.244.535-.538.535h-1.891C45.242 31 45 30.759 45 30.465c0-2.786 0-5.701 0-8.44 0-1.307-2-1.37-2 0v8.44H42.991z"></path>
-</svg>
-                                            </div>
-                                            Paytm
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Step 2: Upload Screenshot -->
-                            <div class="pay-step-card" id="payStep2">
-                                <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
-                                    <div class="pay-step-num" id="step2Num">2</div>
-                                    <div style="font-size:15px; font-weight:700; color:var(--navy);">Upload Payment Screenshot</div>
-                                </div>
-
-                                <!-- File input styled as a drag/drop zone -->
-                                <div style="position:relative; width:100%; max-width:320px; margin:0 auto; background:#fff; border: 1.5px dashed var(--gold); border-radius: 16px; padding:24px; transition:all 0.3s; cursor:pointer;"
-                                    id="dropZoneContainer">
-                                    <input type="file" id="ssInput" accept="image/*"
-                                        onchange="processScreenshot(event)"
-                                        style="opacity: 0; position: absolute; z-index: 2; top:0; left:0; width:100%; height:100%; cursor:pointer;" />
-                                    <div style="display:flex; flex-direction:column; align-items:center; opacity:0.8;">
-                                        <svg width="32" height="32" fill="none" stroke="var(--gold)"
-                                            stroke-width="1.5" viewBox="0 0 24 24" style="margin-bottom:12px;">
-                                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                                            <circle cx="8.5" cy="8.5" r="1.5" />
-                                            <polyline points="21 15 16 10 5 21" />
-                                        </svg>
-                                        <span style="font-size:14px; font-weight:600; color:var(--navy);" id="ssFileText">Tap to select image</span>
-                                        <span style="font-size:12px; color:var(--muted); margin-top:4px;">PNG, JPG, JPEG</span>
-                                    </div>
-                                </div>
-
-                                <div id="ocrStatus"
-                                    style="font-size: 14px; margin-top: 16px; color: var(--navy); font-weight: 600; display:none; align-items: center; justify-content:center; gap: 8px;">
-                                    <svg class="spin" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                        stroke="currentColor" stroke-width="2">
-                                        <path d="M21 12a9 9 0 11-6.219-8.56"></path>
-                                    </svg>
-                                    Extracting UTR...
-                                </div>
-                                <div id="ocrResult"
-                                    style="margin-top: 16px; padding: 14px; border-radius: 12px; font-size: 14px; display:none; line-height:1.5; text-align:center; max-width:320px; margin-left:auto; margin-right:auto;">
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <button class="utr-verify-btn" id="payBtn" onclick="doPayment()"
-                            style="width:100%; justify-content:center; padding:18px; font-size:16px; background:linear-gradient(135deg, rgba(95,37,159,1) 0%, rgba(123,53,196,1) 100%); color:white; border:none; cursor:pointer; font-weight:600; transition:all 0.2s; display:flex; align-items:center;">
-                            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
-                                viewBox="0 0 24 24" style="margin-right:10px;">
-                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                                <rect x="7" y="7" width="3" height="3" />
-                                <rect x="14" y="7" width="3" height="3" />
-                                <rect x="7" y="14" width="3" height="3" />
-                                <rect x="14" y="14" width="3" height="3" />
-                            </svg>
-                            Generate Payment Link
-                        </button>
-
-                        <div class="pay-status" id="payStatus"
-                            style="margin-top:0px; padding:0 20px; justify-content:center; opacity:0; transition:opacity 0.3s; height:0; overflow:hidden;">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Confirm Registration button (shown always) -->
-                <div class="subbtn-wrap" id="subWrap">
-                    <button class="subbtn" onclick="submitForm()" id="subBtn">
-                        <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"
-                            viewBox="0 0 24 24">
-                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                            <polyline points="22 4 12 14.01 9 11.01" />
+                    <!-- ══ PROCEED TO PAYMENT BUTTON ══ -->
+                    <button class="proceed-btn" onclick="proceedToPayment()" id="proceedBtn">
+                        <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/>
                         </svg>
-                        Confirm Registration
+                        Proceed to Payment
                     </button>
-                </div>
 
-            </div>
-            <div class="sw" id="sw" style="display:none; text-align:center;">
-                <div class="sring"
-                    style="width:80px; height:80px; border-radius:50%; background:linear-gradient(135deg, #2d8c4e, #1a7c4a); display:flex; align-items:center; justify-content:center; margin:0 auto 24px; box-shadow:0 8px 24px rgba(45,140,78,0.3);">
-                    <svg width="40" height="40" fill="none" stroke="white" stroke-width="2.5" viewBox="0 0 24 24">
-                        <polyline points="20 6 9 17 4 12" />
-                    </svg>
                 </div>
-                <h2
-                    style="font-family:'Cormorant Garamond', serif; font-size:36px; color:var(--navy); margin:0 0 12px 0;">
-                    Registration Received!</h2>
-                <p style="font-size:15px; color:var(--muted); line-height:1.6; margin:0 0 24px 0;">
-                    Thank you for registering for<br />
-                    <strong style="color:var(--navy); font-size:16px;">Rotary Excellence Awards 2025</strong>
-                </p>
-                <div
-                    style="background:#fff8ec; border:1px solid #e8b84b; border-radius:12px; padding:16px; margin:0 auto 30px; max-width:400px; display:inline-block;">
-                    <div style="display:flex; align-items:flex-start; gap:12px; text-align:left;">
-                        <div style="color:#c9952a; padding-top:2px;">
-                            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
-                                viewBox="0 0 24 24">
-                                <circle cx="12" cy="12" r="10" />
-                                <line x1="12" y1="8" x2="12" y2="12" />
-                                <line x1="12" y1="16" x2="12.01" y2="16" />
-                            </svg>
-                        </div>
-                        <div style="font-size:14px; color:#9e7320; font-weight:600; line-height:1.4;">
-                            We will manually verify your payment and send a confirmation on WhatsApp within 2-3 days.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="srf" id="sRef"
-                    style="background:#f8f9fc; border:1px solid rgba(0,51,102,0.06); border-radius:12px; padding:24px; text-align:left; margin-bottom:30px;">
-                    <!-- JS injected content goes here -->
-                </div>
-
-                <button class="bo" onclick="again()"
-                    style="background:transparent; border:1.5px solid var(--navy-m); color:var(--navy-m); padding:12px 24px; border-radius:8px; font-weight:600; cursor:pointer; font-size:14px; transition:all 0.2s; display:inline-flex; align-items:center; gap:8px;">
-                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                        <circle cx="8.5" cy="7" r="4" />
-                        <line x1="20" y1="8" x2="20" y2="14" />
-                        <line x1="23" y1="11" x2="17" y2="11" />
-                    </svg>
-                    Register Another
-                </button>
             </div>
     </div>
     </main>
     <footer>Rotary Anubandha Awards 2026 · District 3181</footer>
+    </div>
+
+    <!-- ══ CONFIRMATION MODAL ══ -->
+    <div class="modal-overlay" id="confirmModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-header-icon">
+                    <svg width="28" height="28" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                    </svg>
+                </div>
+                <h3>Confirm Your Details</h3>
+                <p>Please verify before proceeding to payment</p>
+            </div>
+            <div class="modal-body">
+                <div id="modalDetails">
+                    <!-- JS injected content -->
+                </div>
+                <div class="modal-warning">
+                    <div class="modal-warning-icon">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                        </svg>
+                    </div>
+                    <div class="modal-warning-text">
+                        Once you proceed to payment, you cannot go back to edit your details. Please verify everything carefully.
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn secondary" onclick="closeModal()">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <polyline points="15 18 9 12 15 6"/>
+                    </svg>
+                    Go Back & Edit
+                </button>
+                <button class="modal-btn primary" onclick="confirmProceed()">
+                    Yes, Proceed
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══ PAGE — PAYMENT ══ -->
+    <div class="pg" id="pgPay">
+        <nav>
+            <div class="nb" onclick="go('pgReg')">
+                <span class="nn">Rotary <span>Anubandha Awards 2026</span></span>
+            </div>
+            <div class="nr">
+                <button class="na adm" onclick="window.location.href='/admin/login'">
+                    <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                    Admin Login
+                </button>
+            </div>
+        </nav>
+
+        <div class="pay-page-header">
+            <div class="hpat"></div>
+            <div class="hg"></div>
+            <h2>Complete <em style="color:var(--gold-l);font-style:normal">Payment</em></h2>
+            <p>3 simple steps to finish your registration</p>
+        </div>
+
+        <div class="pay-page-content">
+            <!-- Compact Summary Badge -->
+            <div class="pay-recap" id="payRecap">
+                <div class="pay-recap-header">
+                    <div class="pay-recap-title">Registration Summary</div>
+                    <div class="pay-recap-amount" id="payRecapAmount">₹ 1,400</div>
+                </div>
+                <div class="pay-recap-body" id="payRecapBody">
+                    <!-- JS injected -->
+                </div>
+            </div>
+
+            <!-- Hidden QR generation container -->
+            <div id="qrGenHidden" style="visibility:hidden; height:0; overflow:hidden; position:absolute; pointer-events:none;">
+                <div id="qrcode"></div>
+            </div>
+            <a id="qrDownloadLink" style="display:none;"></a>
+
+            <!-- Minimal 3-Step Flow -->
+            <div class="stepper">
+                <!-- Step 1: Download & Pay -->
+                <div class="step" id="payStepQR">
+                    <div class="step-circle" id="stepCircle1">1</div>
+                    <div class="step-content">
+                        <div class="step-title">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+                            </svg>
+                            Download QR & Pay <strong id="payStepAmount" style="color:var(--gold);margin-left:4px">₹1,400</strong>
+                        </div>
+                        <div class="step-desc">Save the QR code, then scan it from any UPI app to pay.</div>
+                        <button class="download-qr-btn" id="downloadQRBtn" onclick="triggerQRDownload()">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+                            </svg>
+                            Save QR to Gallery
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Upload Screenshot -->
+                <div class="step" id="payStepUpload">
+                    <div class="step-circle" id="stepCircle4">2</div>
+                    <div class="step-content">
+                        <div class="step-title">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                <circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+                            </svg>
+                            Upload Payment Proof
+                        </div>
+                        <div class="step-desc">Take a screenshot after paying and upload it here.</div>
+                        <div class="upload-zone" id="dropZoneContainer">
+                            <input type="file" id="ssInput" accept="image/*" onchange="processScreenshot(event)"/>
+                            <div style="display:flex; flex-direction:column; align-items:center; gap:6px;">
+                                <svg width="28" height="28" fill="none" stroke="var(--gold)" stroke-width="1.5" viewBox="0 0 24 24">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                    <polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+                                </svg>
+                                <span style="font-size:13px; font-weight:600; color:var(--navy);" id="ssFileText">Tap to upload screenshot</span>
+                                <span style="font-size:11px; color:var(--muted);">PNG, JPG, JPEG</span>
+                            </div>
+                        </div>
+                        <div id="ocrStatus" style="font-size:13px; margin-top:12px; color:var(--navy); font-weight:600; display:none; align-items:center; justify-content:center; gap:8px;">
+                            <svg class="spin" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-6.219-8.56"></path></svg>
+                            Verifying payment...
+                        </div>
+                        <div id="ocrResult" style="margin-top:12px; padding:12px; border-radius:10px; font-size:13px; display:none; line-height:1.5; text-align:center;"></div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Confirm -->
+                <div class="step">
+                    <div class="step-circle">3</div>
+                    <div class="step-content">
+                        <div class="step-title">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                <polyline points="22 4 12 14.01 9 11.01"/>
+                            </svg>
+                            Confirm & Submit
+                        </div>
+                        <div class="step-desc">All done? Hit the button below to complete your registration.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Confirm Registration Button -->
+            <button class="confirm-reg-btn" onclick="submitForm()" id="subBtn">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                    <polyline points="22 4 12 14.01 9 11.01"/>
+                </svg>
+                Confirm Registration
+            </button>
+        </div>
+
+        <footer>Rotary Anubandha Awards 2026 · District 3181</footer>
+    </div>
+
+    <!-- ══ PAGE — REGISTRATION CONFIRMATION ══ -->
+    <div class="pg" id="pgConfirm">
+        <nav>
+            <div class="nb" onclick="go('pgReg')">
+                <span class="nn">Rotary <span>Anubandha Awards 2026</span></span>
+            </div>
+            <div class="nr">
+                <button class="na adm" onclick="window.location.href='/admin/login'">
+                    <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                    Admin Login
+                </button>
+            </div>
+        </nav>
+
+        <header>
+            <div class="hpat"></div>
+            <div class="hg"></div>
+            <div class="hi" style="padding-bottom:48px;">
+                <div class="sring" style="width:80px; height:80px; border-radius:50%; background:linear-gradient(135deg, #2d8c4e, #1a7c4a); display:flex; align-items:center; justify-content:center; margin:0 auto 20px; box-shadow:0 8px 24px rgba(45,140,78,0.3);">
+                    <svg width="40" height="40" fill="none" stroke="white" stroke-width="2.5" viewBox="0 0 24 24">
+                        <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                </div>
+                <h1 style="color:#fff; margin-bottom:10px;">Registration <em>Received!</em></h1>
+                <p class="hs" style="margin-bottom:0;">Thank you for registering for Rotary Anubandha Awards 2026</p>
+            </div>
+        </header>
+
+        <main>
+            <div class="card" style="max-width:520px;">
+                <div class="ct" style="justify-content:center;">
+                    <div style="text-align:center;">
+                        <div class="ct-t">Registration Details</div>
+                        <div class="ct-s">Your registration has been submitted</div>
+                    </div>
+                </div>
+                <div class="fb">
+                    <div style="background:#fff8ec; border:1px solid #e8b84b; border-radius:12px; padding:16px; margin-bottom:24px;">
+                        <div style="display:flex; align-items:flex-start; gap:12px; text-align:left;">
+                            <div style="color:#c9952a; padding-top:2px;">
+                                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                                </svg>
+                            </div>
+                            <div style="font-size:14px; color:#9e7320; font-weight:600; line-height:1.4;">
+                                We will manually verify your payment and send a confirmation on WhatsApp within 2-3 days.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="srf" id="sRef" style="background:#f8f9fc; border:1px solid rgba(0,51,102,0.06); border-radius:12px; padding:24px; text-align:left; margin-bottom:24px;">
+                        <!-- JS injected content goes here -->
+                    </div>
+
+                    <button class="proceed-btn" onclick="again()" style="background:transparent;color:var(--navy);border:1.5px solid var(--navy-m);box-shadow:none;font-size:14px;">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="8.5" cy="7" r="4"/>
+                            <line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/>
+                        </svg>
+                        Register Another Person
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <footer>Rotary Anubandha Awards 2026 · District 3181</footer>
     </div>
 
     <!-- PAGE 2 — ADMIN LOGIN -->
@@ -2833,31 +3328,31 @@
                 }
             }
 
-            // Show payment UI
-            document.getElementById('payBtn').style.display = 'none';
-            document.getElementById('qrSection').style.display = 'block';
-            document.getElementById('subWrap').style.display = 'block';
-            document.getElementById('payRegIdText').textContent = currentRegId;
-
-            // Make step cards visible immediately (no animation on restore)
-            document.getElementById('payStep1').classList.add('visible');
-            document.getElementById('payStep2').classList.add('visible');
-
-            // Show restored status
-            const pStatus = document.getElementById('payStatus');
-            pStatus.className = 'pay-status ok';
-            pStatus.style.opacity = '1';
-            pStatus.style.height = 'auto';
-            pStatus.style.marginTop = '16px';
-            pStatus.style.padding = '12px 20px';
-            pStatus.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Upload your payment screenshot to continue.';
-
+            // Populate payment page recap and navigate to payment page
+            const rsAmount = calcAmount();
+            const rsName = session.name || '', rsClub = session.club || '';
+            const rsZone = document.getElementById('fz').value || '—';
+            const rsCards = getCards();
+            const rsAd = rsCards.filter(c => c.isA).length, rsCh = rsCards.filter(c => !c.isA).length;
+            const rsVg = rsCards.filter(c => c.isV).length, rsNv = rsCards.filter(c => c.isN).length;
+            document.getElementById('payRecapAmount').textContent = '₹ ' + rsAmount.toLocaleString('en-IN');
+            document.getElementById('payRecapBody').innerHTML = `
+                <div class="pay-recap-row"><span>Name</span><strong>${rsName}</strong></div>
+                <div class="pay-recap-row"><span>Club</span><strong>${rsClub}</strong></div>
+                <div class="pay-recap-row"><span>Zone</span><strong>${rsZone}</strong></div>
+                <div class="pay-recap-row"><span>Pax</span><strong>${rsCards.length} (${rsAd}A + ${rsCh}C)</strong></div>
+                <div class="pay-recap-row"><span>Meals</span><strong>${rsVg}🥦 ${rsNv}🍗</strong></div>
+                <div class="pay-recap-row"><span>Reg ID</span><strong style="color:#5f259f;font-family:monospace;">${currentRegId}</strong></div>`;
+            const rsPayAmt = document.getElementById('payStepAmount');
+            if (rsPayAmt) rsPayAmt.textContent = '₹' + rsAmount.toLocaleString('en-IN');
+            go('pgPay');
             return true;
         }
 
         function updateUPIBox() {
             const amount = calcAmount();
-            document.getElementById('upiAmtDisplay').textContent = '₹ ' + amount.toLocaleString('en-IN');
+            const el = document.getElementById('upiAmtDisplay');
+            if (el) el.textContent = '₹ ' + amount.toLocaleString('en-IN');
         }
 
         function calcAmount() {
@@ -3009,6 +3504,11 @@
                     dlink.download = `Rotary_Payment_QR_${amount}.png`;
                     dlink.click();
                 }
+                // Mark step 1 as done
+                const _dlBtn = document.getElementById('downloadQRBtn');
+                if (_dlBtn) { _dlBtn.classList.add('downloaded'); _dlBtn.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> QR Downloaded ✓'; }
+                const _sc1 = document.getElementById('stepCircle1');
+                if (_sc1) { _sc1.classList.add('done'); _sc1.innerHTML = '<svg width="16" height="16" fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>'; }
             };
 
             if (qrCanvas) {
@@ -3422,6 +3922,64 @@
             }
         }
 
+        // ══ THREE-PAGE FLOW FUNCTIONS ══
+        function proceedToPayment() {
+            const name = document.getElementById('fn').value.trim();
+            const club = document.getElementById('fc').value;
+            const mob = document.getElementById('fm').value.trim().replace(/[\s\-]/g, '');
+            const cards = getCards();
+            se('n', !name); se('c', !club);
+            se('m', !/^(\+91)?[6-9]\d{9}$/.test(mob));
+            const allM = cards.every(c => c.hasMeal);
+            document.getElementById('ecard').classList.toggle('on', !allM);
+            if (!name || !club || !/^(\+91)?[6-9]\d{9}$/.test(mob) || !allM) return;
+            const zone = document.getElementById('fz').value || getZone(club) || '—';
+            const ad = cards.filter(c => c.isA).length, ch = cards.filter(c => !c.isA).length;
+            const vg = cards.filter(c => c.isV).length, nv = cards.filter(c => c.isN).length;
+            const amount = calcAmount();
+            document.getElementById('modalDetails').innerHTML = `
+                <div class="modal-detail-row"><span class="modal-detail-label">Name</span><span class="modal-detail-value">${name}</span></div>
+                <div class="modal-detail-row"><span class="modal-detail-label">Club</span><span class="modal-detail-value">${club}</span></div>
+                <div class="modal-detail-row"><span class="modal-detail-label">Zone</span><span class="modal-detail-value">${zone}</span></div>
+                <div class="modal-detail-row"><span class="modal-detail-label">Mobile</span><span class="modal-detail-value">${mob}</span></div>
+                <div class="modal-detail-row"><span class="modal-detail-label">Pax</span><span class="modal-detail-value">${cards.length} (${ad} adult${ad!==1?'s':''}, ${ch} child${ch!==1?'ren':''})</span></div>
+                <div class="modal-detail-row"><span class="modal-detail-label">Meals</span><span class="modal-detail-value">${vg} Veg 🥦, ${nv} Non-Veg 🍗</span></div>
+                <div class="modal-detail-row"><span class="modal-detail-label">Amount</span><span class="modal-detail-value" style="font-size:18px;color:var(--gold-d);">₹${amount.toLocaleString('en-IN')}</span></div>`;
+            document.getElementById('confirmModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('confirmModal').classList.remove('active');
+        }
+
+        function confirmProceed() {
+            closeModal();
+            currentRegId = 'REA' + Date.now().toString().slice(-6) + Math.floor(Math.random()*100).toString().padStart(2,'0');
+            const amount = calcAmount();
+            const name = document.getElementById('fn').value.trim();
+            const club = document.getElementById('fc').value;
+            const zone = document.getElementById('fz').value || getZone(club) || '—';
+            const cards = getCards();
+            const ad = cards.filter(c => c.isA).length, ch = cards.filter(c => !c.isA).length;
+            const vg = cards.filter(c => c.isV).length, nv = cards.filter(c => c.isN).length;
+            const upiNote = encodeURIComponent(UPI_NOTE_PREFIX + currentRegId);
+            currentUPILink = `upi://pay?pa=${UPI_ID}&pn=${UPI_NAME}&am=${amount}&tn=${upiNote}&cu=INR`;
+            const qrc = document.getElementById('qrcode'); qrc.innerHTML = '';
+            if (typeof QRCode !== 'undefined') new QRCode(qrc, { text: currentUPILink, width: 300, height: 300, colorDark: '#000', colorLight: '#fff', correctLevel: QRCode.CorrectLevel.H });
+            document.getElementById('payRecapAmount').textContent = '₹ ' + amount.toLocaleString('en-IN');
+            document.getElementById('payRecapBody').innerHTML = `
+                <div class="pay-recap-row"><span>Name</span><strong>${name}</strong></div>
+                <div class="pay-recap-row"><span>Club</span><strong>${club}</strong></div>
+                <div class="pay-recap-row"><span>Zone</span><strong>${zone}</strong></div>
+                <div class="pay-recap-row"><span>Pax</span><strong>${cards.length} (${ad}A + ${ch}C)</strong></div>
+                <div class="pay-recap-row"><span>Meals</span><strong>${vg}🥦 ${nv}🍗</strong></div>
+                <div class="pay-recap-row"><span>Reg ID</span><strong style="color:#5f259f;font-family:monospace;">${currentRegId}</strong></div>`;
+            document.getElementById('payStepAmount').textContent = '₹' + amount.toLocaleString('en-IN');
+            paymentDone = true;
+            saveSession();
+            go('pgPay');
+        }
+
         async function submitForm() {
             // Block if OCR detected amount/regId mismatch
             if (paymentBlocked) {
@@ -3462,7 +4020,7 @@
             const amount = calcAmount(); // Real amount
             const gd = cards.map((c, i) => `Guest ${i + 1}: ${c.isA ? 'Adult' : 'Child'} / ${c.isV ? 'Veg' : 'Non-Veg'}`).join(' | ');
 
-            const subBtn = document.querySelector('.subbtn');
+            const subBtn = document.getElementById('subBtn');
             if (subBtn) { subBtn.disabled = true; subBtn.innerHTML = '⏳ Submitting...'; }
 
             try {
@@ -3492,15 +4050,10 @@
         <div style="display:flex; justify-content:space-between; margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid rgba(0,0,0,0.05);"><span style="color:var(--muted); font-size:13px;">Mobile</span><strong style="color:var(--navy); font-size:14px; text-align:right;">${mob}</strong></div>
         <div style="display:flex; justify-content:space-between; margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid rgba(0,0,0,0.05);"><span style="color:var(--muted); font-size:13px;">Pax</span><strong style="color:var(--navy); font-size:14px; text-align:right;">${pax} (${ad} adult${ad !== 1 ? 's' : ''}, ${ch} child${ch !== 1 ? 'ren' : ''})</strong></div>
         <div style="display:flex; justify-content:space-between; margin-bottom:0; padding-bottom:0; border-bottom:none;"><span style="color:var(--muted); font-size:13px;">Amount Payable</span><strong style="color:var(--gold-d); font-size:16px;">₹${amount.toLocaleString('en-IN')}</strong></div>`;
-                document.getElementById('fb').style.display = 'none';
-                document.getElementById('cardTitle').style.display = 'none';
-                document.getElementById('subWrap').style.display = 'none';
-                document.querySelector('#pgReg .card').style.display = 'none';
-                document.getElementById('sw').style.display = 'block';
-                document.getElementById('sw').classList.add('on');
+                go('pgConfirm');
             } catch (e) {
                 alert('Registration failed: ' + e.message + '\n\nPlease try again or contact support.');
-                if (subBtn) { subBtn.disabled = false; subBtn.innerHTML = '✓ Confirm Registration'; }
+                if (subBtn) { subBtn.disabled = false; subBtn.innerHTML = '<svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Confirm Registration'; }
             }
         }
 
@@ -3531,31 +4084,19 @@
             scannedUtr = '';
             clearSession();
 
-            const btn = document.getElementById('payBtn');
-            if (btn) {
-                btn.style.display = 'flex';
-                btn.classList.remove('verified');
-                btn.innerHTML = '<svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><rect x="7" y="7" width="3" height="3"/><rect x="14" y="7" width="3" height="3"/><rect x="7" y="14" width="3" height="3"/><rect x="14" y="14" width="3" height="3"/></svg> Generate Payment QR';
-                btn.disabled = false;
-                btn.style.opacity = '1';
-                btn.style.transform = '';
-            }
-            // Reset step card animations
-            const s1 = document.getElementById('payStep1'); if (s1) s1.classList.remove('visible');
-            const s2 = document.getElementById('payStep2'); if (s2) s2.classList.remove('visible');
-            const statusEl = document.getElementById('payStatus');
-            if (statusEl) { statusEl.className = 'pay-status'; statusEl.innerHTML = ''; statusEl.style.opacity = '0'; statusEl.style.height = '0'; statusEl.style.marginTop = '0'; statusEl.style.padding = '0 20px'; }
-            document.getElementById('qrSection').style.display = 'none';
-            const subBtn = document.querySelector('.subbtn');
-            if (subBtn) { subBtn.disabled = false; subBtn.innerHTML = '✓ Confirm Registration'; }
+            // Reset payment page elements
+            const dlBtnR = document.getElementById('downloadQRBtn');
+            if (dlBtnR) { dlBtnR.classList.remove('downloaded'); dlBtnR.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download QR to Gallery'; }
+            const sc1R = document.getElementById('stepCircle1');
+            if (sc1R) { sc1R.className = 'step-circle'; sc1R.textContent = '1'; }
+            const confirmBtnR = document.getElementById('subBtn');
+            if (confirmBtnR) { confirmBtnR.disabled = false; confirmBtnR.innerHTML = '<svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Confirm Registration'; }
+            const ocrStR = document.getElementById('ocrStatus'); if (ocrStR) ocrStR.style.display = 'none';
+            const ocrRsR = document.getElementById('ocrResult'); if (ocrRsR) { ocrRsR.style.display = 'none'; ocrRsR.innerHTML = ''; }
+            const ssInR = document.getElementById('ssInput'); if (ssInR) ssInR.value = '';
+            const ssTextR = document.getElementById('ssFileText'); if (ssTextR) ssTextR.textContent = 'Tap to select screenshot';
             buildCards(1);
-            updateUPIBox();
-            document.querySelector('#pgReg .card').style.display = 'block';
-            document.getElementById('fb').style.display = 'block';
-            document.getElementById('cardTitle').style.display = 'flex';
-            document.getElementById('subWrap').style.display = 'block';
-            document.getElementById('sw').style.display = 'none';
-            document.getElementById('sw').classList.remove('on');
+            go('pgReg');
         }
 
         // ══ DASHBOARD ══
