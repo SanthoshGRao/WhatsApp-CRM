@@ -3828,13 +3828,16 @@
                 // Extract 12-digit UTR
                 const utrMatches = text.match(/\b\d{12}\b/g);
 
-                // Extract amount (look for ₹, Rs, INR patterns)
+                const expectedAmount = calcAmount();
+
+                // Extract amount (look for ₹, Rs, INR patterns and common Tesseract misreads)
                 const amtPatterns = [
-                    /[₹₨]\s*([\d,]+\.?\d*)/g,
+                    /[₹₨?FzT]\s*([\d,]+\.?\d*)/gi,
                     /Rs\.?\s*([\d,]+\.?\d*)/gi,
                     /INR\s*([\d,]+\.?\d*)/gi,
-                    /Amount[:\s]*[₹₨]?\s*([\d,]+\.?\d*)/gi,
-                    /Paid[:\s]*[₹₨]?\s*([\d,]+\.?\d*)/gi
+                    /Amount[:\s]*[₹₨?F]?\s*([\d,]+\.?\d*)/gi,
+                    /Paid[:\s]*[₹₨?F]?\s*([\d,]+\.?\d*)/gi,
+                    /₹\s*([0-9]+(?:\.[0-9]+)?)/g
                 ];
                 let extractedAmounts = [];
                 for (const pat of amtPatterns) {
@@ -3844,6 +3847,14 @@
                         if (val > 0 && !isNaN(val)) extractedAmounts.push(val);
                     }
                 }
+                
+                // Fallback direct match for the exact expected amount in case generic patterns miss it
+                // We look for boundaries to avoid matching '1' inside '120'
+                const exactAmtPattern = new RegExp(`(?:^|[^\\d\\.])(${expectedAmount}(?:\\.00?)?)(?:[^\\d\\.]|$)`, 'gi');
+                let exactM;
+                while ((exactM = exactAmtPattern.exec(text)) !== null) {
+                    extractedAmounts.push(parseFloat(exactM[1]));
+                }
 
                 // Extract registration ID (REA pattern from transaction note)
                 const regMatch = text.match(/REA\d{6,10}/i);
@@ -3851,8 +3862,6 @@
 
                 statusEl.style.display = 'none';
                 resultEl.style.display = 'block';
-
-                const expectedAmount = calcAmount();
                 let resultParts = [];
                 let hasWarning = false;
                 let hasCriticalError = false;
