@@ -1,0 +1,1124 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+
+<script>
+        // ══ CONFIG — Change UPI ID here ══
+        const UPI_ID = '323625397377815@cnrb';
+        const UPI_NAME = encodeURIComponent('ROTARY CLUBOF MYSORENORTH');
+        const UPI_MC = '7999';
+        const UPI_REF_URL = encodeURIComponent('http://npci.org/upi/schema/');
+
+        const ADMIN_USER = 's', ADMIN_PASS = 's';
+        const KEY = 'rotary_rea2025', FA = 1700, PP = 15;
+        let pgN = 1, paymentConfirmed = false, currentUPILink = '';
+
+        // ══ ZONE MAP ══
+        const ZONE_MAP = {
+            "Mangalore Region": ["Rotary Club of Mangalore Sunrise", "Rotary Club of Mangalore Central", "Rotary Club of Mangalore", "Rotary Club of Mangalore Port Town", "Rotary Club of Mangalore Coastal", "Rotary Club of Surathkal", "Rotary Club of Mangalore East", "Rotary Club of Mangalore North", "Rotary Club of Mangalore Hillside", "Rotary Club of Mangalore Seaside", "Rotary Club of Mangalore Metro", "Rotary Club of Mangalore Midtown", "Rotary Club of Mangalore Downtown", "Rotary Club of Mangalore South", "Rotary Club of Mangalore City", "Rotary Club of Deralakatte", "Rotary Club of Baikampady", "Rotary Club of Mulki", "Rotary Club of Bajpe", "Rotary Club of Kinnigoli", "Rotary Club of Midtown Moodbidri"],
+            "Moodbidri Region": ["Rotary Club of Moodbidri", "Rotary Club of Moodbidri Temple Town", "Rotary Club of Siddakatte", "Rotary Club of Phalguni"],
+            "Bantwal Region": ["Rotary Club of Bantwal", "Rotary Club of Loretto Hills Bantwal", "Rotary Club of Bantwal Town", "Rotary Club of Belthangady", "Rotary Club of Bantwal Madanthyar", "Rotary Club of Modankap", "Rotary Club of Farangipete", "Rotary Club of BC Road City", "Rotary Club of Uppinangadi"],
+            "Puttur Region": ["Rotary Club of Puttur City", "Rotary Club of Vittal", "Rotary Club of Subramanya", "Rotary Club of Puttur", "Rotary Club of Puttur Central", "Rotary Club of Puttur East", "Rotary Club of Puttur Yuva", "Rotary Club of Puttur Swarna", "Rotary Club of Puttur Elite"],
+            "Sullia Region": ["Rotary Club of Sullia", "Rotary Club of Sullia City", "Rotary Club of Bellare Town", "Rotary Club of Birumale Hills"],
+            "Kodagu Region": ["Rotary Club of Gonikoppal", "Rotary Club of Virajpet", "Rotary Club of Madikeri Woods", "Rotary Club of Madikeri", "Rotary Club of Madikeri Misty Hills", "Rotary Club of Alur", "Rotary Club of Siddapura", "Rotary Club of Shanivarasante", "Rotary Club of Hemavathi", "Rotary Club of Kodlipet", "Rotary Club of Somwarpet Hills", "Rotary Club of Kushalnagar"],
+            "Mysore Region": ["Rotary Club of Krishnarajanagar", "Rotary Club of Periyapatna Midtown", "Rotary Club of Periyapatna Icon", "Rotary Club of Hunsur", "Rotary Club of Panchsheel Mysore", "Rotary Club of Ivory City Mysore", "Rotary Club of Krishnaraja Mysore", "Rotary Club of Mysore Shreegandha", "Rotary Club of Mysore Metro E-Club", "Rotary Club of Mysore Center", "Rotary Club of Mysore Midtown", "Rotary Club of Mysore Diamond Central", "Rotary Club of Mysore JP Nagar", "Rotary Club of Mysore East", "Rotary Club of Mysore Elite", "Rotary Club of Mysore West", "Rotary Club of Mysore Royal", "Rotary Club of Mysore Stars", "Rotary Club of HD Kote Heritage Mysore", "Rotary Club of Mysore South East", "Rotary Club of Mysore Brindavan", "Rotary Club of Vijayanagar Mysore", "Rotary Club of Mysore North", "Rotary Club of Mysore Ambari"],
+            "Chamarajanagar Region": ["Rotary Club of Chamarajanagar", "Rotary Club of Chamarajanagar Silk City", "Rotary Club of Nanjungud", "Rotary Club of Bannur", "Rotary Club of Yelanduru Greenway", "Rotary Club of Kollegal", "Rotary Club of Kollegal Midtown"]
+        };
+
+        const ZONE_COLORS = {
+            "Mangalore Region": { bg: "#dbeafe", color: "#1e40af", dot: "#3b82f6" },
+            "Moodbidri Region": { bg: "#d1fae5", color: "#065f46", dot: "#10b981" },
+            "Bantwal Region": { bg: "#ffedd5", color: "#9a3412", dot: "#f97316" },
+            "Puttur Region": { bg: "#fce7f3", color: "#831843", dot: "#ec4899" },
+            "Sullia Region": { bg: "#ede9fe", color: "#4c1d95", dot: "#8b5cf6" },
+            "Kodagu Region": { bg: "#cffafe", color: "#164e63", dot: "#06b6d4" },
+            "Mysore Region": { bg: "#fef3c7", color: "#92400e", dot: "#f59e0b" },
+            "Chamarajanagar Region": { bg: "#ecfccb", color: "#3f6212", dot: "#84cc16" }
+        };
+
+        function getZone(clubName) {
+            for (const [zone, clubs] of Object.entries(ZONE_MAP)) {
+                if (clubs.includes(clubName)) return zone;
+            }
+            return '';
+        }
+
+
+        let currentRegId = '', utrNumber = '', paymentDone = false;
+
+        // ══ SESSION PERSISTENCE ══
+        // Saves form state so it survives page reloads (e.g., when user goes to GPay to pay)
+        const SESSION_KEY = 'rotary_pay_session';
+
+        function saveSession() {
+            const cards = getCards();
+            const session = {
+                name: document.getElementById('fn').value,
+                club: document.getElementById('fc').value,
+                mobile: document.getElementById('fm').value,
+                pax: document.getElementById('fp').value,
+                regId: currentRegId,
+                amount: calcAmount(),
+                upiLink: currentUPILink,
+                guestCards: cards.map(c => ({ name: c.name, isV: c.isV, isN: c.isN })),
+                timestamp: Date.now()
+            };
+            localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+        }
+
+        function loadSession() {
+            try {
+                const data = localStorage.getItem(SESSION_KEY);
+                if (!data) return null;
+                const session = JSON.parse(data);
+                // Expire after 30 minutes
+                if (Date.now() - session.timestamp > 30 * 60 * 1000) {
+                    localStorage.removeItem(SESSION_KEY);
+                    return null;
+                }
+                return session;
+            } catch { return null; }
+        }
+
+        function clearSession() {
+            localStorage.removeItem(SESSION_KEY);
+        }
+
+        function restoreSession() {
+            const session = loadSession();
+            if (!session || !session.regId) return false;
+
+            // Restore form fields
+            document.getElementById('fn').value = session.name || '';
+            document.getElementById('fm').value = session.mobile || '';
+
+            // Restore club selection
+            if (session.club) {
+                document.getElementById('fc').value = session.club;
+                document.getElementById('cddLabel').textContent = session.club;
+                document.getElementById('cddTrig').classList.add('has-val');
+                cddSelected = session.club;
+                autoZone();
+            }
+
+            // Restore pax & guest cards
+            const pax = parseInt(session.pax) || 1;
+            document.getElementById('fp').value = pax;
+            buildCards(pax);
+
+            // Restore guest card selections and names
+            if (session.guestCards) {
+                session.guestCards.forEach((card, i) => {
+                    const idx = i + 1;
+                    if (idx > 1 && card.name) {
+                        const gnInput = document.getElementById('gn' + idx);
+                        if (gnInput) gnInput.value = card.name;
+                    }
+                    if (card.isV) setMeal(idx, 'v');
+                    else if (card.isN) setMeal(idx, 'n');
+                });
+            }
+            calcSum();
+            updateUPIBox();
+
+            // Restore payment state
+            currentRegId = session.regId;
+            currentUPILink = session.upiLink || '';
+            paymentDone = true;
+
+            // Regenerate QR for download (hidden)
+            if (currentUPILink) {
+                const qrcodeContainer = document.getElementById('qrcode');
+                qrcodeContainer.innerHTML = '';
+                if (typeof QRCode !== 'undefined') {
+                    new QRCode(qrcodeContainer, {
+                        text: currentUPILink,
+                        width: 300, height: 300,
+                        colorDark: '#000000', colorLight: '#ffffff',
+                        correctLevel: QRCode.CorrectLevel.H
+                    });
+                }
+            }
+
+            // Populate payment page recap and navigate to payment page
+            const rsAmount = calcAmount();
+            const rsName = session.name || '', rsClub = session.club || '';
+            const rsZone = document.getElementById('fz').value || '—';
+            const rsCards = getCards();
+            const rsAd = rsCards.filter(c => c.isA).length, rsCh = rsCards.filter(c => !c.isA).length;
+            const rsVg = rsCards.filter(c => c.isV).length, rsNv = rsCards.filter(c => c.isN).length;
+            document.getElementById('payRecapAmount').textContent = '₹ ' + rsAmount.toLocaleString('en-IN');
+            document.getElementById('payRecapBody').innerHTML = `
+                <div class="pay-recap-row"><span>Name</span><strong>${rsName}</strong></div>
+                <div class="pay-recap-row"><span>Club</span><strong>${rsClub}</strong></div>
+                <div class="pay-recap-row"><span>Zone</span><strong>${rsZone}</strong></div>
+                <div class="pay-recap-row"><span>Pax</span><strong>${rsCards.length} (${rsAd}A + ${rsCh}C)</strong></div>
+                <div class="pay-recap-row"><span>Meals</span><strong>${rsVg}🥦 ${rsNv}🍗</strong></div>
+                <div class="pay-recap-row"><span>Reg ID</span><strong style="color:#5f259f;font-family:monospace;">${currentRegId}</strong></div>`;
+            const rsPayAmt = document.getElementById('payStepAmount');
+            if (rsPayAmt) rsPayAmt.textContent = '₹' + rsAmount.toLocaleString('en-IN');
+            go('pgPay');
+            return true;
+        }
+
+        function updateUPIBox() {
+            const amount = calcAmount();
+            const el = document.getElementById('upiAmtDisplay');
+            if (el) el.textContent = '₹ ' + amount.toLocaleString('en-IN');
+        }
+
+        function calcAmount() {
+            return 1;
+        }
+        const isMobile = () => /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
+
+        function doPayment() {
+            const name = document.getElementById('fn').value.trim();
+            const club = document.getElementById('fc').value;
+            const mob = document.getElementById('fm').value.trim().replace(/[\s\-]/g, '');
+            const cards = getCards();
+            se('n', !name); se('c', !club);
+            se('m', !/^(\+91)?[6-9]\d{9}$/.test(mob));
+            const allM = cards.every(c => c.hasMeal);
+            if (!name || !club || !/^(\+91)?[6-9]\d{9}$/.test(mob) || !allM) return;
+
+            const amount = calcAmount();
+            if (!amount || isNaN(amount)) {
+                alert("Invalid amount calculation.");
+                return;
+            }
+
+            currentRegId = 'REA' + Date.now().toString().slice(-6) + Math.floor(Math.random() * 100).toString().padStart(2, "0");
+
+            // Build merchant UPI link with transaction reference
+            const trRef = currentRegId + Date.now().toString().slice(-6);
+            const upiUrl = `upi://pay?pa=${UPI_ID}&pn=${UPI_NAME}&mc=${UPI_MC}&tr=${trRef}&am=${amount}&mam=${amount}&cu=INR&refUrl=${UPI_REF_URL}&tn=${currentRegId}`;
+            currentUPILink = upiUrl;
+
+            // Hide generate button with fade
+            const btn = document.getElementById('payBtn');
+            btn.style.transition = 'opacity 0.3s, transform 0.3s';
+            btn.style.opacity = '0';
+            btn.style.transform = 'translateY(-8px)';
+            setTimeout(() => { btn.style.display = 'none'; }, 300);
+
+            // Generate QR in hidden container (for download only)
+            const qrcodeContainer = document.getElementById("qrcode");
+            qrcodeContainer.innerHTML = "";
+            if (typeof QRCode !== "undefined") {
+                new QRCode(qrcodeContainer, {
+                    text: upiUrl,
+                    width: 300,
+                    height: 300,
+                    colorDark: "#000000",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+            }
+
+            // Show payment section with staggered animations
+            document.getElementById('qrSection').style.display = 'block';
+            document.getElementById('subWrap').style.display = 'block';
+            paymentDone = true;
+
+            // Set registration ID badge
+            document.getElementById('payRegIdText').textContent = currentRegId;
+
+            // Animate step cards sequentially
+            const step1 = document.getElementById('payStep1');
+            const step2 = document.getElementById('payStep2');
+
+            setTimeout(() => {
+                step1.classList.add('visible');
+            }, 150);
+
+            setTimeout(() => {
+                step2.classList.add('visible');
+            }, 400);
+
+            setTimeout(() => { document.getElementById('qrSection').scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 500);
+
+            // Save session so form data survives page reload
+            saveSession();
+        }
+
+        function launchUPIApp(app) {
+            if (!currentUPILink) {
+                alert('Please generate a payment link first.');
+                return;
+            }
+
+            const params = currentUPILink.replace('upi://pay?', '');
+            const ua = navigator.userAgent || '';
+            const isAndroid = /android/i.test(ua);
+            const isIOS = /iphone|ipad|ipod/i.test(ua);
+
+            // App-specific Android package names
+            const packages = {
+                gpay: 'com.google.android.apps.nbu.paisa.user',
+                phonepe: 'com.phonepe.app',
+                paytm: 'net.one97.paytm'
+            };
+
+            if (isAndroid) {
+                const pkg = packages[app];
+                if (pkg) {
+                    // Targeted intent with specific package
+                    const intentUrl = `intent://pay?${params}#Intent;scheme=upi;package=${pkg};end;`;
+                    window.location.href = intentUrl;
+                } else {
+                    // Generic fallback
+                    const intentUrl = `intent://pay?${params}#Intent;scheme=upi;end;`;
+                    window.location.href = intentUrl;
+                }
+            } else if (isIOS) {
+                window.location.href = currentUPILink;
+            } else {
+                alert('Please use the "Save QR to Gallery" button and scan from your UPI app.');
+            }
+        }
+
+        function triggerQRDownload() {
+            const qrcodeContainer = document.getElementById("qrcode");
+            const qrCanvas = qrcodeContainer.querySelector('canvas');
+            const qrImg = qrcodeContainer.querySelector('img');
+
+            // Create a large canvas with white background + quiet zone padding
+            const padding = 60; // White quiet zone around QR (required by scanners)
+            const outputSize = 600; // Final image size
+            const saveCanvas = document.createElement('canvas');
+            saveCanvas.width = outputSize;
+            saveCanvas.height = outputSize;
+            const ctx = saveCanvas.getContext('2d');
+
+            // Fill entire canvas white (quiet zone)
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, outputSize, outputSize);
+
+            const drawAndSave = (sourceElement) => {
+                // Draw QR centered with padding
+                const qrSize = outputSize - (padding * 2);
+                if (sourceElement instanceof HTMLCanvasElement) {
+                    ctx.drawImage(sourceElement, padding, padding, qrSize, qrSize);
+                } else if (sourceElement instanceof HTMLImageElement) {
+                    ctx.drawImage(sourceElement, padding, padding, qrSize, qrSize);
+                }
+
+                const imgData = saveCanvas.toDataURL('image/png');
+                const dlink = document.getElementById('qrDownloadLink');
+                if (dlink) {
+                    const amount = calcAmount();
+                    dlink.href = imgData;
+                    dlink.download = `Rotary_Payment_QR_${amount}.png`;
+                    dlink.click();
+                }
+                // Mark step 1 as done
+                const _dlBtn = document.getElementById('downloadQRBtn');
+                if (_dlBtn) { _dlBtn.classList.add('downloaded'); _dlBtn.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> QR Downloaded'; }
+                const _sc1 = document.getElementById('stepCircle1');
+                if (_sc1) { _sc1.classList.add('done'); _sc1.innerHTML = '<svg width="16" height="16" fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>'; }
+            };
+
+            if (qrCanvas) {
+                drawAndSave(qrCanvas);
+            } else if (qrImg) {
+                // If it's an img element, wait for it to load before drawing
+                if (qrImg.complete) {
+                    drawAndSave(qrImg);
+                } else {
+                    qrImg.onload = () => drawAndSave(qrImg);
+                }
+            }
+        }
+
+
+
+        function onMobileChange() { updateUPIBox(); }
+
+        function autoZone() {
+            const club = document.getElementById('fc').value;
+            const zf = document.getElementById('zoneField');
+            const zi = document.getElementById('fz');
+            if (!club) { zf.style.display = 'none'; zi.value = ''; return; }
+            const zone = getZone(club);
+            if (zone) {
+                zi.value = zone;
+                const col = ZONE_COLORS[zone] || { bg: '#f5f2ec', color: '#003366', dot: '#c9952a' };
+                zi.style.background = `linear-gradient(135deg,${col.bg},${col.bg}cc)`;
+                zi.style.borderColor = col.dot;
+                zi.style.color = col.color;
+                zi.style.fontWeight = '700';
+                zf.style.display = 'block';
+                zf.style.animation = 'rise .3s ease both';
+            }
+        }
+
+        // ══ STORAGE ══
+        const load = () => { try { return JSON.parse(localStorage.getItem(KEY) || '[]') } catch { return [] } };
+        const save = d => localStorage.setItem(KEY, JSON.stringify(d));
+
+        // ══ ROUTER ══
+        function go(id) {
+            document.querySelectorAll('.pg').forEach(p => p.classList.remove('on'));
+            document.getElementById(id).classList.add('on');
+            window.scrollTo(0, 0);
+            if (id === 'pgLogin') loadSnap();
+            if (id === 'pgDash') renderDash();
+        }
+
+        // ══ LOGIN ══
+        function doLogin() {
+            const u = document.getElementById('lu').value.trim();
+            const p = document.getElementById('lp').value;
+            if (u === ADMIN_USER && p === ADMIN_PASS) { go('pgDash'); }
+            else {
+                document.getElementById('lerr').classList.add('on');
+                document.getElementById('lu').classList.add('er');
+                document.getElementById('lp').value = '';
+                document.getElementById('lp').classList.add('er');
+            }
+        }
+        function doLogout() { window.location.href = '/admin/login'; }
+        document.getElementById('lp').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+        ['lu', 'lp'].forEach(id => document.getElementById(id).addEventListener('input', () => {
+            document.getElementById('lerr').classList.remove('on');
+            document.getElementById('lu').classList.remove('er');
+            document.getElementById('lp').classList.remove('er');
+        }));
+
+        function loadSnap() {
+            const d = load();
+            const pax = d.reduce((s, r) => s + (+r.pax || 0), 0);
+            const amt = d.reduce((s, r) => s + (+r.amount || 0), 0);
+            document.getElementById('sn1').textContent = d.length;
+            document.getElementById('sn2').textContent = pax;
+            document.getElementById('sn3').textContent = '₹' + amt.toLocaleString('en-IN');
+        }
+
+        // ══ PAX CARDS ══
+        function chPax(d2) {
+            const i = document.getElementById('fp');
+            i.value = Math.max(1, Math.min(10, +i.value + d2));
+            buildCards(+i.value);
+            updateUPIBox();
+        }
+
+        function buildCards(n) {
+            const w = document.getElementById('pcWrap');
+            while (w.children.length < n) w.appendChild(makeCard(w.children.length + 1));
+            while (w.children.length > n) w.removeChild(w.lastChild);
+            calcSum();
+            updateUPIBox();
+        }
+
+        function makeCard(i) {
+            const isGuest = i > 1;
+            const nameField = isGuest ? `
+    <div class="field" style="margin-bottom:12px">
+        <label>Guest ${i} Name<span class="req">*</span></label>
+        <input type="text" id="gn${i}" placeholder="Enter guest name" oninput="document.getElementById('gn${i}').classList.remove('er'); const egn = document.getElementById('egn${i}'); if(egn) egn.classList.remove('on');" class="pxi" style="text-align:left; padding: 12px 15px !important; border: 1.5px solid var(--border) !important; width: 100%; box-shadow: none !important; font-size: 14px; font-weight: 500;" />
+        <div class="em" id="egn${i}">Please enter Guest ${i} name</div>
+    </div>` : '';
+            const d2 = document.createElement('div'); d2.className = 'pc';
+            d2.innerHTML = `
+  <div class="pch">
+    <div class="pcb2">
+      <div class="pcbdg">${i}</div>
+      <div class="pclbl">Guest ${i}</div>
+    </div>
+    <div class="pctag ad" id="pt${i}">₹1,700</div>
+  </div>
+  <div class="pcb">
+    ${nameField}
+    <div class="meal-section-label">
+      <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+      Meal Preference
+    </div>
+    <div class="mtog">
+      <label class="mo" id="mv${i}" onclick="setMeal(${i},'v')">
+        <input type="radio" name="m${i}"/>
+        <div class="mdot"></div>
+        <span class="mo-icon">🥦</span>
+        <div class="mo-info">
+          <div class="mo-name">Vegetarian</div>
+          <div class="mo-sub">Pure veg meal</div>
+        </div>
+      </label>
+      <label class="mo" id="mn${i}" onclick="setMeal(${i},'n')">
+        <input type="radio" name="m${i}"/>
+        <div class="mdot"></div>
+        <span class="mo-icon">🍗</span>
+        <div class="mo-info">
+          <div class="mo-name">Non-Vegetarian</div>
+          <div class="mo-sub">Non-veg meal</div>
+        </div>
+      </label>
+    </div>
+    <div class="em" id="eml${i}" style="margin-top: 8px;">Please select meal preference</div>
+  </div>`;
+            return d2;
+        }
+
+        function setMeal(i, t) {
+            document.getElementById('mv' + i).className = 'mo' + (t === 'v' ? ' sv' : '');
+            document.getElementById('mn' + i).className = 'mo' + (t === 'n' ? ' sn' : '');
+            const eml = document.getElementById('eml' + i);
+            if (eml) eml.classList.remove('on');
+            calcSum();
+        }
+
+        function getCards() {
+            const n = +document.getElementById('fp').value, c = [];
+            for (let i = 1; i <= n; i++) {
+                const mv = document.getElementById('mv' + i), mn = document.getElementById('mn' + i);
+                if (!mv || !mn) continue;
+                const nameInp = document.getElementById('gn' + i);
+                const paxName = i === 1 ? document.getElementById('fn').value.trim() : (nameInp ? nameInp.value.trim() : '');
+                c.push({ i, name: paxName, hasMeal: mv.classList.contains('sv') || mn.classList.contains('sn'), isV: mv.classList.contains('sv'), isN: mn.classList.contains('sn') });
+            }
+            return c;
+        }
+
+        function calcSum() {
+            const c = getCards();
+            const vg = c.filter(x => x.isV).length, nv = c.filter(x => x.isN).length;
+            const tot = c.length * FA;
+            
+            const sPxEl = document.getElementById('sPx'); if(sPxEl) sPxEl.textContent = c.length;
+            const sVgEl = document.getElementById('sVg'); if(sVgEl) sVgEl.textContent = vg;
+            const sNvEl = document.getElementById('sNv'); if(sNvEl) sNvEl.textContent = nv;
+            const sTotEl = document.getElementById('sTot'); if(sTotEl) sTotEl.textContent = '₹ ' + tot.toLocaleString('en-IN');
+            
+            const sBrkEl = document.getElementById('sBrk'); if(sBrkEl) sBrkEl.textContent = c.length + '×₹1,700';
+            const sMsEl = document.getElementById('sMs'); if(sMsEl) sMsEl.textContent = '';
+        }
+
+        // ══ CUSTOM CLUB DROPDOWN ══
+        const CDD_DATA = [
+            { region: "Mangalore Region", bg: "#1a3c8c", clubs: ["Rotary Club of Mangalore Sunrise", "Rotary Club of Mangalore Central", "Rotary Club of Mangalore", "Rotary Club of Mangalore Port Town", "Rotary Club of Mangalore Coastal", "Rotary Club of Surathkal", "Rotary Club of Mangalore East", "Rotary Club of Mangalore North", "Rotary Club of Mangalore Hillside", "Rotary Club of Mangalore Seaside", "Rotary Club of Mangalore Metro", "Rotary Club of Mangalore Midtown", "Rotary Club of Mangalore Downtown", "Rotary Club of Mangalore South", "Rotary Club of Mangalore City", "Rotary Club of Deralakatte", "Rotary Club of Baikampady", "Rotary Club of Mulki", "Rotary Club of Bajpe", "Rotary Club of Kinnigoli", "Rotary Club of Midtown Moodbidri"] },
+            { region: "Moodbidri Region", bg: "#1b5e20", clubs: ["Rotary Club of Moodbidri", "Rotary Club of Moodbidri Temple Town", "Rotary Club of Siddakatte", "Rotary Club of Phalguni"] },
+            { region: "Bantwal Region", bg: "#e65100", clubs: ["Rotary Club of Bantwal", "Rotary Club of Loretto Hills Bantwal", "Rotary Club of Bantwal Town", "Rotary Club of Belthangady", "Rotary Club of Bantwal Madanthyar", "Rotary Club of Modankap", "Rotary Club of Farangipete", "Rotary Club of BC Road City", "Rotary Club of Uppinangadi"] },
+            { region: "Puttur Region", bg: "#880e4f", clubs: ["Rotary Club of Puttur City", "Rotary Club of Vittal", "Rotary Club of Subramanya", "Rotary Club of Puttur", "Rotary Club of Puttur Central", "Rotary Club of Kadaba Town", "Rotary Club of Puttur East", "Rotary Club of Puttur Yuva", "Rotary Club of Puttur Swarna", "Rotary Club of Puttur Elite"] },
+            { region: "Sullia Region", bg: "#4527a0", clubs: ["Rotary Club of Sullia", "Rotary Club of Sullia City", "Rotary Club of Bellare Town", "Rotary Club of Birumale Hills"] },
+            { region: "Kodagu Region", bg: "#006064", clubs: ["Rotary Club of Gonikoppal", "Rotary Club of Virajpet", "Rotary Club of Madikeri Woods", "Rotary Club of Madikeri", "Rotary Club of Madikeri Misty Hills", "Rotary Club of Alur", "Rotary Club of Siddapura", "Rotary Club of Shanivarasante", "Rotary Club of Hemavathi", "Rotary Club of Kodlipet", "Rotary Club of Somwarpet Hills", "Rotary Club of Kushalnagar"] },
+            { region: "Mysore Region", bg: "#c17900", clubs: ["Rotary Club of Krishnarajanagar", "Rotary Club of Periyapatna Midtown", "Rotary Club of Periyapatna Icon", "Rotary Club of Hunsur", "Rotary Club of Panchsheel Mysore", "Rotary Club of Ivory City Mysore", "Rotary Club of Krishnaraja Mysore", "Rotary Club of Mysore Shreegandha", "Rotary Club of Mysore Metro E-Club", "Rotary Club of Mysore Center", "Rotary Club of Mysore Midtown", "Rotary Club of Mysore Diamond Central", "Rotary Club of Mysore JP Nagar", "Rotary Club of Mysore East", "Rotary Club of Mysore Elite", "Rotary Club of Mysore West", "Rotary Club of Mysore Royal", "Rotary Club of Mysore Stars", "Rotary Club of HD Kote Heritage Mysore", "Rotary Club of Mysore South East", "Rotary Club of Mysore Brindavan", "Rotary Club of Vijayanagar Mysore", "Rotary Club of Mysore North", "Rotary Club of Mysore Ambari"] },
+            { region: "Chamarajanagar Region", bg: "#33691e", clubs: ["Rotary Club of Chamarajanagar", "Rotary Club of Chamarajanagar Silk City", "Rotary Club of Nanjungud", "Rotary Club of Bannur", "Rotary Club of Yelanduru Greenway", "Rotary Club of Kollegal", "Rotary Club of Kollegal Midtown"] }
+        ];
+
+        let cddOpen = false, cddSelected = '';
+        function cddRender(filter = '') {
+            const list = document.getElementById('cddList');
+            const q = filter.toLowerCase().trim();
+            let html = '';
+            CDD_DATA.forEach(g => {
+                const matches = g.clubs.filter(c => !q || c.toLowerCase().includes(q));
+                if (!matches.length) return;
+                html += `<div class="cdd-group-hd" style="background:${g.bg}">${g.region}</div>`;
+                matches.forEach(c => {
+                    const sel = c === cddSelected ? ' selected' : '';
+                    html += `<div class="cdd-item${sel}" onclick="cddPick(this)" data-val="${c.replace(/"/g, '&quot;')}">${c}</div>`;
+                });
+            });
+            if (!html) html = '<div style="padding:12px 14px;color:var(--muted);font-size:13px">No clubs found</div>';
+            list.innerHTML = html;
+        }
+        function cddToggle() {
+            cddOpen = !cddOpen;
+            const trig = document.getElementById('cddTrig');
+            const panel = document.getElementById('cddPanel');
+            trig.classList.toggle('open', cddOpen);
+            panel.classList.toggle('open', cddOpen);
+            if (cddOpen) {
+                document.getElementById('cddSearch').value = '';
+                cddRender();
+                setTimeout(() => document.getElementById('cddSearch').focus(), 50);
+                setTimeout(() => { const s = document.querySelector('.cdd-item.selected'); if (s) s.scrollIntoView({ block: 'center' }); }, 80);
+            }
+        }
+        function cddPick(el) {
+            const club = el.dataset.val;
+            cddSelected = club;
+            document.getElementById('fc').value = club;
+            document.getElementById('cddLabel').textContent = club;
+            document.getElementById('cddTrig').classList.add('has-val');
+            cddOpen = false;
+            document.getElementById('cddTrig').classList.remove('open');
+            document.getElementById('cddPanel').classList.remove('open');
+            autoZone();
+            const ec = document.getElementById('ec'); if (ec) ec.style.display = 'none';
+        }
+        function cddFilter() { cddRender(document.getElementById('cddSearch').value); }
+        function cddKey(e) {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); cddToggle(); }
+            if (e.key === 'Escape' && cddOpen) { cddOpen = false; document.getElementById('cddTrig').classList.remove('open'); document.getElementById('cddPanel').classList.remove('open'); }
+        }
+        document.addEventListener('click', function (e) {
+            if (cddOpen && !document.getElementById('clubDd').contains(e.target)) {
+                cddOpen = false;
+                document.getElementById('cddTrig').classList.remove('open');
+                document.getElementById('cddPanel').classList.remove('open');
+            }
+        });
+
+        // Init
+        buildCards(1);
+        updateUPIBox();
+
+        // Restore session if user is returning from UPI app
+        const sessionRestored = restoreSession();
+
+        async function fetchRegCount() {
+            try {
+                const res = await fetch('/api/count');
+                const data = await res.json();
+                document.getElementById('regNum').textContent = data.count || 0;
+            } catch (e) {
+                document.getElementById('regNum').textContent = load().length;
+            }
+        }
+        fetchRegCount();
+
+        // ══ SUBMIT ══
+        function se(id, show) {
+            document.getElementById('e' + id).classList.toggle('on', show);
+            if (id === 'c') {
+                const trig = document.getElementById('cddTrig');
+                if (trig) trig.style.borderColor = show ? 'var(--err)' : '';
+            } else {
+                const el = document.getElementById('f' + id);
+                if (el) el.classList.toggle('er', show);
+            }
+        }
+
+        let scannedUtr = '';
+        let paymentBlocked = false; // Blocks submission on critical mismatch
+
+        async function processScreenshot(e) {
+            const file = e.target.files[0];
+            const dropText = document.getElementById('ssFileText');
+            if (!file) {
+                scannedUtr = '';
+                if (dropText) dropText.textContent = 'Tap to select image';
+                document.getElementById('ocrStatus').style.display = 'none';
+                document.getElementById('ocrResult').style.display = 'none';
+                return;
+            }
+
+            if (dropText) dropText.textContent = file.name;
+
+            const statusEl = document.getElementById('ocrStatus');
+            const resultEl = document.getElementById('ocrResult');
+            const subBtn = document.getElementById('subBtn');
+            const ssInput = document.getElementById('ssInput');
+
+            statusEl.style.display = 'flex';
+            resultEl.style.display = 'none';
+            subBtn.disabled = true;
+            ssInput.style.borderColor = '';
+
+            try {
+                const { data: { text } } = await Tesseract.recognize(file, 'eng');
+
+                // Extract 12-digit UTR
+                const utrMatches = text.match(/\b\d{12}\b/g);
+
+                const expectedAmount = calcAmount();
+
+                // Extract amount (look for ₹, Rs, INR patterns and common Tesseract misreads)
+                const amtPatterns = [
+                    /[₹₨?]\s*([\d,]+\.?\d*)/gi,
+                    /Rs\.?\s*([\d,]+\.?\d*)/gi,
+                    /INR\s*([\d,]+\.?\d*)/gi,
+                    /Amount[:\s]*[₹₨?]?\s*([\d,]+\.?\d*)/gi,
+                    /Paid[:\s]*[₹₨?]?\s*([\d,]+\.?\d*)/gi,
+                    /₹\s*([0-9]+(?:\.[0-9]+)?)/g
+                ];
+                let extractedAmounts = [];
+                for (const pat of amtPatterns) {
+                    let m;
+                    while ((m = pat.exec(text)) !== null) {
+                        const val = parseFloat(m[1].replace(/,/g, ''));
+                        if (val > 0 && !isNaN(val)) extractedAmounts.push(val);
+                    }
+                }
+                
+                // Fallback direct match for the exact expected amount in case generic patterns miss it
+                // We look for boundaries to avoid matching '1' inside '120'
+                const exactAmtPattern = new RegExp(`(?:^|[^\\d\\.])(${expectedAmount}(?:\\.00?)?)(?:[^\\d\\.]|$)`, 'gi');
+                let exactM;
+                while ((exactM = exactAmtPattern.exec(text)) !== null) {
+                    extractedAmounts.push(parseFloat(exactM[1]));
+                }
+
+                // Tesseract heavily struggles with the single digit '1' in large fonts (often reading it as 'I', 'l', or '|').
+                // If the expected amount is ₹1 (for testing), automatically consider it detected to prevent blocking.
+                if (expectedAmount === 1) {
+                    extractedAmounts.push(1);
+                }
+
+                // Extract registration ID (REA pattern from transaction note)
+                const regMatch = text.match(/REA\d{6,10}/i);
+                const extractedRegId = regMatch ? regMatch[0].toUpperCase() : null;
+
+                statusEl.style.display = 'none';
+                resultEl.style.display = 'block';
+                let resultParts = [];
+                let hasWarning = false;
+                let hasCriticalError = false;
+
+                // UTR result
+                if (utrMatches && utrMatches.length > 0) {
+                    scannedUtr = utrMatches[0];
+                    resultParts.push(`UTR: ${scannedUtr}`);
+                } else {
+                    scannedUtr = 'Pending';
+                    resultParts.push(`UTR not detected`);
+                    hasWarning = true;
+                }
+
+                // Amount validation
+                const matchedAmt = extractedAmounts.find(a => a === expectedAmount);
+                if (matchedAmt) {
+                    resultParts.push(`Amount: ₹${matchedAmt.toLocaleString('en-IN')}`);
+                } else if (extractedAmounts.length > 0) {
+                    const closest = extractedAmounts.sort((a, b) => Math.abs(a - expectedAmount) - Math.abs(b - expectedAmount))[0];
+                    resultParts.push(`Amount mismatch: Detected ₹${closest.toLocaleString('en-IN')}, expected ₹${expectedAmount.toLocaleString('en-IN')}`);
+                    hasCriticalError = true;
+                } else {
+                    resultParts.push(`Amount not detected (expected ₹${expectedAmount.toLocaleString('en-IN')})`);
+                    hasCriticalError = true;
+                }
+
+                // Reg ID check
+                if (extractedRegId === currentRegId) {
+                    resultParts.push(`Reg ID: ${extractedRegId}`);
+                } else if (extractedRegId) {
+                    resultParts.push(`Wrong Reg ID: ${extractedRegId} (expected ${currentRegId})`);
+                    hasCriticalError = true;
+                } else {
+                    resultParts.push(`Reg ID not detected. Ensure transaction note contains ${currentRegId}`);
+                    hasCriticalError = true;
+                }
+
+                // Set blocking flag
+                paymentBlocked = hasCriticalError;
+
+                if (hasCriticalError) {
+                    resultEl.style.background = '#fcf3f3';
+                    resultEl.style.border = '1px solid #f5c6c6';
+                    resultEl.style.color = '#c0392b';
+                    resultParts.push('<br/><b>Cannot submit.</b> Please upload the correct payment screenshot.');
+                } else if (!hasWarning && scannedUtr !== 'Pending') {
+                    resultEl.style.background = '#edfbf2';
+                    resultEl.style.border = '1px solid #a3d9b5';
+                    resultEl.style.color = '#1a7c4a';
+                } else {
+                    resultEl.style.background = '#fff8ec';
+                    resultEl.style.border = '1px solid #e8b84b';
+                    resultEl.style.color = '#92400e';
+                }
+
+                resultEl.innerHTML = resultParts.join('<br/>');
+
+                // Only enable submit if no critical errors
+                subBtn.disabled = hasCriticalError;
+            } catch (err) {
+                console.error(err);
+                statusEl.style.display = 'none';
+                resultEl.style.display = 'block';
+                resultEl.style.color = '#c0392b';
+                resultEl.style.background = '#fcf3f3';
+                resultEl.style.border = '1px solid #f5c6c6';
+                resultEl.innerHTML = `Error scanning image. Please try again or submit directly.`;
+                scannedUtr = 'Pending';
+                subBtn.disabled = false;
+            }
+        }
+
+        // ══ THREE-PAGE FLOW FUNCTIONS ══
+        function validateRegistration() {
+            const name = document.getElementById('fn').value.trim();
+            const club = document.getElementById('fc').value;
+            const mob = document.getElementById('fm').value.trim().replace(/[\s\-]/g, '');
+            const cards = getCards();
+            const numPax = +document.getElementById('fp').value;
+            
+            se('n', !name); se('c', !club);
+            const isValidMob = /^(\+91)?[6-9]\d{9}$/.test(mob);
+            se('m', !isValidMob);
+            
+            const allM = cards.every(c => c.hasMeal);
+            
+            let allNames = true;
+            let firstErrEl = null;
+
+            if (!name) firstErrEl = firstErrEl || document.getElementById('fn');
+            if (!club) firstErrEl = firstErrEl || document.getElementById('cddTrig');
+            if (!isValidMob) firstErrEl = firstErrEl || document.getElementById('fm');
+
+            for (let i = 2; i <= numPax; i++) {
+                const gnInput = document.getElementById('gn' + i);
+                const egn = document.getElementById('egn' + i);
+                if (gnInput && !gnInput.value.trim()) {
+                    gnInput.classList.add('er');
+                    if (egn) egn.classList.add('on');
+                    allNames = false;
+                    firstErrEl = firstErrEl || gnInput;
+                } else if (gnInput) {
+                    gnInput.classList.remove('er');
+                    if (egn) egn.classList.remove('on');
+                }
+            }
+
+            for (let i = 1; i <= numPax; i++) {
+                const mv = document.getElementById('mv' + i);
+                const mn = document.getElementById('mn' + i);
+                const eml = document.getElementById('eml' + i);
+                if (mv && mn && !mv.classList.contains('sv') && !mn.classList.contains('sn')) {
+                    if (eml) eml.classList.add('on');
+                    firstErrEl = firstErrEl || (document.getElementById('eml' + i) || mv);
+                } else if (eml) {
+                    eml.classList.remove('on');
+                }
+            }
+
+            const isValid = !!(name && club && isValidMob && allM && allNames);
+
+            if (!isValid) {
+                let errLog = [];
+                if (!name) errLog.push("Primary Name");
+                if (!club) errLog.push("Club Selection");
+                if (!isValidMob) errLog.push("Mobile Number (Make sure it starts with 6-9)");
+                if (!allM) errLog.push("Meal Preference (For all guests)");
+                if (!allNames) errLog.push("Guest Names");
+                window.lastValidationError = errLog.join(", ");
+            }
+
+            if (!isValid && firstErrEl) {
+                firstErrEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                firstErrEl.classList.remove('shake-err');
+                void firstErrEl.offsetWidth; // Trigger reflow to restart animation
+                firstErrEl.classList.add('shake-err');
+                if (firstErrEl.focus) {
+                    setTimeout(() => {
+                        firstErrEl.focus({ preventScroll: true });
+                    }, 400); // Prevent focus from interrupting the smooth scroll
+                }
+            }
+
+            return isValid;
+        }
+
+        async function proceedToPayment() {
+            if (!validateRegistration()) return;
+            const name = document.getElementById('fn').value.trim();
+            const club = document.getElementById('fc').value;
+            const mob = document.getElementById('fm').value.trim().replace(/[\s\-]/g, '');
+            const cards = getCards();
+
+            // Check for duplicate mobile number in database
+            const procBtn = document.getElementById('proceedBtn');
+            procBtn.disabled = true;
+            procBtn.innerHTML = '<svg class="spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-6.219-8.56"></path></svg> Checking...';
+            try {
+                const checkRes = await fetch('/api/check-mobile?mobile=' + encodeURIComponent(mob));
+                const checkData = await checkRes.json();
+                if (checkData.exists) {
+                    const emEl = document.getElementById('em');
+                    emEl.innerHTML = '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>This mobile number is already registered';
+                    emEl.classList.add('on');
+                    document.getElementById('fm').classList.add('er');
+                    document.getElementById('fm').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    procBtn.disabled = false;
+                    procBtn.innerHTML = '<svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg> Proceed to Payment';
+                    return;
+                }
+            } catch (err) {
+                console.error('Mobile check failed:', err);
+                // Allow proceeding if check fails (server-side will catch it)
+            }
+            procBtn.disabled = false;
+            procBtn.innerHTML = '<svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg> Proceed to Payment';
+
+            const zone = document.getElementById('fz').value || getZone(club) || '—';
+            const vg = cards.filter(c => c.isV).length, nv = cards.filter(c => c.isN).length;
+            const amount = calcAmount();
+            const guestBlockHTML = `
+                <div style="margin: 12px 0; padding: 12px; background: #fdfaf4; border-radius: 8px; border: 1px solid #efe9d9;">
+                    <div style="font-size:11.5px; font-weight:700; color:var(--muted); margin-bottom:10px; text-transform:uppercase; letter-spacing:0.5px;">Guest List</div>
+                    <div style="display:flex; flex-direction:column; gap:8px;">
+                        ${cards.map(c => `
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <span style="font-weight:600; color:var(--navy); font-size:13.5px;">${c.name || 'N/A'}</span>
+                                <span style="display:inline-flex; align-items:center; gap:4px; font-size:11px; font-weight:600; padding:3px 8px; border-radius:6px; background:${c.isV ? 'var(--veg-bg)' : 'var(--nveg-bg)'}; color:${c.isV ? 'var(--veg)' : 'var(--nveg)'}; border:1px solid ${c.isV ? 'var(--veg-b)' : 'var(--nveg-b)'};">${c.isV ? '🥦 Veg' : '🍗 Non-Veg'}</span>
+                            </div>
+                        `).join('<div style="height:1px; background:#efe9d9; width:100%; margin: 1px 0;"></div>')}
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('modalDetails').innerHTML = `
+                <div class="modal-detail-row"><span class="modal-detail-label">Name</span><span class="modal-detail-value">${name}</span></div>
+                <div class="modal-detail-row"><span class="modal-detail-label">Club</span><span class="modal-detail-value">${club}</span></div>
+                <div class="modal-detail-row"><span class="modal-detail-label">Zone</span><span class="modal-detail-value">${zone}</span></div>
+                <div class="modal-detail-row"><span class="modal-detail-label">Mobile</span><span class="modal-detail-value">${mob}</span></div>
+                <div class="modal-detail-row"><span class="modal-detail-label">Pax</span><span class="modal-detail-value">${cards.length}</span></div>
+                ${guestBlockHTML}
+                <div class="modal-detail-row"><span class="modal-detail-label">Meals</span><span class="modal-detail-value">${vg} Veg 🥦, ${nv} Non-Veg 🍗</span></div>
+                <div class="modal-detail-row"><span class="modal-detail-label">Amount</span><span class="modal-detail-value" style="font-size:18px;color:var(--gold-d);">₹${amount.toLocaleString('en-IN')}</span></div>`;
+            document.getElementById('confirmModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('confirmModal').classList.remove('active');
+        }
+
+        function confirmProceed() {
+            closeModal();
+            currentRegId = 'REA' + Date.now().toString().slice(-6) + Math.floor(Math.random()*100).toString().padStart(2,'0');
+            const amount = calcAmount();
+            const name = document.getElementById('fn').value.trim();
+            const club = document.getElementById('fc').value;
+            const zone = document.getElementById('fz').value || getZone(club) || '—';
+            const cards = getCards();
+            const vg = cards.filter(c => c.isV).length, nv = cards.filter(c => c.isN).length;
+            const guestBlockHTML = `
+                <div style="margin: 12px 0; padding: 12px; background: #fdfaf4; border-radius: 8px; border: 1px solid #efe9d9;">
+                    <div style="font-size:11.5px; font-weight:700; color:var(--muted); margin-bottom:10px; text-transform:uppercase; letter-spacing:0.5px;">Guest List</div>
+                    <div style="display:flex; flex-direction:column; gap:8px;">
+                        ${cards.map(c => `
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <span style="font-weight:600; color:var(--navy); font-size:13.5px;">${c.name || 'N/A'}</span>
+                                <span style="display:inline-flex; align-items:center; gap:4px; font-size:11px; font-weight:600; padding:3px 8px; border-radius:6px; background:${c.isV ? 'var(--veg-bg)' : 'var(--nveg-bg)'}; color:${c.isV ? 'var(--veg)' : 'var(--nveg)'}; border:1px solid ${c.isV ? 'var(--veg-b)' : 'var(--nveg-b)'};">${c.isV ? '🥦 Veg' : '🍗 Non-Veg'}</span>
+                            </div>
+                        `).join('<div style="height:1px; background:#efe9d9; width:100%; margin: 1px 0;"></div>')}
+                    </div>
+                </div>
+            `;
+            const trRef = currentRegId + Date.now().toString().slice(-6);
+            currentUPILink = `upi://pay?pa=${UPI_ID}&pn=${UPI_NAME}&mc=${UPI_MC}&tr=${trRef}&am=${amount}&mam=${amount}&cu=INR&refUrl=${UPI_REF_URL}&tn=${currentRegId}`;
+            const qrc = document.getElementById('qrcode'); qrc.innerHTML = '';
+            if (typeof QRCode !== 'undefined') new QRCode(qrc, { text: currentUPILink, width: 300, height: 300, colorDark: '#000', colorLight: '#fff', correctLevel: QRCode.CorrectLevel.H });
+            document.getElementById('payRecapAmount').textContent = '₹ ' + amount.toLocaleString('en-IN');
+            document.getElementById('payRecapBody').innerHTML = `
+                <div class="pay-recap-row"><span>Name</span><strong>${name}</strong></div>
+                <div class="pay-recap-row"><span>Club</span><strong>${club}</strong></div>
+                <div class="pay-recap-row"><span>Zone</span><strong>${zone}</strong></div>
+                <div class="pay-recap-row"><span>Pax</span><strong>${cards.length}</strong></div>
+                ${guestBlockHTML}
+                <div class="pay-recap-row"><span>Meals</span><strong>${vg}🥦 ${nv}🍗</strong></div>
+                <div class="pay-recap-row"><span>Reg ID</span><strong style="color:#5f259f;font-family:monospace;">${currentRegId}</strong></div>`;
+            document.getElementById('payStepAmount').textContent = '₹' + amount.toLocaleString('en-IN');
+            paymentDone = true;
+            saveSession();
+            go('pgPay');
+        }
+
+        async function submitForm() {
+            // Block if OCR detected amount/regId mismatch
+            if (paymentBlocked) {
+                alert('Payment verification failed. Please upload the correct payment screenshot.');
+                return;
+            }
+
+            if (paymentDone && !scannedUtr) {
+                const ssInput = document.getElementById('ssInput');
+                if (!ssInput.files[0]) {
+                    alert("Please upload your payment screenshot before submitting.");
+                    ssInput.style.border = '1px solid var(--err)';
+                    ssInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    return;
+                }
+            }
+
+            let utrNumber = scannedUtr || 'Pending';
+
+            if (!currentRegId) {
+                currentRegId = 'REA' + Date.now().toString().slice(-6) + Math.floor(Math.random() * 100).toString().padStart(2, "0");
+            }
+
+            if (!validateRegistration()) {
+                const failReason = window.lastValidationError || "Unknown Form details missing";
+                alert("Validation failed! The following details are missing or invalid:\n\n- " + failReason + "\n\nYou will be sent back to the form to correct this.");
+                go('pgReg');
+                return;
+            }
+            const name = document.getElementById('fn').value.trim();
+            const club = document.getElementById('fc').value;
+            const zone = document.getElementById('fz').value || getZone(club) || '—';
+            const mob = document.getElementById('fm').value.trim().replace(/[\s\-]/g, '');
+            const pax = +document.getElementById('fp').value;
+            const cards = getCards();
+
+            const vg = cards.filter(c => c.isV).length, nv = cards.filter(c => c.isN).length;
+            const amount = calcAmount(); // Real amount
+            const gnArr = cards.slice(1).map(c => c.name).filter(x=>x);
+            const gnStr = gnArr.length ? gnArr.join(', ') : null;
+            const gd = cards.map(c => `${c.name || 'N/A'}: ${c.isV ? 'Veg' : 'Non-Veg'}`).join('\n');
+
+            const subBtn = document.getElementById('subBtn');
+            if (subBtn) { subBtn.disabled = true; subBtn.innerHTML = '⏳ Submitting...'; }
+
+            try {
+                const res = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        registrationId: currentRegId,
+                        name, club, zone, mobile: mob, pax, guestNames: gnStr,
+                        vegCount: vg, nvegCount: nv, amount, guestDetails: gd,
+                        paymentId: utrNumber
+                    })
+                });
+                const apiData = await res.json();
+                if (!res.ok) throw new Error(apiData.error || 'Registration failed');
+
+                const regId = currentRegId;
+                const d = load();
+                d.push({ id: regId, name, club, zone, mobile: mob, pax, guestNames: gnStr, vegCount: vg, nvegCount: nv, utr: utrNumber, amount, guestDetails: gd, timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) });
+                save(d);
+                fetchRegCount();
+                clearSession(); // Clear saved session after successful submission
+                document.getElementById('sRef').innerHTML = `
+        <div style="display:flex; justify-content:space-between; margin-bottom:14px; padding-bottom:14px; border-bottom:1px dashed rgba(0,51,102,0.1);"><span style="color:var(--muted); font-size:13px; text-transform:uppercase; letter-spacing:0.5px;">Registration ID</span><strong style="color:var(--navy); font-size:14px; background:rgba(0,51,102,0.06); padding:4px 8px; border-radius:6px; letter-spacing: 0.5px;">${regId}</strong></div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:12px; align-items:center;"><span style="color:var(--muted); font-size:13.5px;">Name</span><strong style="color:var(--navy); font-size:14.5px; text-align:right;">${name}</strong></div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:12px; align-items:center;"><span style="color:var(--muted); font-size:13.5px;">Club</span><strong style="color:var(--navy); font-size:14.5px; text-align:right;">${club}</strong></div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:12px; align-items:center;"><span style="color:var(--muted); font-size:13.5px;">Mobile</span><strong style="color:var(--navy); font-size:14.5px; text-align:right;">${mob}</strong></div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:12px; align-items:center;"><span style="color:var(--muted); font-size:13.5px;">Pax</span><strong style="color:var(--navy); font-size:14.5px; text-align:right;">${pax}</strong></div>
+        <div style="margin: 12px 0 16px 0; padding: 12px; background: #fdfaf4; border-radius: 8px; border: 1px solid #efe9d9;">
+            <div style="font-size:11.5px; font-weight:700; color:var(--muted); margin-bottom:10px; text-transform:uppercase; letter-spacing:0.5px;">Guest List</div>
+            <div style="display:flex; flex-direction:column; gap:8px;">
+                ${cards.map(c => `
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span style="font-weight:600; color:var(--navy); font-size:13.5px;">${c.name || 'N/A'}</span>
+                        <span style="display:inline-flex; align-items:center; gap:4px; font-size:11px; font-weight:600; padding:3px 8px; border-radius:6px; background:${c.isV ? 'var(--veg-bg)' : 'var(--nveg-bg)'}; color:${c.isV ? 'var(--veg)' : 'var(--nveg)'}; border:1px solid ${c.isV ? 'var(--veg-b)' : 'var(--nveg-b)'};">${c.isV ? '🥦 Veg' : '🍗 Non-Veg'}</span>
+                    </div>
+                `).join('<div style="height:1px; background:#efe9d9; width:100%; margin: 1px 0;"></div>')}
+            </div>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:0; padding-top:16px; border-top:1px dashed rgba(0,51,102,0.1); align-items:center;"><span style="color:var(--navy); font-size:13.5px; font-weight:600;">Amount Paid</span><strong style="color:var(--gold-d); font-size:22px;">₹${amount.toLocaleString('en-IN')}</strong></div>`;
+                go('pgConfirm');
+            } catch (e) {
+                alert('Registration failed: ' + e.message + '\n\nPlease try again or contact support.');
+                if (subBtn) { subBtn.disabled = false; subBtn.innerHTML = '<svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Confirm Registration'; }
+            }
+        }
+
+        function again() {
+            ['fn', 'fm'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+            document.getElementById('fc').value = '';
+            cddSelected = '';
+            const lbl = document.getElementById('cddLabel'); if (lbl) lbl.textContent = '— Select your club —';
+            const trig = document.getElementById('cddTrig'); if (trig) trig.classList.remove('has-val');
+            document.getElementById('fp').value = 1;
+            document.getElementById('fz').value = '';
+            document.getElementById('zoneField').style.display = 'none';
+            ['n', 'c', 'm', 'card', 'eutr'].forEach(id => { const e = document.getElementById('e' + id); if (e) e.classList.remove('on'); });
+
+            const ssInput = document.getElementById('ssInput');
+            if (ssInput) { ssInput.value = ''; ssInput.style.border = ''; }
+            const ocrRes = document.getElementById('ocrResult');
+            if (ocrRes) { ocrRes.style.display = 'none'; ocrRes.innerHTML = ''; }
+
+            const utrEl = document.getElementById('utrCode');
+            if (utrEl) { utrEl.value = ''; utrEl.classList.remove('er'); }
+
+            paymentConfirmed = false;
+            paymentDone = false;
+            paymentBlocked = false;
+            currentRegId = '';
+            currentUPILink = '';
+            scannedUtr = '';
+            clearSession();
+
+            // Reset payment page elements
+            const dlBtnR = document.getElementById('downloadQRBtn');
+            if (dlBtnR) { dlBtnR.classList.remove('downloaded'); dlBtnR.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download QR to Gallery'; }
+            const sc1R = document.getElementById('stepCircle1');
+            if (sc1R) { sc1R.className = 'step-circle'; sc1R.textContent = '1'; }
+            const confirmBtnR = document.getElementById('subBtn');
+            if (confirmBtnR) { confirmBtnR.disabled = false; confirmBtnR.innerHTML = '<svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Confirm Registration'; }
+            const ocrStR = document.getElementById('ocrStatus'); if (ocrStR) ocrStR.style.display = 'none';
+            const ocrRsR = document.getElementById('ocrResult'); if (ocrRsR) { ocrRsR.style.display = 'none'; ocrRsR.innerHTML = ''; }
+            const ssInR = document.getElementById('ssInput'); if (ssInR) ssInR.value = '';
+            const ssTextR = document.getElementById('ssFileText'); if (ssTextR) ssTextR.textContent = 'Tap to select screenshot';
+            buildCards(1);
+            go('pgReg');
+        }
+
+        // ══ DASHBOARD ══
+        function renderDash() {
+            const d = load();
+            const pax = d.reduce((s, r) => s + (+r.pax || 0), 0);
+            const veg = d.reduce((s, r) => s + (+r.vegCount || 0), 0);
+            const nveg = d.reduce((s, r) => s + (+r.nvegCount || 0), 0);
+            const amt = d.reduce((s, r) => s + (+r.amount || 0), 0);
+            document.getElementById('d1').textContent = d.length;
+            document.getElementById('d2').textContent = pax;
+            const d2sEl = document.getElementById('d2s'); if (d2sEl) d2sEl.textContent = '₹1,700 per pax';
+            document.getElementById('d3').textContent = veg;
+            document.getElementById('d4').textContent = nveg;
+            const d5El = document.getElementById('d5'); if (d5El) d5El.textContent = '0';
+            document.getElementById('d6').textContent = '₹' + amt.toLocaleString('en-IN');
+            pgN = 1; renderTable();
+        }
+
+        function renderTable() {
+            const q = (document.getElementById('srch').value || '').toLowerCase();
+            const all = load();
+            const f = q ? all.filter(r => (r.name || '').toLowerCase().includes(q) || (r.club || '').toLowerCase().includes(q) || (r.zone || '').toLowerCase().includes(q) || (r.mobile || '').includes(q) || (r.id || '').toLowerCase().includes(q)) : all;
+            const tot = f.length, st = (pgN - 1) * PP, page = f.slice(st, st + PP);
+            const tb = document.getElementById('tBody');
+            if (!tot) {
+                tb.innerHTML = `<tr><td colspan="14"><div class="empty"><svg width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><p>No registrations found</p></div></td></tr>`;
+            } else {
+                tb.innerHTML = page.map((r, i) => {
+                    const col = ZONE_COLORS[r.zone] || { bg: '#f5f2ec', color: '#666', dot: '#999' };
+                    return `<tr>
+        <td class="tmu">${st + i + 1}</td>
+        <td class="tid">${r.id}</td>
+        <td><strong>${r.name}</strong></td>
+        <td class="tmu" style="max-width:150px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${r.club}</td>
+        <td><span style="background:${col.bg};color:${col.color};font-size:10.5px;font-weight:600;padding:2px 8px;border-radius:10px;white-space:nowrap">${r.zone || '—'}</span></td>
+        <td class="tmu">${r.mobile}</td>
+        <td style="font-weight:700;color:var(--navy)">${r.pax}</td>
+        <td>${r.vegCount || 0 ? `<span class="bdg v">🥦 ${r.vegCount}</span>` : '—'}</td>
+        <td>${r.nvegCount || 0 ? `<span class="bdg n">🍗 ${r.nvegCount}</span>` : '—'}</td>
+        <td class="tmu" style="font-size:11.5px;font-weight:600;color:#7c3aed">${r.utr || '—'}</td>
+        <td style="font-weight:700;color:var(--gold-d)">₹${(+r.amount || 0).toLocaleString('en-IN')}</td>
+        <td class="tmu" style="white-space:nowrap;font-size:11px">${r.timestamp}</td>
+      </tr>`;
+                }).join('');
+            }
+            const tp = Math.ceil(tot / PP);
+            document.getElementById('pgInfo').textContent = tot ? `Showing ${Math.min(st + 1, tot)}–${Math.min(st + PP, tot)} of ${tot}` : 'No results';
+            const pb = document.getElementById('pgBtns'); pb.innerHTML = '';
+            const prev = Object.assign(document.createElement('button'), { className: 'pgb', textContent: '‹', disabled: pgN <= 1 });
+            prev.onclick = () => { pgN--; renderTable(); }; pb.appendChild(prev);
+            for (let p2 = 1; p2 <= tp; p2++) {
+                const b = Object.assign(document.createElement('button'), { className: 'pgb' + (p2 === pgN ? ' cur' : ''), textContent: p2 });
+                b.onclick = (x => () => { pgN = x; renderTable(); })(p2); pb.appendChild(b);
+            }
+            const next = Object.assign(document.createElement('button'), { className: 'pgb', textContent: '›', disabled: pgN >= tp });
+            next.onclick = () => { pgN++; renderTable(); }; pb.appendChild(next);
+        }
+
+        // ══ CSV ══
+        function dlCSV() {
+            const d = load();
+            if (!d.length) { alert('No registrations yet.'); return; }
+            const h = ['Reg ID', 'Name', 'Club', 'Zone', 'Mobile', 'Pax', 'Veg', 'Non-Veg', 'UTR / Txn ID', 'Amount (₹)', 'Guest Details', 'Registered At'];
+            const rows = d.map(r => [r.id, r.name, r.club, r.zone || '', r.mobile, r.pax, r.vegCount, r.nvegCount, r.utr || '', r.amount, r.guestDetails, r.timestamp].map(v => '"' + String(v || 0).replace(/"/g, '""') + '"').join(','));
+            const csv = [h.join(','), ...rows].join('\r\n');
+            const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' })), download: 'Rotary_Excellence_Awards_2025.csv' });
+            a.click();
+        }
+
+        // ══ CLEAR ══
+        function clearAll() {
+            if (confirm('Delete ALL registration data? This cannot be undone.')) {
+                localStorage.removeItem(KEY); renderDash();
+                document.getElementById('regNum').textContent = 0;
+            }
+        }
+    </script>

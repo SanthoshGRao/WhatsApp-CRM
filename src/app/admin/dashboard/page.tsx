@@ -243,20 +243,15 @@ export default function AdminDashboard() {
               </select>
               <select value={filterZone} onChange={e => setFilterZone(e.target.value)} style={selectStyle}>
                 <option value="">All Zones</option>
-                <option value="Mangalore Region">Mangalore Region</option>
-                <option value="BC Road Region">BC Road Region</option>
-                <option value="Puttur Region">Puttur Region</option>
-                <option value="Sullia Region">Sullia Region</option>
-                <option value="Subramanya Region">Subramanya Region</option>
-                <option value="Belthangady Region">Belthangady Region</option>
-                <option value="Moodabidri Region">Moodabidri Region</option>
-                <option value="Karkala Region">Karkala Region</option>
-                <option value="Udupi Region">Udupi Region</option>
-                <option value="Kundapura Region">Kundapura Region</option>
-                <option value="Bhatkal Region">Bhatkal Region</option>
-                <option value="Sirsi Yellapur Region">Sirsi Yellapur Region</option>
-                <option value="Kumta Karwar Region">Kumta Karwar Region</option>
-                <option value="Madikeri Region">Madikeri Region</option>
+                <option value="Zone 1">Zone 1</option>
+                <option value="Zone 2">Zone 2</option>
+                <option value="Zone 3">Zone 3</option>
+                <option value="Zone 4">Zone 4</option>
+                <option value="Zone 5">Zone 5</option>
+                <option value="Zone 6">Zone 6</option>
+                <option value="Zone 7">Zone 7</option>
+                <option value="Zone 8">Zone 8</option>
+                <option value="Zone 9">Zone 9</option>
               </select>
             </div>
             

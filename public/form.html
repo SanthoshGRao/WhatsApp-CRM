@@ -3344,25 +3344,127 @@
 
         // ══ ZONE MAP ══
         const ZONE_MAP = {
-            "Mangalore Region": ["Rotary Club of Mangalore Sunrise", "Rotary Club of Mangalore Central", "Rotary Club of Mangalore", "Rotary Club of Mangalore Port Town", "Rotary Club of Mangalore Coastal", "Rotary Club of Surathkal", "Rotary Club of Mangalore East", "Rotary Club of Mangalore North", "Rotary Club of Mangalore Hillside", "Rotary Club of Mangalore Seaside", "Rotary Club of Mangalore Metro", "Rotary Club of Mangalore Midtown", "Rotary Club of Mangalore Downtown", "Rotary Club of Mangalore South", "Rotary Club of Mangalore City", "Rotary Club of Deralakatte", "Rotary Club of Baikampady", "Rotary Club of Mulki", "Rotary Club of Bajpe", "Rotary Club of Kinnigoli", "Rotary Club of Midtown Moodbidri"],
-            "Moodbidri Region": ["Rotary Club of Moodbidri", "Rotary Club of Moodbidri Temple Town", "Rotary Club of Siddakatte", "Rotary Club of Phalguni"],
-            "Bantwal Region": ["Rotary Club of Bantwal", "Rotary Club of Loretto Hills Bantwal", "Rotary Club of Bantwal Town", "Rotary Club of Belthangady", "Rotary Club of Bantwal Madanthyar", "Rotary Club of Modankap", "Rotary Club of Farangipete", "Rotary Club of BC Road City", "Rotary Club of Uppinangadi"],
-            "Puttur Region": ["Rotary Club of Puttur City", "Rotary Club of Vittal", "Rotary Club of Subramanya", "Rotary Club of Puttur", "Rotary Club of Puttur Central", "Rotary Club of Puttur East", "Rotary Club of Puttur Yuva", "Rotary Club of Puttur Swarna", "Rotary Club of Puttur Elite"],
-            "Sullia Region": ["Rotary Club of Sullia", "Rotary Club of Sullia City", "Rotary Club of Bellare Town", "Rotary Club of Birumale Hills"],
-            "Kodagu Region": ["Rotary Club of Gonikoppal", "Rotary Club of Virajpet", "Rotary Club of Madikeri Woods", "Rotary Club of Madikeri", "Rotary Club of Madikeri Misty Hills", "Rotary Club of Alur", "Rotary Club of Siddapura", "Rotary Club of Shanivarasante", "Rotary Club of Hemavathi", "Rotary Club of Kodlipet", "Rotary Club of Somwarpet Hills", "Rotary Club of Kushalnagar"],
-            "Mysore Region": ["Rotary Club of Krishnarajanagar", "Rotary Club of Periyapatna Midtown", "Rotary Club of Periyapatna Icon", "Rotary Club of Hunsur", "Rotary Club of Panchsheel Mysore", "Rotary Club of Ivory City Mysore", "Rotary Club of Krishnaraja Mysore", "Rotary Club of Mysore Shreegandha", "Rotary Club of Mysore Metro E-Club", "Rotary Club of Mysore Center", "Rotary Club of Mysore Midtown", "Rotary Club of Mysore Diamond Central", "Rotary Club of Mysore JP Nagar", "Rotary Club of Mysore East", "Rotary Club of Mysore Elite", "Rotary Club of Mysore West", "Rotary Club of Mysore Royal", "Rotary Club of Mysore Stars", "Rotary Club of HD Kote Heritage Mysore", "Rotary Club of Mysore South East", "Rotary Club of Mysore Brindavan", "Rotary Club of Vijayanagar Mysore", "Rotary Club of Mysore North", "Rotary Club of Mysore Ambari"],
-            "Chamarajanagar Region": ["Rotary Club of Chamarajanagar", "Rotary Club of Chamarajanagar Silk City", "Rotary Club of Nanjungud", "Rotary Club of Bannur", "Rotary Club of Yelanduru Greenway", "Rotary Club of Kollegal", "Rotary Club of Kollegal Midtown"]
-        };
+  "Zone 1": [
+    "Moodbidri Midtown",
+    "Kinnigoli",
+    "Bajpe",
+    "Mulki"
+  ],
+  "Zone 2": [
+    "Baikampady",
+    "Manglore Sunrise",
+    "Manglore Central",
+    "Manglore Port Town",
+    "Manglore Coastal",
+    "Surathkal",
+    "Manglore East",
+    "Mamglore North",
+    "Manglore Hillside"
+  ],
+  "Zone 3": [
+    "Manglore Seaside",
+    "Manglore Metro",
+    "Manglore Midtown",
+    "Manglore",
+    "Manglore Downtown",
+    "Manglore South",
+    "Manglore City",
+    "Deralakatte"
+  ],
+  "Zone 4": [
+    "Moodbidri",
+    "Moodbidri Temple Town",
+    "Siddakatte Phalguni",
+    "Bantwal Loretto Hills",
+    "Bantwal Town",
+    "Belthangady",
+    "Bantwal",
+    "Madanthyar",
+    "Modankap",
+    "Farangipete",
+    "BC Road City",
+    "Uppinangadi",
+    "Puttur City",
+    "Vittal"
+  ],
+  "Zone 5": [
+    "Subramanya",
+    "Puttur",
+    "Puttur Central",
+    "Kadaba Town",
+    "Puttur East",
+    "Puttur Yuva",
+    "Puttur Swarna",
+    "Puttur Elite",
+    "Sullia",
+    "Sullia City",
+    "Bellare Town",
+    "Birumale Hills"
+  ],
+  "Zone 6": [
+    "Gonikoppal",
+    "Virajpet",
+    "Madikeri Woods",
+    "Madikeri",
+    "Madikeri Misty Hills",
+    "Alur Siddapura",
+    "Shanivarasante",
+    "Hemavathi Kodlipet",
+    "Somwarpet Hills",
+    "Kushalnagar",
+    "Krishnarajanagar",
+    "Periyapatna Midtown",
+    "Periyapatna Icon",
+    "Hunsur"
+  ],
+  "Zone 7": [
+    "Panchsheel",
+    "Mysore Ivory City",
+    "Mysore Krishnaraja",
+    "Mysore",
+    "Mysore Shreegandha",
+    "Mysore Metro",
+    "E-Club Mysore Center",
+    "Mysore Midtown",
+    "Mysore Diamond",
+    "Central Mysore",
+    "Mysore JP Nagar",
+    "Mysore East"
+  ],
+  "Zone 8": [
+    "Mysore Elite",
+    "Mysore West",
+    "Mysore Royal",
+    "Mysore Stars",
+    "HD Kote",
+    "Heritage Mysore",
+    "Mysore South East",
+    "Mysore Brindavan",
+    "Vijayanagar Mysore",
+    "Mysore North",
+    "Mysore Ambari"
+  ],
+  "Zone 9": [
+    "Chamarajanagar",
+    "Chamarajanagar Silk City",
+    "Nanjungud",
+    "Bannur",
+    "Yelanduru Greenway",
+    "Kollegal",
+    "Kollegal Midtown"
+  ]
+};
 
         const ZONE_COLORS = {
-            "Mangalore Region": { bg: "#dbeafe", color: "#1e40af", dot: "#3b82f6" },
-            "Moodbidri Region": { bg: "#d1fae5", color: "#065f46", dot: "#10b981" },
-            "Bantwal Region": { bg: "#ffedd5", color: "#9a3412", dot: "#f97316" },
-            "Puttur Region": { bg: "#fce7f3", color: "#831843", dot: "#ec4899" },
-            "Sullia Region": { bg: "#ede9fe", color: "#4c1d95", dot: "#8b5cf6" },
-            "Kodagu Region": { bg: "#cffafe", color: "#164e63", dot: "#06b6d4" },
-            "Mysore Region": { bg: "#fef3c7", color: "#92400e", dot: "#f59e0b" },
-            "Chamarajanagar Region": { bg: "#ecfccb", color: "#3f6212", dot: "#84cc16" }
+            "Zone 1": { bg: "#dbeafe", color: "#1e40af", dot: "#3b82f6" },
+            "Zone 2": { bg: "#d1fae5", color: "#065f46", dot: "#10b981" },
+            "Zone 3": { bg: "#ffedd5", color: "#9a3412", dot: "#f97316" },
+            "Zone 4": { bg: "#fce7f3", color: "#831843", dot: "#ec4899" },
+            "Zone 5": { bg: "#ede9fe", color: "#4c1d95", dot: "#8b5cf6" },
+            "Zone 6": { bg: "#cffafe", color: "#164e63", dot: "#06b6d4" },
+            "Zone 7": { bg: "#fef3c7", color: "#92400e", dot: "#f59e0b" },
+            "Zone 8": { bg: "#ecfccb", color: "#3f6212", dot: "#84cc16" },
+            "Zone 9": { bg: "#fef08a", color: "#854d0e", dot: "#eab308" }
         };
 
         function getZone(clubName) {
@@ -3824,14 +3926,14 @@
 
         // ══ CUSTOM CLUB DROPDOWN ══
         const CDD_DATA = [
-            { region: "Mangalore Region", bg: "#1a3c8c", clubs: ["Rotary Club of Mangalore Sunrise", "Rotary Club of Mangalore Central", "Rotary Club of Mangalore", "Rotary Club of Mangalore Port Town", "Rotary Club of Mangalore Coastal", "Rotary Club of Surathkal", "Rotary Club of Mangalore East", "Rotary Club of Mangalore North", "Rotary Club of Mangalore Hillside", "Rotary Club of Mangalore Seaside", "Rotary Club of Mangalore Metro", "Rotary Club of Mangalore Midtown", "Rotary Club of Mangalore Downtown", "Rotary Club of Mangalore South", "Rotary Club of Mangalore City", "Rotary Club of Deralakatte", "Rotary Club of Baikampady", "Rotary Club of Mulki", "Rotary Club of Bajpe", "Rotary Club of Kinnigoli", "Rotary Club of Midtown Moodbidri"] },
-            { region: "Moodbidri Region", bg: "#1b5e20", clubs: ["Rotary Club of Moodbidri", "Rotary Club of Moodbidri Temple Town", "Rotary Club of Siddakatte", "Rotary Club of Phalguni"] },
-            { region: "Bantwal Region", bg: "#e65100", clubs: ["Rotary Club of Bantwal", "Rotary Club of Loretto Hills Bantwal", "Rotary Club of Bantwal Town", "Rotary Club of Belthangady", "Rotary Club of Bantwal Madanthyar", "Rotary Club of Modankap", "Rotary Club of Farangipete", "Rotary Club of BC Road City", "Rotary Club of Uppinangadi"] },
-            { region: "Puttur Region", bg: "#880e4f", clubs: ["Rotary Club of Puttur City", "Rotary Club of Vittal", "Rotary Club of Subramanya", "Rotary Club of Puttur", "Rotary Club of Puttur Central", "Rotary Club of Kadaba Town", "Rotary Club of Puttur East", "Rotary Club of Puttur Yuva", "Rotary Club of Puttur Swarna", "Rotary Club of Puttur Elite"] },
-            { region: "Sullia Region", bg: "#4527a0", clubs: ["Rotary Club of Sullia", "Rotary Club of Sullia City", "Rotary Club of Bellare Town", "Rotary Club of Birumale Hills"] },
-            { region: "Kodagu Region", bg: "#006064", clubs: ["Rotary Club of Gonikoppal", "Rotary Club of Virajpet", "Rotary Club of Madikeri Woods", "Rotary Club of Madikeri", "Rotary Club of Madikeri Misty Hills", "Rotary Club of Alur", "Rotary Club of Siddapura", "Rotary Club of Shanivarasante", "Rotary Club of Hemavathi", "Rotary Club of Kodlipet", "Rotary Club of Somwarpet Hills", "Rotary Club of Kushalnagar"] },
-            { region: "Mysore Region", bg: "#c17900", clubs: ["Rotary Club of Krishnarajanagar", "Rotary Club of Periyapatna Midtown", "Rotary Club of Periyapatna Icon", "Rotary Club of Hunsur", "Rotary Club of Panchsheel Mysore", "Rotary Club of Ivory City Mysore", "Rotary Club of Krishnaraja Mysore", "Rotary Club of Mysore Shreegandha", "Rotary Club of Mysore Metro E-Club", "Rotary Club of Mysore Center", "Rotary Club of Mysore Midtown", "Rotary Club of Mysore Diamond Central", "Rotary Club of Mysore JP Nagar", "Rotary Club of Mysore East", "Rotary Club of Mysore Elite", "Rotary Club of Mysore West", "Rotary Club of Mysore Royal", "Rotary Club of Mysore Stars", "Rotary Club of HD Kote Heritage Mysore", "Rotary Club of Mysore South East", "Rotary Club of Mysore Brindavan", "Rotary Club of Vijayanagar Mysore", "Rotary Club of Mysore North", "Rotary Club of Mysore Ambari"] },
-            { region: "Chamarajanagar Region", bg: "#33691e", clubs: ["Rotary Club of Chamarajanagar", "Rotary Club of Chamarajanagar Silk City", "Rotary Club of Nanjungud", "Rotary Club of Bannur", "Rotary Club of Yelanduru Greenway", "Rotary Club of Kollegal", "Rotary Club of Kollegal Midtown"] }
+            { region: "Zone 1", bg: "#1a3c8c", clubs: ["Mangalore Sunrise", "Mangalore Central", "Mangalore", "Mangalore Port Town", "Mangalore Coastal", "Surathkal", "Mangalore East", "Mangalore North", "Mangalore Hillside", "Mangalore Seaside", "Mangalore Metro", "Mangalore Midtown", "Mangalore Downtown", "Mangalore South", "Mangalore City", "Deralakatte", "Baikampady", "Mulki", "Bajpe", "Kinnigoli", "Midtown Moodbidri"] },
+            { region: "Zone 6", bg: "#1b5e20", clubs: ["Moodbidri", "Moodbidri Temple Town", "Siddakatte", "Phalguni"] },
+            { region: "Bantwal Region", bg: "#e65100", clubs: ["Bantwal", "Loretto Hills Bantwal", "Bantwal Town", "Belthangady", "Bantwal Madanthyar", "Modankap", "Farangipete", "BC Road City", "Uppinangadi"] },
+            { region: "Zone 3", bg: "#880e4f", clubs: ["Puttur City", "Vittal", "Subramanya", "Puttur", "Puttur Central", "Kadaba Town", "Puttur East", "Puttur Yuva", "Puttur Swarna", "Puttur Elite"] },
+            { region: "Zone 4", bg: "#4527a0", clubs: ["Sullia", "Sullia City", "Bellare Town", "Birumale Hills"] },
+            { region: "Kodagu Region", bg: "#006064", clubs: ["Gonikoppal", "Virajpet", "Madikeri Woods", "Madikeri", "Madikeri Misty Hills", "Alur", "Siddapura", "Shanivarasante", "Hemavathi", "Kodlipet", "Somwarpet Hills", "Kushalnagar"] },
+            { region: "Mysore Region", bg: "#c17900", clubs: ["Krishnarajanagar", "Periyapatna Midtown", "Periyapatna Icon", "Hunsur", "Panchsheel Mysore", "Ivory City Mysore", "Krishnaraja Mysore", "Mysore Shreegandha", "Mysore Metro E-Club", "Mysore Center", "Mysore Midtown", "Mysore Diamond Central", "Mysore JP Nagar", "Mysore East", "Mysore Elite", "Mysore West", "Mysore Royal", "Mysore Stars", "HD Kote Heritage Mysore", "Mysore South East", "Mysore Brindavan", "Vijayanagar Mysore", "Mysore North", "Mysore Ambari"] },
+            { region: "Chamarajanagar Region", bg: "#33691e", clubs: ["Chamarajanagar", "Chamarajanagar Silk City", "Nanjungud", "Bannur", "Yelanduru Greenway", "Kollegal", "Kollegal Midtown"] }
         ];
 
         let cddOpen = false, cddSelected = '';
