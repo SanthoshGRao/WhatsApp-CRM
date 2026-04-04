@@ -2686,8 +2686,18 @@
                     <img src="impact.png" alt="Create Lasting Impact">
                 </div>
                 <div class="pill">District 3181 · Rotary International</div>
-                <h1>Excellence <em>Awards</em> 2025</h1>
-                <p class="hs">Rotary Club · Mysore Region · Official Registration</p>
+                
+                <h1 style="margin-bottom: 4px;">Rotary Anubandha <em>Awards</em> <span style="font-size: 0.6em; font-family: 'Outfit', sans-serif; font-weight: 400; opacity: 0.9;">2025-26</span></h1>
+                
+                <h2 style="font-family: 'Cormorant Garamond', serif; font-size: clamp(22px, 4vw, 32px); color: #fff; margin-bottom: 10px; font-weight: 600; line-height: 1.2;">
+                    <span style="color: var(--gold-l); font-style: italic;">&amp;</span> Janadeepa <span style="opacity: 0.4; font-weight: 300; margin: 0 6px;">|</span> <span style="color: var(--gold-l);">DLTS &amp; CLLS</span> <span style="font-size: 0.65em; font-family: 'Outfit', sans-serif; font-weight: 400; opacity: 0.9;">2026-27</span>
+                </h2>
+                
+                <div style="font-size: 13px; color: rgba(255, 255, 255, 0.8); letter-spacing: 0.3px; margin-bottom: 22px; font-weight: 300;">
+                    (District Trainers Learning Seminar &amp; Club Leaders Learning Seminar)
+                </div>
+                
+                <p class="hs" style="margin-bottom: 24px;">Official Registration Portal</p>
                 <div class="chips">
                     <div class="chip"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"
                             viewBox="0 0 24 24">
@@ -3926,14 +3936,151 @@
 
         // ══ CUSTOM CLUB DROPDOWN ══
         const CDD_DATA = [
-            { region: "Zone 1", bg: "#1a3c8c", clubs: ["Mangalore Sunrise", "Mangalore Central", "Mangalore", "Mangalore Port Town", "Mangalore Coastal", "Surathkal", "Mangalore East", "Mangalore North", "Mangalore Hillside", "Mangalore Seaside", "Mangalore Metro", "Mangalore Midtown", "Mangalore Downtown", "Mangalore South", "Mangalore City", "Deralakatte", "Baikampady", "Mulki", "Bajpe", "Kinnigoli", "Midtown Moodbidri"] },
-            { region: "Zone 6", bg: "#1b5e20", clubs: ["Moodbidri", "Moodbidri Temple Town", "Siddakatte", "Phalguni"] },
-            { region: "Bantwal Region", bg: "#e65100", clubs: ["Bantwal", "Loretto Hills Bantwal", "Bantwal Town", "Belthangady", "Bantwal Madanthyar", "Modankap", "Farangipete", "BC Road City", "Uppinangadi"] },
-            { region: "Zone 3", bg: "#880e4f", clubs: ["Puttur City", "Vittal", "Subramanya", "Puttur", "Puttur Central", "Kadaba Town", "Puttur East", "Puttur Yuva", "Puttur Swarna", "Puttur Elite"] },
-            { region: "Zone 4", bg: "#4527a0", clubs: ["Sullia", "Sullia City", "Bellare Town", "Birumale Hills"] },
-            { region: "Kodagu Region", bg: "#006064", clubs: ["Gonikoppal", "Virajpet", "Madikeri Woods", "Madikeri", "Madikeri Misty Hills", "Alur", "Siddapura", "Shanivarasante", "Hemavathi", "Kodlipet", "Somwarpet Hills", "Kushalnagar"] },
-            { region: "Mysore Region", bg: "#c17900", clubs: ["Krishnarajanagar", "Periyapatna Midtown", "Periyapatna Icon", "Hunsur", "Panchsheel Mysore", "Ivory City Mysore", "Krishnaraja Mysore", "Mysore Shreegandha", "Mysore Metro E-Club", "Mysore Center", "Mysore Midtown", "Mysore Diamond Central", "Mysore JP Nagar", "Mysore East", "Mysore Elite", "Mysore West", "Mysore Royal", "Mysore Stars", "HD Kote Heritage Mysore", "Mysore South East", "Mysore Brindavan", "Vijayanagar Mysore", "Mysore North", "Mysore Ambari"] },
-            { region: "Chamarajanagar Region", bg: "#33691e", clubs: ["Chamarajanagar", "Chamarajanagar Silk City", "Nanjungud", "Bannur", "Yelanduru Greenway", "Kollegal", "Kollegal Midtown"] }
+                  {
+                            "region": "Zone 1",
+                            "bg": "#1a3c8c",
+                            "clubs": [
+                                      "Moodbidri Midtown",
+                                      "Kinnigoli",
+                                      "Bajpe",
+                                      "Mulki"
+                            ]
+                  },
+                  {
+                            "region": "Zone 2",
+                            "bg": "#1b5e20",
+                            "clubs": [
+                                      "Baikampady",
+                                      "Manglore Sunrise",
+                                      "Manglore Central",
+                                      "Manglore Port Town",
+                                      "Manglore Coastal",
+                                      "Surathkal",
+                                      "Manglore East",
+                                      "Mamglore North",
+                                      "Manglore Hillside"
+                            ]
+                  },
+                  {
+                            "region": "Zone 3",
+                            "bg": "#e65100",
+                            "clubs": [
+                                      "Manglore Seaside",
+                                      "Manglore Metro",
+                                      "Manglore Midtown",
+                                      "Manglore",
+                                      "Manglore Downtown",
+                                      "Manglore South",
+                                      "Manglore City",
+                                      "Deralakatte"
+                            ]
+                  },
+                  {
+                            "region": "Zone 4",
+                            "bg": "#880e4f",
+                            "clubs": [
+                                      "Moodbidri",
+                                      "Moodbidri Temple Town",
+                                      "Siddakatte Phalguni",
+                                      "Bantwal Loretto Hills",
+                                      "Bantwal Town",
+                                      "Belthangady",
+                                      "Bantwal",
+                                      "Madanthyar",
+                                      "Modankap",
+                                      "Farangipete",
+                                      "BC Road City",
+                                      "Uppinangadi",
+                                      "Puttur City",
+                                      "Vittal"
+                            ]
+                  },
+                  {
+                            "region": "Zone 5",
+                            "bg": "#4527a0",
+                            "clubs": [
+                                      "Subramanya",
+                                      "Puttur",
+                                      "Puttur Central",
+                                      "Kadaba Town",
+                                      "Puttur East",
+                                      "Puttur Yuva",
+                                      "Puttur Swarna",
+                                      "Puttur Elite",
+                                      "Sullia",
+                                      "Sullia City",
+                                      "Bellare Town",
+                                      "Birumale Hills"
+                            ]
+                  },
+                  {
+                            "region": "Zone 6",
+                            "bg": "#006064",
+                            "clubs": [
+                                      "Gonikoppal",
+                                      "Virajpet",
+                                      "Madikeri Woods",
+                                      "Madikeri",
+                                      "Madikeri Misty Hills",
+                                      "Alur Siddapura",
+                                      "Shanivarasante",
+                                      "Hemavathi Kodlipet",
+                                      "Somwarpet Hills",
+                                      "Kushalnagar",
+                                      "Krishnarajanagar",
+                                      "Periyapatna Midtown",
+                                      "Periyapatna Icon",
+                                      "Hunsur"
+                            ]
+                  },
+                  {
+                            "region": "Zone 7",
+                            "bg": "#c17900",
+                            "clubs": [
+                                      "Panchsheel",
+                                      "Mysore Ivory City",
+                                      "Mysore Krishnaraja",
+                                      "Mysore",
+                                      "Mysore Shreegandha",
+                                      "Mysore Metro",
+                                      "E-Club Mysore Center",
+                                      "Mysore Midtown",
+                                      "Mysore Diamond",
+                                      "Central Mysore",
+                                      "Mysore JP Nagar",
+                                      "Mysore East"
+                            ]
+                  },
+                  {
+                            "region": "Zone 8",
+                            "bg": "#33691e",
+                            "clubs": [
+                                      "Mysore Elite",
+                                      "Mysore West",
+                                      "Mysore Royal",
+                                      "Mysore Stars",
+                                      "HD Kote",
+                                      "Heritage Mysore",
+                                      "Mysore South East",
+                                      "Mysore Brindavan",
+                                      "Vijayanagar Mysore",
+                                      "Mysore North",
+                                      "Mysore Ambari"
+                            ]
+                  },
+                  {
+                            "region": "Zone 9",
+                            "bg": "#827717",
+                            "clubs": [
+                                      "Chamarajanagar",
+                                      "Chamarajanagar Silk City",
+                                      "Nanjungud",
+                                      "Bannur",
+                                      "Yelanduru Greenway",
+                                      "Kollegal",
+                                      "Kollegal Midtown"
+                            ]
+                  }
         ];
 
         let cddOpen = false, cddSelected = '';
