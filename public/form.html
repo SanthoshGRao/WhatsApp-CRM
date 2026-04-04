@@ -39,12 +39,23 @@
             --upi-pale: #f5eeff;
         }
 
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background-color: rgba(0, 51, 102, 0.2); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background-color: rgba(0, 51, 102, 0.4); }
+
         *,
         *::before,
         *::after {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(0, 51, 102, 0.2) transparent;
             box-sizing: border-box;
             margin: 0;
             padding: 0
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
@@ -161,6 +172,64 @@
             color: #fff !important
         }
 
+        @keyframes shake-err {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-6px); }
+            40% { transform: translateX(6px); }
+            60% { transform: translateX(-6px); }
+            80% { transform: translateX(6px); }
+        }
+        .shake-err {
+            animation: shake-err 0.4s ease-in-out;
+        }
+
+        /* ══ SUCCESS PAGE ANIMATIONS ══ */
+        @keyframes successPop {
+            0% { transform: scale(0.5); opacity: 0; }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes drawCheck {
+            0% { stroke-dasharray: 50; stroke-dashoffset: 50; }
+            100% { stroke-dasharray: 50; stroke-dashoffset: 0; }
+        }
+        @keyframes pulseSuccess {
+            0% { box-shadow: 0 0 0 0 rgba(45, 140, 78, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(45, 140, 78, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(45, 140, 78, 0); }
+        }
+        @keyframes slideUpFade {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes bounceInfo {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+        
+        .success-tick {
+            animation: successPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, pulseSuccess 2.5s infinite cubic-bezier(0.66, 0, 0, 1) 1s;
+        }
+        .success-tick svg polyline {
+            stroke-dasharray: 50;
+            stroke-dashoffset: 50;
+            animation: drawCheck 0.6s ease 0.4s forwards;
+        }
+        
+        .stagger-1 { opacity: 0; animation: slideUpFade 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards 0.1s !important; }
+        .stagger-2 { opacity: 0; animation: slideUpFade 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards 0.25s !important; }
+        .stagger-3 { opacity: 0; animation: slideUpFade 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards 0.4s !important; }
+
+        .receipt-card {
+            background: linear-gradient(180deg, #fdfcfb, #f8f9fa) !important;
+            border: 1px solid rgba(0, 51, 102, 0.08) !important;
+            border-radius: 12px !important;
+            padding: 24px 24px 20px !important;
+            position: relative;
+            margin-bottom: 24px !important;
+            box-shadow: inset 0 2px 0 rgba(255,255,255,1), 0 4px 16px rgba(0, 31, 69, 0.04) !important;
+        }
+
         header {
             background: linear-gradient(160deg, var(--navy-d), var(--navy) 55%, var(--navy-m));
             position: relative;
@@ -256,6 +325,20 @@
             padding: 5px 13px;
             color: rgba(255, 255, 255, .82);
             font-size: 12px
+        }
+
+        .header-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .header-logos img {
+            height: clamp(32px, 6vw, 42px);
+            object-fit: contain;
         }
 
         main {
@@ -2303,7 +2386,7 @@
 
         .pay-page-content {
             max-width: 560px;
-            margin: -20px auto 0;
+            margin: -24px auto 0;
             padding: 0 16px 48px;
             position: relative;
             z-index: 1;
@@ -2597,6 +2680,11 @@
             <div class="hpat"></div>
             <div class="hg"></div>
             <div class="hi">
+                <div class="header-logos">
+                    <img src="unite.png" alt="Unite for Good">
+                    <img src="rotary.png" alt="Rotary International">
+                    <img src="impact.png" alt="Create Lasting Impact">
+                </div>
                 <div class="pill">District 3181 · Rotary International</div>
                 <h1>Excellence <em>Awards</em> 2025</h1>
                 <p class="hs">Rotary Club · Mysore Region · Official Registration</p>
@@ -2706,12 +2794,6 @@
                     <div style="margin-bottom:20px">
                         <div class="pst">Guest Details</div>
                         <div class="pc-wrap" id="pcWrap"></div>
-                        <div class="em" id="ecard" style="margin-top:4px"><svg width="12" height="12" fill="none"
-                                stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <circle cx="12" cy="12" r="10" />
-                                <line x1="12" y1="8" x2="12" y2="12" />
-                                <line x1="12" y1="16" x2="12.01" y2="16" />
-                            </svg>Select age &amp; meal for all guests</div>
                     </div>
 
                     <div class="divl"></div>
@@ -2720,18 +2802,17 @@
                     <div class="smb">
                         <div class="smg">
                             <div class="smi">
-                                <div class="smv" id="sAd">1</div>
-                                <div class="sml">ADULTS</div>
-                                <div class="sml" style="color:rgba(255,255,255,.3);font-size:9px">₹1,400</div>
-                            </div>
-                            <div class="smi">
-                                <div class="smv" id="sCh">0</div>
-                                <div class="sml">CHILDREN</div>
-                                <div class="sml" style="color:rgba(255,255,255,.3);font-size:9px">₹900</div>
-                            </div>
-                            <div class="smi">
                                 <div class="smv" id="sPx">1</div>
                                 <div class="sml">TOTAL PAX</div>
+                                <div class="sml" style="color:rgba(255,255,255,.3);font-size:9px">₹1,700 PER PAX</div>
+                            </div>
+                            <div class="smi">
+                                <div class="smv" id="sVg">0</div>
+                                <div class="sml">VEG 🥦</div>
+                            </div>
+                            <div class="smi">
+                                <div class="smv" id="sNv">0</div>
+                                <div class="sml">NON-VEG 🍗</div>
                             </div>
                         </div>
                         <div class="smdiv"></div>
@@ -2758,9 +2839,8 @@
 
                 </div>
             </div>
-    </div>
-    </main>
-    <footer>Rotary Anubandha Awards 2026 · District 3181</footer>
+        </main>
+        <footer>Rotary Anubandha Awards 2026 · District 3181</footer>
     </div>
 
     <!-- ══ CONFIRMATION MODAL ══ -->
@@ -2823,19 +2903,46 @@
             </div>
         </nav>
 
-        <div class="pay-page-header">
+        <header>
             <div class="hpat"></div>
             <div class="hg"></div>
-            <h2>Complete <em style="color:var(--gold-l);font-style:normal">Payment</em></h2>
-            <p>3 simple steps to finish your registration</p>
-        </div>
+            <div class="hi">
+                <div class="header-logos">
+                    <img src="unite.png" alt="Unite for Good">
+                    <img src="rotary.png" alt="Rotary International">
+                    <img src="impact.png" alt="Create Lasting Impact">
+                </div>
+                <div class="pill">District 3181 · Rotary International</div>
+                <h1>Excellence <em>Awards</em> 2025</h1>
+                <p class="hs">Rotary Club · Mysore Region · Official Registration</p>
+                <div class="chips">
+                    <div class="chip"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <rect x="3" y="4" width="18" height="18" rx="2" />
+                            <line x1="3" y1="10" x2="21" y2="10" />
+                            <line x1="8" y1="2" x2="8" y2="6" />
+                            <line x1="16" y1="2" x2="16" y2="6" />
+                        </svg>June 20th &amp; 21st, 2026</div>
+                    <div class="chip"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
+                            <circle cx="12" cy="9" r="2.5" />
+                        </svg>Mysore Union, Mysore</div>
+                    <div class="chip"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10" />
+                            <polyline points="12 6 12 12 16 14" />
+                        </svg>Both days</div>
+                </div>
+            </div>
+        </header>
 
         <div class="pay-page-content">
             <!-- Compact Summary Badge -->
             <div class="pay-recap" id="payRecap">
                 <div class="pay-recap-header">
                     <div class="pay-recap-title">Registration Summary</div>
-                    <div class="pay-recap-amount" id="payRecapAmount">₹ 1,400</div>
+                    <div class="pay-recap-amount" id="payRecapAmount">₹ 1,700</div>
                 </div>
                 <div class="pay-recap-body" id="payRecapBody">
                     <!-- JS injected -->
@@ -2859,7 +2966,7 @@
                                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
                                 <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
                             </svg>
-                            Download QR & Pay <strong id="payStepAmount" style="color:var(--gold);margin-left:4px">₹1,400</strong>
+                            Download QR & Pay <strong id="payStepAmount" style="color:var(--gold);margin-left:4px">₹1,700</strong>
                         </div>
                         <div class="step-desc">Save the QR code, then scan it from any UPI app to pay.</div>
                         <button class="download-qr-btn" id="downloadQRBtn" onclick="triggerQRDownload()">
@@ -2951,29 +3058,59 @@
         <header>
             <div class="hpat"></div>
             <div class="hg"></div>
-            <div class="hi" style="padding-bottom:48px;">
-                <div class="sring" style="width:80px; height:80px; border-radius:50%; background:linear-gradient(135deg, #2d8c4e, #1a7c4a); display:flex; align-items:center; justify-content:center; margin:0 auto 20px; box-shadow:0 8px 24px rgba(45,140,78,0.3);">
-                    <svg width="40" height="40" fill="none" stroke="white" stroke-width="2.5" viewBox="0 0 24 24">
-                        <polyline points="20 6 9 17 4 12"/>
-                    </svg>
+            <div class="hi">
+                <div class="header-logos">
+                    <img src="unite.png" alt="Unite for Good">
+                    <img src="rotary.png" alt="Rotary International">
+                    <img src="impact.png" alt="Create Lasting Impact">
                 </div>
-                <h1 style="color:#fff; margin-bottom:10px;">Registration <em>Received!</em></h1>
-                <p class="hs" style="margin-bottom:0;">Thank you for registering for Rotary Anubandha Awards 2026</p>
+                <div class="pill">District 3181 · Rotary International</div>
+                <h1>Excellence <em>Awards</em> 2025</h1>
+                <p class="hs">Rotary Club · Mysore Region · Official Registration</p>
+                <div class="chips">
+                    <div class="chip"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <rect x="3" y="4" width="18" height="18" rx="2" />
+                            <line x1="3" y1="10" x2="21" y2="10" />
+                            <line x1="8" y1="2" x2="8" y2="6" />
+                            <line x1="16" y1="2" x2="16" y2="6" />
+                        </svg>June 20th &amp; 21st, 2026</div>
+                    <div class="chip"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
+                            <circle cx="12" cy="9" r="2.5" />
+                        </svg>Mysore Union, Mysore</div>
+                    <div class="chip"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10" />
+                            <polyline points="12 6 12 12 16 14" />
+                        </svg>Both days</div>
+                </div>
             </div>
         </header>
 
-        <main>
-            <div class="card" style="max-width:520px;">
+        <main style="flex-direction: column; align-items: center;">
+            <div style="text-align: center; padding: 0 20px 28px; width: 100%; max-width: 520px; z-index: 10;" class="stagger-1">
+                <div class="sring success-tick" style="width:76px; height:76px; border-radius:50%; background:linear-gradient(135deg, #2d8c4e, #1a7c4a); display:flex; align-items:center; justify-content:center; margin:0 auto 18px; box-shadow:0 8px 24px rgba(45,140,78,0.3);">
+                    <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" style="color:white;">
+                        <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                </div>
+                <h2 style="color:var(--navy); font-family:'Cormorant Garamond', serif; font-size:32px; margin-bottom:6px;">Registration <em>Received!</em></h2>
+                <p style="color:var(--muted); font-size:14.5px; margin-bottom:0;">Thank you for registering for Rotary Anubandha Awards 2026</p>
+            </div>
+
+            <div class="card stagger-2" style="max-width:520px; margin-top:0;">
                 <div class="ct" style="justify-content:center;">
                     <div style="text-align:center;">
                         <div class="ct-t">Registration Details</div>
-                        <div class="ct-s">Your registration has been submitted</div>
+                        <div class="ct-s">Your payment has been successfully recorded</div>
                     </div>
                 </div>
-                <div class="fb">
-                    <div style="background:#fff8ec; border:1px solid #e8b84b; border-radius:12px; padding:16px; margin-bottom:24px;">
+                <div class="fb stagger-3">
+                    <div style="background:#fff8ec; border:1px solid #e8b84b; border-radius:12px; padding:16px; margin-bottom:24px; box-shadow: 0 4px 12px rgba(232, 184, 75, 0.08);">
                         <div style="display:flex; align-items:flex-start; gap:12px; text-align:left;">
-                            <div style="color:#c9952a; padding-top:2px;">
+                            <div style="color:#c9952a; padding-top:2px; animation: bounceInfo 2.5s infinite ease-in-out;">
                                 <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                     <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
                                 </svg>
@@ -2984,18 +3121,24 @@
                         </div>
                     </div>
 
-                    <div class="srf" id="sRef" style="background:#f8f9fc; border:1px solid rgba(0,51,102,0.06); border-radius:12px; padding:24px; text-align:left; margin-bottom:24px;">
+                    <div class="srf receipt-card" id="sRef">
                         <!-- JS injected content goes here -->
                     </div>
 
-                    <button class="proceed-btn" onclick="again()" style="background:transparent;color:var(--navy);border:1.5px solid var(--navy-m);box-shadow:none;font-size:14px;">
-                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                            <circle cx="8.5" cy="7" r="4"/>
-                            <line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/>
-                        </svg>
+                    <button class="proceed-btn" onclick="again()" style="background:transparent;color:var(--navy);border:1.5px solid var(--navy-m);box-shadow:none;font-size:14.5px;transition:all 0.3s; margin-top: 10px;" onmouseover="this.style.background='rgba(0,51,102,0.04)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='transparent'; this.style.transform='translateY(0)';">
+                        <span style="display:inline-block; transition:transform 0.3s; margin-right:6px;" id="regAnotherIcon">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="vertical-align: middle; padding-bottom: 2px;">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                <circle cx="8.5" cy="7" r="4"/>
+                                <line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/>
+                            </svg>
+                        </span>
                         Register Another Person
                     </button>
+                    
+                    <div style="text-align:center; margin-top:24px;">
+                        <span style="font-size:11.5px; color:var(--muted); opacity: 0.6;font-weight: 500;">Secured by Rotary District 3181</span>
+                    </div>
                 </div>
             </div>
         </main>
@@ -3136,11 +3279,7 @@
                     <div class="sv2" id="d4">0</div>
                     <div class="sl">Non-Veg Meals 🍗</div>
                 </div>
-                <div class="sc">
-                    <div class="sv2" id="d5">0</div>
-                    <div class="sl">Children (U12)</div>
-                    <div class="ss">₹900 each</div>
-                </div>
+
                 <div class="sc">
                     <div class="sv2" id="d6" style="font-size:22px">₹0</div>
                     <div class="sl">Total Revenue</div>
@@ -3173,8 +3312,6 @@
                                 <th>Zone</th>
                                 <th>Mobile</th>
                                 <th>Pax</th>
-                                <th>Adults</th>
-                                <th>Children</th>
                                 <th>Veg</th>
                                 <th>Non-Veg</th>
                                 <th>UTR</th>
@@ -3202,7 +3339,7 @@
         const UPI_REF_URL = encodeURIComponent('http://npci.org/upi/schema/');
 
         const ADMIN_USER = 's', ADMIN_PASS = 's';
-        const KEY = 'rotary_rea2025', FA = 1400, FC = 900, PP = 15;
+        const KEY = 'rotary_rea2025', FA = 1700, PP = 15;
         let pgN = 1, paymentConfirmed = false, currentUPILink = '';
 
         // ══ ZONE MAP ══
@@ -3252,7 +3389,7 @@
                 regId: currentRegId,
                 amount: calcAmount(),
                 upiLink: currentUPILink,
-                guestCards: cards.map(c => ({ isA: c.isA, isV: c.isV, isN: c.isN })),
+                guestCards: cards.map(c => ({ name: c.name, isV: c.isV, isN: c.isN })),
                 timestamp: Date.now()
             };
             localStorage.setItem(SESSION_KEY, JSON.stringify(session));
@@ -3298,11 +3435,14 @@
             document.getElementById('fp').value = pax;
             buildCards(pax);
 
-            // Restore guest card selections (age & meal)
+            // Restore guest card selections and names
             if (session.guestCards) {
                 session.guestCards.forEach((card, i) => {
                     const idx = i + 1;
-                    if (card.isA !== undefined) setAge(idx, card.isA ? 'a' : 'c');
+                    if (idx > 1 && card.name) {
+                        const gnInput = document.getElementById('gn' + idx);
+                        if (gnInput) gnInput.value = card.name;
+                    }
                     if (card.isV) setMeal(idx, 'v');
                     else if (card.isN) setMeal(idx, 'n');
                 });
@@ -3357,10 +3497,6 @@
         }
 
         function calcAmount() {
-            const cards = getCards();
-            const ad = cards.filter(x => x.isA).length;
-            const ch = cards.filter(x => !x.isA).length;
-            // return ad * FA + ch * FC;
             return 1;
         }
         const isMobile = () => /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
@@ -3373,10 +3509,9 @@
             se('n', !name); se('c', !club);
             se('m', !/^(\+91)?[6-9]\d{9}$/.test(mob));
             const allM = cards.every(c => c.hasMeal);
-            document.getElementById('ecard').classList.toggle('on', !allM);
             if (!name || !club || !/^(\+91)?[6-9]\d{9}$/.test(mob) || !allM) return;
 
-            const amount = 1;
+            const amount = calcAmount();
             if (!amount || isNaN(amount)) {
                 alert("Invalid amount calculation.");
                 return;
@@ -3606,6 +3741,13 @@
         }
 
         function makeCard(i) {
+            const isGuest = i > 1;
+            const nameField = isGuest ? `
+    <div class="field" style="margin-bottom:12px">
+        <label>Guest ${i} Name<span class="req">*</span></label>
+        <input type="text" id="gn${i}" placeholder="Enter guest name" oninput="document.getElementById('gn${i}').classList.remove('er'); const egn = document.getElementById('egn${i}'); if(egn) egn.classList.remove('on');" class="pxi" style="text-align:left; padding: 12px 15px !important; border: 1.5px solid var(--border) !important; width: 100%; box-shadow: none !important; font-size: 14px; font-weight: 500;" />
+        <div class="em" id="egn${i}">Please enter Guest ${i} name</div>
+    </div>` : '';
             const d2 = document.createElement('div'); d2.className = 'pc';
             d2.innerHTML = `
   <div class="pch">
@@ -3613,27 +3755,10 @@
       <div class="pcbdg">${i}</div>
       <div class="pclbl">Guest ${i}</div>
     </div>
-    <div class="pctag ad" id="pt${i}">₹1,400</div>
+    <div class="pctag ad" id="pt${i}">₹1,700</div>
   </div>
   <div class="pcb">
-    <div class="atog" style="margin-bottom:12px">
-      <label class="ao sa" id="aa${i}" onclick="setAge(${i},'a')">
-        <input type="radio" name="age${i}" checked/>
-        <div class="adot"></div>
-        <div>
-          <div style="font-size:13px;font-weight:500">Adult (12+)</div>
-          <div style="font-size:10.5px;opacity:.65;margin-top:1px">₹1,400 per person</div>
-        </div>
-      </label>
-      <label class="ao" id="ac${i}" onclick="setAge(${i},'c')">
-        <input type="radio" name="age${i}"/>
-        <div class="adot"></div>
-        <div>
-          <div style="font-size:13px;font-weight:500">Child (U12)</div>
-          <div style="font-size:10.5px;opacity:.65;margin-top:1px">₹900 per person</div>
-        </div>
-      </label>
-    </div>
+    ${nameField}
     <div class="meal-section-label">
       <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
       Meal Preference
@@ -3658,45 +3783,43 @@
         </div>
       </label>
     </div>
+    <div class="em" id="eml${i}" style="margin-top: 8px;">Please select meal preference</div>
   </div>`;
             return d2;
         }
 
-        function setAge(i, t) {
-            document.getElementById('aa' + i).className = 'ao' + (t === 'a' ? ' sa' : '');
-            document.getElementById('ac' + i).className = 'ao' + (t === 'c' ? ' sc' : '');
-            document.getElementById('pt' + i).textContent = t === 'a' ? '₹1,400' : '₹900';
-            document.getElementById('pt' + i).className = 'pctag ' + (t === 'a' ? 'ad' : 'ch');
-            calcSum(); updateUPIBox();
-        }
         function setMeal(i, t) {
             document.getElementById('mv' + i).className = 'mo' + (t === 'v' ? ' sv' : '');
             document.getElementById('mn' + i).className = 'mo' + (t === 'n' ? ' sn' : '');
+            const eml = document.getElementById('eml' + i);
+            if (eml) eml.classList.remove('on');
             calcSum();
         }
 
         function getCards() {
             const n = +document.getElementById('fp').value, c = [];
             for (let i = 1; i <= n; i++) {
-                const aa = document.getElementById('aa' + i); if (!aa) continue;
                 const mv = document.getElementById('mv' + i), mn = document.getElementById('mn' + i);
-                c.push({ i, isA: aa.classList.contains('sa'), hasMeal: mv.classList.contains('sv') || mn.classList.contains('sn'), isV: mv.classList.contains('sv'), isN: mn.classList.contains('sn') });
+                if (!mv || !mn) continue;
+                const nameInp = document.getElementById('gn' + i);
+                const paxName = i === 1 ? document.getElementById('fn').value.trim() : (nameInp ? nameInp.value.trim() : '');
+                c.push({ i, name: paxName, hasMeal: mv.classList.contains('sv') || mn.classList.contains('sn'), isV: mv.classList.contains('sv'), isN: mn.classList.contains('sn') });
             }
             return c;
         }
 
         function calcSum() {
-            const c = getCards(), ad = c.filter(x => x.isA).length, ch = c.filter(x => !x.isA).length;
+            const c = getCards();
             const vg = c.filter(x => x.isV).length, nv = c.filter(x => x.isN).length;
-            const tot = ad * FA + ch * FC;
-            document.getElementById('sAd').textContent = ad;
-            document.getElementById('sCh').textContent = ch;
-            document.getElementById('sPx').textContent = c.length;
-            document.getElementById('sTot').textContent = '₹ ' + tot.toLocaleString('en-IN');
-            const p = []; if (ad) p.push(ad + '×₹1,400'); if (ch) p.push(ch + '×₹900');
-            document.getElementById('sBrk').textContent = p.join(' + ');
-            const m = []; if (vg) m.push(vg + ' 🥦'); if (nv) m.push(nv + ' 🍗');
-            document.getElementById('sMs').textContent = m.join('  ');
+            const tot = c.length * FA;
+            
+            const sPxEl = document.getElementById('sPx'); if(sPxEl) sPxEl.textContent = c.length;
+            const sVgEl = document.getElementById('sVg'); if(sVgEl) sVgEl.textContent = vg;
+            const sNvEl = document.getElementById('sNv'); if(sNvEl) sNvEl.textContent = nv;
+            const sTotEl = document.getElementById('sTot'); if(sTotEl) sTotEl.textContent = '₹ ' + tot.toLocaleString('en-IN');
+            
+            const sBrkEl = document.getElementById('sBrk'); if(sBrkEl) sBrkEl.textContent = c.length + '×₹1,700';
+            const sMsEl = document.getElementById('sMs'); if(sMsEl) sMsEl.textContent = '';
         }
 
         // ══ CUSTOM CLUB DROPDOWN ══
@@ -3942,16 +4065,85 @@
         }
 
         // ══ THREE-PAGE FLOW FUNCTIONS ══
-        async function proceedToPayment() {
+        function validateRegistration() {
             const name = document.getElementById('fn').value.trim();
             const club = document.getElementById('fc').value;
             const mob = document.getElementById('fm').value.trim().replace(/[\s\-]/g, '');
             const cards = getCards();
+            const numPax = +document.getElementById('fp').value;
+            
             se('n', !name); se('c', !club);
-            se('m', !/^(\+91)?[6-9]\d{9}$/.test(mob));
+            const isValidMob = /^(\+91)?[6-9]\d{9}$/.test(mob);
+            se('m', !isValidMob);
+            
             const allM = cards.every(c => c.hasMeal);
-            document.getElementById('ecard').classList.toggle('on', !allM);
-            if (!name || !club || !/^(\+91)?[6-9]\d{9}$/.test(mob) || !allM) return;
+            
+            let allNames = true;
+            let firstErrEl = null;
+
+            if (!name) firstErrEl = firstErrEl || document.getElementById('fn');
+            if (!club) firstErrEl = firstErrEl || document.getElementById('cddTrig');
+            if (!isValidMob) firstErrEl = firstErrEl || document.getElementById('fm');
+
+            for (let i = 2; i <= numPax; i++) {
+                const gnInput = document.getElementById('gn' + i);
+                const egn = document.getElementById('egn' + i);
+                if (gnInput && !gnInput.value.trim()) {
+                    gnInput.classList.add('er');
+                    if (egn) egn.classList.add('on');
+                    allNames = false;
+                    firstErrEl = firstErrEl || gnInput;
+                } else if (gnInput) {
+                    gnInput.classList.remove('er');
+                    if (egn) egn.classList.remove('on');
+                }
+            }
+
+            for (let i = 1; i <= numPax; i++) {
+                const mv = document.getElementById('mv' + i);
+                const mn = document.getElementById('mn' + i);
+                const eml = document.getElementById('eml' + i);
+                if (mv && mn && !mv.classList.contains('sv') && !mn.classList.contains('sn')) {
+                    if (eml) eml.classList.add('on');
+                    firstErrEl = firstErrEl || (document.getElementById('eml' + i) || mv);
+                } else if (eml) {
+                    eml.classList.remove('on');
+                }
+            }
+
+            const isValid = !!(name && club && isValidMob && allM && allNames);
+
+            if (!isValid) {
+                let errLog = [];
+                if (!name) errLog.push("Primary Name");
+                if (!club) errLog.push("Club Selection");
+                if (!isValidMob) errLog.push("Mobile Number (Make sure it starts with 6-9)");
+                if (!allM) errLog.push("Meal Preference (For all guests)");
+                if (!allNames) errLog.push("Guest Names");
+                window.lastValidationError = errLog.join(", ");
+            }
+
+            if (!isValid && firstErrEl) {
+                firstErrEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                firstErrEl.classList.remove('shake-err');
+                void firstErrEl.offsetWidth; // Trigger reflow to restart animation
+                firstErrEl.classList.add('shake-err');
+                if (firstErrEl.focus) {
+                    setTimeout(() => {
+                        firstErrEl.focus({ preventScroll: true });
+                    }, 400); // Prevent focus from interrupting the smooth scroll
+                }
+            }
+
+            return isValid;
+        }
+
+        async function proceedToPayment() {
+            if (!validateRegistration()) return;
+            const name = document.getElementById('fn').value.trim();
+            const club = document.getElementById('fc').value;
+            const mob = document.getElementById('fm').value.trim().replace(/[\s\-]/g, '');
+            const cards = getCards();
 
             // Check for duplicate mobile number in database
             const procBtn = document.getElementById('proceedBtn');
@@ -3978,15 +4170,29 @@
             procBtn.innerHTML = '<svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg> Proceed to Payment';
 
             const zone = document.getElementById('fz').value || getZone(club) || '—';
-            const ad = cards.filter(c => c.isA).length, ch = cards.filter(c => !c.isA).length;
             const vg = cards.filter(c => c.isV).length, nv = cards.filter(c => c.isN).length;
             const amount = calcAmount();
+            const guestBlockHTML = `
+                <div style="margin: 12px 0; padding: 12px; background: #fdfaf4; border-radius: 8px; border: 1px solid #efe9d9;">
+                    <div style="font-size:11.5px; font-weight:700; color:var(--muted); margin-bottom:10px; text-transform:uppercase; letter-spacing:0.5px;">Guest List</div>
+                    <div style="display:flex; flex-direction:column; gap:8px;">
+                        ${cards.map(c => `
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <span style="font-weight:600; color:var(--navy); font-size:13.5px;">${c.name || 'N/A'}</span>
+                                <span style="display:inline-flex; align-items:center; gap:4px; font-size:11px; font-weight:600; padding:3px 8px; border-radius:6px; background:${c.isV ? 'var(--veg-bg)' : 'var(--nveg-bg)'}; color:${c.isV ? 'var(--veg)' : 'var(--nveg)'}; border:1px solid ${c.isV ? 'var(--veg-b)' : 'var(--nveg-b)'};">${c.isV ? '🥦 Veg' : '🍗 Non-Veg'}</span>
+                            </div>
+                        `).join('<div style="height:1px; background:#efe9d9; width:100%; margin: 1px 0;"></div>')}
+                    </div>
+                </div>
+            `;
+            
             document.getElementById('modalDetails').innerHTML = `
                 <div class="modal-detail-row"><span class="modal-detail-label">Name</span><span class="modal-detail-value">${name}</span></div>
                 <div class="modal-detail-row"><span class="modal-detail-label">Club</span><span class="modal-detail-value">${club}</span></div>
                 <div class="modal-detail-row"><span class="modal-detail-label">Zone</span><span class="modal-detail-value">${zone}</span></div>
                 <div class="modal-detail-row"><span class="modal-detail-label">Mobile</span><span class="modal-detail-value">${mob}</span></div>
-                <div class="modal-detail-row"><span class="modal-detail-label">Pax</span><span class="modal-detail-value">${cards.length} (${ad} adult${ad!==1?'s':''}, ${ch} child${ch!==1?'ren':''})</span></div>
+                <div class="modal-detail-row"><span class="modal-detail-label">Pax</span><span class="modal-detail-value">${cards.length}</span></div>
+                ${guestBlockHTML}
                 <div class="modal-detail-row"><span class="modal-detail-label">Meals</span><span class="modal-detail-value">${vg} Veg 🥦, ${nv} Non-Veg 🍗</span></div>
                 <div class="modal-detail-row"><span class="modal-detail-label">Amount</span><span class="modal-detail-value" style="font-size:18px;color:var(--gold-d);">₹${amount.toLocaleString('en-IN')}</span></div>`;
             document.getElementById('confirmModal').classList.add('active');
@@ -4004,8 +4210,20 @@
             const club = document.getElementById('fc').value;
             const zone = document.getElementById('fz').value || getZone(club) || '—';
             const cards = getCards();
-            const ad = cards.filter(c => c.isA).length, ch = cards.filter(c => !c.isA).length;
             const vg = cards.filter(c => c.isV).length, nv = cards.filter(c => c.isN).length;
+            const guestBlockHTML = `
+                <div style="margin: 12px 0; padding: 12px; background: #fdfaf4; border-radius: 8px; border: 1px solid #efe9d9;">
+                    <div style="font-size:11.5px; font-weight:700; color:var(--muted); margin-bottom:10px; text-transform:uppercase; letter-spacing:0.5px;">Guest List</div>
+                    <div style="display:flex; flex-direction:column; gap:8px;">
+                        ${cards.map(c => `
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <span style="font-weight:600; color:var(--navy); font-size:13.5px;">${c.name || 'N/A'}</span>
+                                <span style="display:inline-flex; align-items:center; gap:4px; font-size:11px; font-weight:600; padding:3px 8px; border-radius:6px; background:${c.isV ? 'var(--veg-bg)' : 'var(--nveg-bg)'}; color:${c.isV ? 'var(--veg)' : 'var(--nveg)'}; border:1px solid ${c.isV ? 'var(--veg-b)' : 'var(--nveg-b)'};">${c.isV ? '🥦 Veg' : '🍗 Non-Veg'}</span>
+                            </div>
+                        `).join('<div style="height:1px; background:#efe9d9; width:100%; margin: 1px 0;"></div>')}
+                    </div>
+                </div>
+            `;
             const trRef = currentRegId + Date.now().toString().slice(-6);
             currentUPILink = `upi://pay?pa=${UPI_ID}&pn=${UPI_NAME}&mc=${UPI_MC}&tr=${trRef}&am=${amount}&mam=${amount}&cu=INR&refUrl=${UPI_REF_URL}&tn=${currentRegId}`;
             const qrc = document.getElementById('qrcode'); qrc.innerHTML = '';
@@ -4015,7 +4233,8 @@
                 <div class="pay-recap-row"><span>Name</span><strong>${name}</strong></div>
                 <div class="pay-recap-row"><span>Club</span><strong>${club}</strong></div>
                 <div class="pay-recap-row"><span>Zone</span><strong>${zone}</strong></div>
-                <div class="pay-recap-row"><span>Pax</span><strong>${cards.length} (${ad}A + ${ch}C)</strong></div>
+                <div class="pay-recap-row"><span>Pax</span><strong>${cards.length}</strong></div>
+                ${guestBlockHTML}
                 <div class="pay-recap-row"><span>Meals</span><strong>${vg}🥦 ${nv}🍗</strong></div>
                 <div class="pay-recap-row"><span>Reg ID</span><strong style="color:#5f259f;font-family:monospace;">${currentRegId}</strong></div>`;
             document.getElementById('payStepAmount').textContent = '₹' + amount.toLocaleString('en-IN');
@@ -4047,22 +4266,24 @@
                 currentRegId = 'REA' + Date.now().toString().slice(-6) + Math.floor(Math.random() * 100).toString().padStart(2, "0");
             }
 
+            if (!validateRegistration()) {
+                const failReason = window.lastValidationError || "Unknown Form details missing";
+                alert("Validation failed! The following details are missing or invalid:\n\n- " + failReason + "\n\nYou will be sent back to the form to correct this.");
+                go('pgReg');
+                return;
+            }
             const name = document.getElementById('fn').value.trim();
             const club = document.getElementById('fc').value;
             const zone = document.getElementById('fz').value || getZone(club) || '—';
             const mob = document.getElementById('fm').value.trim().replace(/[\s\-]/g, '');
             const pax = +document.getElementById('fp').value;
             const cards = getCards();
-            se('n', !name); se('c', !club);
-            se('m', !/^(\+91)?[6-9]\d{9}$/.test(mob));
-            const allM = cards.every(c => c.hasMeal);
-            document.getElementById('ecard').classList.toggle('on', !allM);
-            if (!name || !club || !/^(\+91)?[6-9]\d{9}$/.test(mob) || !allM) return;
 
-            const ad = cards.filter(c => c.isA).length, ch = cards.filter(c => !c.isA).length;
             const vg = cards.filter(c => c.isV).length, nv = cards.filter(c => c.isN).length;
             const amount = calcAmount(); // Real amount
-            const gd = cards.map((c, i) => `Guest ${i + 1}: ${c.isA ? 'Adult' : 'Child'} / ${c.isV ? 'Veg' : 'Non-Veg'}`).join(' | ');
+            const gnArr = cards.slice(1).map(c => c.name).filter(x=>x);
+            const gnStr = gnArr.length ? gnArr.join(', ') : null;
+            const gd = cards.map(c => `${c.name || 'N/A'}: ${c.isV ? 'Veg' : 'Non-Veg'}`).join('\n');
 
             const subBtn = document.getElementById('subBtn');
             if (subBtn) { subBtn.disabled = true; subBtn.innerHTML = '⏳ Submitting...'; }
@@ -4073,7 +4294,7 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         registrationId: currentRegId,
-                        name, club, zone, mobile: mob, pax, adults: ad, children: ch,
+                        name, club, zone, mobile: mob, pax, guestNames: gnStr,
                         vegCount: vg, nvegCount: nv, amount, guestDetails: gd,
                         paymentId: utrNumber
                     })
@@ -4083,17 +4304,28 @@
 
                 const regId = currentRegId;
                 const d = load();
-                d.push({ id: regId, name, club, zone, mobile: mob, pax, adults: ad, children: ch, vegCount: vg, nvegCount: nv, utr: utrNumber, amount, guestDetails: gd, timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) });
+                d.push({ id: regId, name, club, zone, mobile: mob, pax, guestNames: gnStr, vegCount: vg, nvegCount: nv, utr: utrNumber, amount, guestDetails: gd, timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) });
                 save(d);
                 fetchRegCount();
                 clearSession(); // Clear saved session after successful submission
                 document.getElementById('sRef').innerHTML = `
-        <div style="display:flex; justify-content:space-between; margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid rgba(0,0,0,0.05);"><span style="color:var(--muted); font-size:13px;">Registration ID</span><strong style="color:var(--navy); font-size:14px;">${regId}</strong></div>
-        <div style="display:flex; justify-content:space-between; margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid rgba(0,0,0,0.05);"><span style="color:var(--muted); font-size:13px;">Name</span><strong style="color:var(--navy); font-size:14px; text-align:right;">${name}</strong></div>
-        <div style="display:flex; justify-content:space-between; margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid rgba(0,0,0,0.05);"><span style="color:var(--muted); font-size:13px;">Club</span><strong style="color:var(--navy); font-size:14px; text-align:right;">${club}</strong></div>
-        <div style="display:flex; justify-content:space-between; margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid rgba(0,0,0,0.05);"><span style="color:var(--muted); font-size:13px;">Mobile</span><strong style="color:var(--navy); font-size:14px; text-align:right;">${mob}</strong></div>
-        <div style="display:flex; justify-content:space-between; margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid rgba(0,0,0,0.05);"><span style="color:var(--muted); font-size:13px;">Pax</span><strong style="color:var(--navy); font-size:14px; text-align:right;">${pax} (${ad} adult${ad !== 1 ? 's' : ''}, ${ch} child${ch !== 1 ? 'ren' : ''})</strong></div>
-        <div style="display:flex; justify-content:space-between; margin-bottom:0; padding-bottom:0; border-bottom:none;"><span style="color:var(--muted); font-size:13px;">Amount Payable</span><strong style="color:var(--gold-d); font-size:16px;">₹${amount.toLocaleString('en-IN')}</strong></div>`;
+        <div style="display:flex; justify-content:space-between; margin-bottom:14px; padding-bottom:14px; border-bottom:1px dashed rgba(0,51,102,0.1);"><span style="color:var(--muted); font-size:13px; text-transform:uppercase; letter-spacing:0.5px;">Registration ID</span><strong style="color:var(--navy); font-size:14px; background:rgba(0,51,102,0.06); padding:4px 8px; border-radius:6px; letter-spacing: 0.5px;">${regId}</strong></div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:12px; align-items:center;"><span style="color:var(--muted); font-size:13.5px;">Name</span><strong style="color:var(--navy); font-size:14.5px; text-align:right;">${name}</strong></div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:12px; align-items:center;"><span style="color:var(--muted); font-size:13.5px;">Club</span><strong style="color:var(--navy); font-size:14.5px; text-align:right;">${club}</strong></div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:12px; align-items:center;"><span style="color:var(--muted); font-size:13.5px;">Mobile</span><strong style="color:var(--navy); font-size:14.5px; text-align:right;">${mob}</strong></div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:12px; align-items:center;"><span style="color:var(--muted); font-size:13.5px;">Pax</span><strong style="color:var(--navy); font-size:14.5px; text-align:right;">${pax}</strong></div>
+        <div style="margin: 12px 0 16px 0; padding: 12px; background: #fdfaf4; border-radius: 8px; border: 1px solid #efe9d9;">
+            <div style="font-size:11.5px; font-weight:700; color:var(--muted); margin-bottom:10px; text-transform:uppercase; letter-spacing:0.5px;">Guest List</div>
+            <div style="display:flex; flex-direction:column; gap:8px;">
+                ${cards.map(c => `
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span style="font-weight:600; color:var(--navy); font-size:13.5px;">${c.name || 'N/A'}</span>
+                        <span style="display:inline-flex; align-items:center; gap:4px; font-size:11px; font-weight:600; padding:3px 8px; border-radius:6px; background:${c.isV ? 'var(--veg-bg)' : 'var(--nveg-bg)'}; color:${c.isV ? 'var(--veg)' : 'var(--nveg)'}; border:1px solid ${c.isV ? 'var(--veg-b)' : 'var(--nveg-b)'};">${c.isV ? '🥦 Veg' : '🍗 Non-Veg'}</span>
+                    </div>
+                `).join('<div style="height:1px; background:#efe9d9; width:100%; margin: 1px 0;"></div>')}
+            </div>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:0; padding-top:16px; border-top:1px dashed rgba(0,51,102,0.1); align-items:center;"><span style="color:var(--navy); font-size:13.5px; font-weight:600;">Amount Paid</span><strong style="color:var(--gold-d); font-size:22px;">₹${amount.toLocaleString('en-IN')}</strong></div>`;
                 go('pgConfirm');
             } catch (e) {
                 alert('Registration failed: ' + e.message + '\n\nPlease try again or contact support.');
@@ -4147,17 +4379,15 @@
         function renderDash() {
             const d = load();
             const pax = d.reduce((s, r) => s + (+r.pax || 0), 0);
-            const adults = d.reduce((s, r) => s + (+r.adults || 0), 0);
-            const child = d.reduce((s, r) => s + (+r.children || 0), 0);
             const veg = d.reduce((s, r) => s + (+r.vegCount || 0), 0);
             const nveg = d.reduce((s, r) => s + (+r.nvegCount || 0), 0);
             const amt = d.reduce((s, r) => s + (+r.amount || 0), 0);
             document.getElementById('d1').textContent = d.length;
             document.getElementById('d2').textContent = pax;
-            document.getElementById('d2s').textContent = adults + ' adults · ' + child + ' children';
+            const d2sEl = document.getElementById('d2s'); if (d2sEl) d2sEl.textContent = '₹1,700 per pax';
             document.getElementById('d3').textContent = veg;
             document.getElementById('d4').textContent = nveg;
-            document.getElementById('d5').textContent = child;
+            const d5El = document.getElementById('d5'); if (d5El) d5El.textContent = '0';
             document.getElementById('d6').textContent = '₹' + amt.toLocaleString('en-IN');
             pgN = 1; renderTable();
         }
@@ -4181,8 +4411,6 @@
         <td><span style="background:${col.bg};color:${col.color};font-size:10.5px;font-weight:600;padding:2px 8px;border-radius:10px;white-space:nowrap">${r.zone || '—'}</span></td>
         <td class="tmu">${r.mobile}</td>
         <td style="font-weight:700;color:var(--navy)">${r.pax}</td>
-        <td>${r.adults || 0}</td>
-        <td>${r.children || 0 ? `<span class="bdg c">👶 ${r.children}</span>` : '—'}</td>
         <td>${r.vegCount || 0 ? `<span class="bdg v">🥦 ${r.vegCount}</span>` : '—'}</td>
         <td>${r.nvegCount || 0 ? `<span class="bdg n">🍗 ${r.nvegCount}</span>` : '—'}</td>
         <td class="tmu" style="font-size:11.5px;font-weight:600;color:#7c3aed">${r.utr || '—'}</td>
@@ -4208,8 +4436,8 @@
         function dlCSV() {
             const d = load();
             if (!d.length) { alert('No registrations yet.'); return; }
-            const h = ['Reg ID', 'Name', 'Club', 'Zone', 'Mobile', 'Pax', 'Adults', 'Children', 'Veg', 'Non-Veg', 'UTR / Txn ID', 'Amount (₹)', 'Guest Details', 'Registered At'];
-            const rows = d.map(r => [r.id, r.name, r.club, r.zone || '', r.mobile, r.pax, r.adults, r.children, r.vegCount, r.nvegCount, r.utr || '', r.amount, r.guestDetails, r.timestamp].map(v => '"' + String(v || 0).replace(/"/g, '""') + '"').join(','));
+            const h = ['Reg ID', 'Name', 'Club', 'Zone', 'Mobile', 'Pax', 'Veg', 'Non-Veg', 'UTR / Txn ID', 'Amount (₹)', 'Guest Details', 'Registered At'];
+            const rows = d.map(r => [r.id, r.name, r.club, r.zone || '', r.mobile, r.pax, r.vegCount, r.nvegCount, r.utr || '', r.amount, r.guestDetails, r.timestamp].map(v => '"' + String(v || 0).replace(/"/g, '""') + '"').join(','));
             const csv = [h.join(','), ...rows].join('\r\n');
             const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' })), download: 'Rotary_Excellence_Awards_2025.csv' });
             a.click();

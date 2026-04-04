@@ -12,29 +12,33 @@
     "db:seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
-    "next": "^15.2.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "@napi-rs/canvas": "^0.1.97",
     "@prisma/client": "^6.4.0",
     "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^9.0.2",
-    "nodemailer": "^6.9.0",
-    "razorpay": "^2.9.0",
     "jspdf": "^2.5.2",
-    "jspdf-autotable": "^3.8.0"
+    "jspdf-autotable": "^3.8.0",
+    "next": "^15.2.0",
+    "nodemailer": "^6.9.0",
+    "pdf-parse": "^2.4.5",
+    "razorpay": "^2.9.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/node": "^22.0.0",
     "@types/nodemailer": "^6.4.0",
+    "@types/pdf-parse": "^1.1.5",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "typescript": "^5.7.0",
+    "eslint": "^9.0.0",
+    "eslint-config-next": "^15.2.0",
     "prisma": "^6.4.0",
     "tsx": "^4.0.0",
-    "eslint": "^9.0.0",
-    "eslint-config-next": "^15.2.0"
+    "typescript": "^5.7.0"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"

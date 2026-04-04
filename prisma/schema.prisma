@@ -28,8 +28,7 @@ model Registration {
   mobile          String
   whatsappNumber  String?
   pax             Int
-  adults          Int      @default(0)
-  children        Int      @default(0)
+  guestNames      String?
   vegCount        Int      @default(0)
   nvegCount       Int      @default(0)
   amount          Float    @default(0)

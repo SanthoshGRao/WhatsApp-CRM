@@ -13,20 +13,27 @@ export async function GET(request: NextRequest) {
     const page = parseInt(searchParams.get("page") || "1");
     const limit = parseInt(searchParams.get("limit") || "10");
     const search = searchParams.get("search") || "";
+    const filterStatus = searchParams.get("status") || "";
+    const filterZone = searchParams.get("zone") || "";
+    const filterClub = searchParams.get("club") || "";
     const sortBy = searchParams.get("sortBy") || "createdAt";
     const sortOrder = searchParams.get("sortOrder") === "asc" ? "asc" : "desc";
 
-    const where = search
+    const where: any = search
       ? {
           OR: [
-            { name: { contains: search, mode: "insensitive" as const } },
-            { club: { contains: search, mode: "insensitive" as const } },
+            { name: { contains: search, mode: "insensitive" } },
+            { club: { contains: search, mode: "insensitive" } },
             { mobile: { contains: search } },
-            { registrationId: { contains: search, mode: "insensitive" as const } },
-            { zone: { contains: search, mode: "insensitive" as const } },
+            { registrationId: { contains: search, mode: "insensitive" } },
+            { zone: { contains: search, mode: "insensitive" } },
           ],
         }
       : {};
+
+    if (filterStatus) where.paymentStatus = filterStatus;
+    if (filterZone) where.zone = filterZone;
+    if (filterClub) where.club = filterClub;
 
     const [registrations, total] = await Promise.all([
       prisma.registration.findMany({
@@ -48,8 +55,6 @@ export async function GET(request: NextRequest) {
       _count: { id: true },
       _sum: {
         pax: true,
-        adults: true,
-        children: true,
         vegCount: true,
         nvegCount: true,
         amount: true,
@@ -71,8 +76,6 @@ export async function GET(request: NextRequest) {
       stats: {
         totalRegistrations: stats._count.id,
         totalPax: stats._sum.pax || 0,
-        totalAdults: stats._sum.adults || 0,
-        totalChildren: stats._sum.children || 0,
         totalVeg: stats._sum.vegCount || 0,
         totalNveg: stats._sum.nvegCount || 0,
         totalRevenue: stats._sum.amount || 0,

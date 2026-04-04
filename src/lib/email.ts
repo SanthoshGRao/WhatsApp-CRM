@@ -2,10 +2,11 @@ import nodemailer from "nodemailer";
 import { prisma } from "./prisma";
 
 function getTransporter() {
+  const port = parseInt(process.env.SMTP_PORT || "587");
   return nodemailer.createTransport({
     host: process.env.SMTP_HOST || "smtp.gmail.com",
-    port: parseInt(process.env.SMTP_PORT || "587"),
-    secure: false,
+    port: port,
+    secure: port === 465,
     auth: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS,
@@ -21,8 +22,7 @@ interface RegistrationData {
   zone?: string | null;
   mobile: string;
   pax: number;
-  adults: number;
-  children: number;
+  guestNames?: string | null;
   vegCount: number;
   nvegCount: number;
   amount: number;
@@ -53,7 +53,7 @@ export async function sendAdminNotification(data: RegistrationData): Promise<voi
             <tr><td style="padding: 8px; color: #6b7280; font-size: 13px;">Club</td><td style="padding: 8px;">${data.club}</td></tr>
             <tr style="background: #faf8f3;"><td style="padding: 8px; color: #6b7280; font-size: 13px;">Zone</td><td style="padding: 8px;">${data.zone || "—"}</td></tr>
             <tr><td style="padding: 8px; color: #6b7280; font-size: 13px;">Mobile</td><td style="padding: 8px;">${data.mobile}</td></tr>
-            <tr style="background: #faf8f3;"><td style="padding: 8px; color: #6b7280; font-size: 13px;">Pax</td><td style="padding: 8px; font-weight: 700;">${data.pax} (${data.adults} adults, ${data.children} children)</td></tr>
+            <tr style="background: #faf8f3;"><td style="padding: 8px; color: #6b7280; font-size: 13px;">Pax</td><td style="padding: 8px; font-weight: 700;">${data.pax} ${data.guestNames ? `(Guests: ${data.guestNames})` : ''}</td></tr>
             <tr><td style="padding: 8px; color: #6b7280; font-size: 13px;">Meals</td><td style="padding: 8px;">🥦 ${data.vegCount} Veg &nbsp; 🍗 ${data.nvegCount} Non-Veg</td></tr>
             <tr style="background: #faf8f3;"><td style="padding: 8px; color: #6b7280; font-size: 13px;">Amount</td><td style="padding: 8px; font-weight: 700; color: #c9952a; font-size: 18px;">₹${data.amount.toLocaleString("en-IN")}</td></tr>
             <tr><td style="padding: 8px; color: #6b7280; font-size: 13px;">Payment ID</td><td style="padding: 8px; font-size: 12px; color: #1a7c4a;">${data.paymentId || "N/A"}</td></tr>

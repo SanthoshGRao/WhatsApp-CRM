@@ -14,14 +14,35 @@ export async function sendWhatsAppTemplate(
   templateOverride?: string
 ): Promise<WhatsAppSendResult> {
   try {
-    // Get active WhatsApp config from database
-    const config = await prisma.whatsAppConfig.findFirst({
+    let config = await prisma.whatsAppConfig.findFirst({
       where: { isActive: true },
     });
 
     if (!config) {
-      return { success: false, error: "No active WhatsApp configuration found" };
+      if (process.env.META_ACCESS_TOKEN && process.env.META_PHONE_NUMBER_ID) {
+        config = {
+          accessToken: process.env.META_ACCESS_TOKEN,
+          phoneNumberId: process.env.META_PHONE_NUMBER_ID,
+          graphBaseUrl: process.env.META_GRAPH_BASE_URL || "https://graph.facebook.com/v24.0",
+          templateName: "welcome_registration",
+        } as any;
+      } else {
+        const errorMsg = "No active WhatsApp configuration found in DB or ENV";
+        try {
+          await prisma.messageLog.create({
+            data: {
+              registrationId,
+              type: "whatsapp",
+              status: "failed",
+              errorMessage: errorMsg,
+            },
+          });
+        } catch (e) {}
+        return { success: false, error: errorMsg };
+      }
     }
+
+    const activeConfig = config!;
 
     // Format phone number - ensure it has country code
     let formattedPhone = phoneNumber.replace(/[\s\-\+]/g, "");
@@ -32,19 +53,19 @@ export async function sendWhatsAppTemplate(
       formattedPhone = "91" + formattedPhone;
     }
 
-    const url = `${config.graphBaseUrl}/${config.phoneNumberId}/messages`;
+    const url = `${activeConfig.graphBaseUrl}/${activeConfig.phoneNumberId}/messages`;
 
     const body = {
       messaging_product: "whatsapp",
       to: formattedPhone,
       type: "template",
       template: {
-        name: templateOverride || config.templateName,
+        name: templateOverride || activeConfig.templateName,
         language: { code: "en" },
         components: [
           {
             type: "body",
-            parameters: (templateOverride || config.templateName) === "rotary_payment_confirmation"
+            parameters: (templateOverride || activeConfig.templateName) === "rotary_payment_confirmation"
               ? [ { type: "text", text: customerName } ]
               : [
                   { type: "text", text: customerName },
@@ -59,7 +80,7 @@ export async function sendWhatsAppTemplate(
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${config.accessToken}`,
+        Authorization: `Bearer ${activeConfig.accessToken}`,
       },
       body: JSON.stringify(body),
     });

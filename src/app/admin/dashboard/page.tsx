@@ -11,8 +11,6 @@ interface Registration {
   zone: string | null;
   mobile: string;
   pax: number;
-  adults: number;
-  children: number;
   vegCount: number;
   nvegCount: number;
   amount: number;
@@ -28,8 +26,6 @@ interface Registration {
 interface Stats {
   totalRegistrations: number;
   totalPax: number;
-  totalAdults: number;
-  totalChildren: number;
   totalVeg: number;
   totalNveg: number;
   totalRevenue: number;
@@ -50,8 +46,17 @@ export default function AdminDashboard() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [selectedReg, setSelectedReg] = useState<Registration | null>(null);
-  const [confirming, setConfirming] = useState(false);
   const [resending, setResending] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [filterStatus, setFilterStatus] = useState("");
+  const [filterZone, setFilterZone] = useState("");
+  const [filterClub, setFilterClub] = useState("");
+  const [notification, setNotification] = useState<{message: string, type: "success" | "error" | "info"} | null>(null);
+
+  const showMessage = (msg: string, type: "success" | "error" | "info" = "info") => {
+    setNotification({ message: msg, type });
+    setTimeout(() => setNotification(null), 4000);
+  };
 
   const resendWhatsApp = async (id: string) => {
     setResending(true);
@@ -63,22 +68,22 @@ export default function AdminDashboard() {
       });
       const data = await res.json();
       if (data.success) {
-        alert("WhatsApp message resent successfully!");
+        showMessage("WhatsApp message resent successfully!", "success");
         setSelectedReg(prev => prev ? { ...prev, whatsappStatus: { status: "sent", error: null } } : null);
-        fetchData(pagination.page, search);
+        fetchData(pagination.page, search, filterStatus, filterZone, filterClub);
       } else {
-        alert("Failed to resend: " + data.error);
+        showMessage("Failed to resend: " + data.error, "error");
       }
     } catch {
-      alert("An error occurred");
+      showMessage("An error occurred", "error");
     }
     setResending(false);
   };
 
-  const fetchData = useCallback(async (page = 1, searchQuery = "") => {
+  const fetchData = useCallback(async (page = 1, searchQuery = "", status = filterStatus, zone = filterZone, club = filterClub) => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/admin/registrations?page=${page}&limit=10&search=${encodeURIComponent(searchQuery)}&sortOrder=desc`);
+      const res = await fetch(`/api/admin/registrations?page=${page}&limit=10&search=${encodeURIComponent(searchQuery)}&status=${encodeURIComponent(status)}&zone=${encodeURIComponent(zone)}&club=${encodeURIComponent(club)}&sortOrder=desc`);
       if (res.status === 401) { router.push("/admin/login"); return; }
       const data = await res.json();
       setRegistrations(data.registrations || []);
@@ -86,39 +91,45 @@ export default function AdminDashboard() {
       setPagination(data.pagination || { page: 1, limit: 10, total: 0, totalPages: 0 });
     } catch { console.error("Failed to fetch"); }
     setLoading(false);
-  }, [router]);
+  }, [router, filterStatus, filterZone, filterClub]);
 
-  useEffect(() => { fetchData(1, ""); }, [fetchData]);
+  useEffect(() => { fetchData(1, "", filterStatus, filterZone, filterClub); }, [fetchData, filterStatus, filterZone, filterClub]);
 
-  const handleSearch = () => fetchData(1, search);
-  const handlePage = (p: number) => fetchData(p, search);
+  const handleSearch = () => fetchData(1, search, filterStatus, filterZone, filterClub);
+  const handlePage = (p: number) => fetchData(p, search, filterStatus, filterZone, filterClub);
 
   const handleLogout = async () => {
     await fetch("/api/auth/logout", { method: "POST" });
     router.push("/admin/login");
   };
 
-  const confirmPayment = async (id: string) => {
-    if (!confirm("Are you sure you want to confirm this payment? This will also send a WhatsApp message to the user.")) return;
-    setConfirming(true);
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!confirm(`Are you sure you want to reconcile payments using ${file.name}?`)) return;
+    
+    setUploading(true);
+    const formData = new FormData();
+    formData.append("file", file);
+    
     try {
-      const res = await fetch("/api/admin/confirm-payment", {
+      const res = await fetch("/api/admin/reconcile-statement", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id }),
+        body: formData,
       });
       const data = await res.json();
       if (data.success) {
-        alert("Payment confirmed & WhatsApp message dispatched!");
-        setSelectedReg(prev => prev ? { ...prev, paymentStatus: "paid" } : null);
-        fetchData(pagination.page, search);
+        showMessage(`Successfully processed. Matched ${data.matched} out of ${data.totalPending} pending payments.`, "success");
+        fetchData(pagination.page, search, filterStatus, filterZone, filterClub);
       } else {
-        alert("Failed to confirm: " + data.error);
+        showMessage("Failed to reconcile: " + data.error, "error");
       }
-    } catch (e) {
-      alert("An error occurred");
+    } catch {
+      showMessage("An error occurred during upload.", "error");
     }
-    setConfirming(false);
+    
+    setUploading(false);
+    e.target.value = ""; // clear input
   };
 
   const downloadCSV = () => {
@@ -146,7 +157,7 @@ export default function AdminDashboard() {
         headStyles: { fillColor: [0, 51, 102] },
       });
       doc.save(`Rotary_Registrations_${new Date().toISOString().split("T")[0]}.pdf`);
-    } catch (err) { console.error("PDF error:", err); alert("Failed to generate PDF"); }
+    } catch (err) { console.error("PDF error:", err); showMessage("Failed to generate PDF", "error"); }
   };
 
   const StatusBadge = ({ status, error }: { status: string; error?: string | null }) => {
@@ -194,7 +205,11 @@ export default function AdminDashboard() {
         <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "22px", color: "#fff", display: "flex", alignItems: "center", gap: "10px" }}>
           <span style={{ color: "#e8b84b" }}></span> Admin Dashboard
         </div>
-        <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+        <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center" }}>
+          <label style={{ ...exportBtn, background: "#27ae60", color: "#fff", cursor: uploading ? "not-allowed" : "pointer" }}>
+            {uploading ? "Processing..." : "Statement Upload (PDF/Excel)"}
+            <input type="file" accept=".pdf,.xlsx,.xls" style={{ display: "none" }} onChange={handleFileUpload} disabled={uploading} />
+          </label>
           <button onClick={downloadCSV} style={exportBtn}> Download CSV</button>
           <button onClick={downloadPDF} style={exportBtn}> Download PDF</button>
         </div>
@@ -206,10 +221,9 @@ export default function AdminDashboard() {
         {stats && (
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(155px, 1fr))", gap: "14px", marginBottom: "24px" }}>
             <StatCard label="Registrations" value={String(stats.totalRegistrations)} sub="" color="#c9952a" />
-            <StatCard label="Total Pax" value={String(stats.totalPax)} sub={`${stats.totalAdults} adults · ${stats.totalChildren} children`} color="#003366" />
+            <StatCard label="Total Pax" value={String(stats.totalPax)} sub="" color="#003366" />
             <StatCard label="Veg Meals" value={String(stats.totalVeg)} sub="" color="#2d8c4e" />
             <StatCard label="Non-Veg Meals" value={String(stats.totalNveg)} sub="" color="#c0392b" />
-            <StatCard label="Children" value={String(stats.totalChildren)} sub="" color="#8e44ad" />
             <StatCard label="Revenue" value={`₹${stats.totalRevenue.toLocaleString("en-IN")}`} sub="" color="#27ae60" />
           </div>
         )}
@@ -220,6 +234,32 @@ export default function AdminDashboard() {
             <div style={{ fontSize: "14px", fontWeight: 600, color: "#1a1a2e", display: "flex", alignItems: "center", gap: "8px" }}>
               Customer List
             </div>
+            
+            <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", marginLeft: "auto", marginRight: "10px" }}>
+              <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)} style={selectStyle}>
+                <option value="">All Statuses</option>
+                <option value="paid">Paid</option>
+                <option value="pending">Pending</option>
+              </select>
+              <select value={filterZone} onChange={e => setFilterZone(e.target.value)} style={selectStyle}>
+                <option value="">All Zones</option>
+                <option value="Mangalore Region">Mangalore Region</option>
+                <option value="BC Road Region">BC Road Region</option>
+                <option value="Puttur Region">Puttur Region</option>
+                <option value="Sullia Region">Sullia Region</option>
+                <option value="Subramanya Region">Subramanya Region</option>
+                <option value="Belthangady Region">Belthangady Region</option>
+                <option value="Moodabidri Region">Moodabidri Region</option>
+                <option value="Karkala Region">Karkala Region</option>
+                <option value="Udupi Region">Udupi Region</option>
+                <option value="Kundapura Region">Kundapura Region</option>
+                <option value="Bhatkal Region">Bhatkal Region</option>
+                <option value="Sirsi Yellapur Region">Sirsi Yellapur Region</option>
+                <option value="Kumta Karwar Region">Kumta Karwar Region</option>
+                <option value="Madikeri Region">Madikeri Region</option>
+              </select>
+            </div>
+            
             <div style={{ display: "flex", alignItems: "center", gap: "8px", background: "#fdfcf9", border: "1.5px solid #ddd5c0", borderRadius: "8px", padding: "7px 13px" }}>
               <svg width="14" height="14" fill="none" stroke="#6b7280" strokeWidth="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
               <input
@@ -284,8 +324,7 @@ export default function AdminDashboard() {
         <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1000, padding: "16px" }}
           onClick={() => setSelectedReg(null)}
         >
-          <style>{`.hide-scrollbar::-webkit-scrollbar { display: none; }`}</style>
-          <div className="hide-scrollbar" style={{ background: "#fff", borderRadius: "16px", maxWidth: "540px", width: "100%", maxHeight: "80vh", overflow: "auto", boxShadow: "0 20px 60px rgba(0,0,0,0.3)", scrollbarWidth: "none", msOverflowStyle: "none" }}
+          <div style={{ background: "#fff", borderRadius: "16px", maxWidth: "540px", width: "100%", maxHeight: "80vh", overflow: "auto", boxShadow: "0 20px 60px rgba(0,0,0,0.3)" }}
             onClick={(e) => e.stopPropagation()}
           >
             <div style={{ background: "linear-gradient(135deg, #001f45, #003366)", padding: "20px 24px", borderRadius: "16px 16px 0 0", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
@@ -300,7 +339,7 @@ export default function AdminDashboard() {
                 ["Club", selectedReg.club],
                 ["Zone", selectedReg.zone || "—"],
                 ["Mobile", selectedReg.mobile],
-                ["Pax", `${selectedReg.pax} (${selectedReg.adults} adults, ${selectedReg.children} children)`],
+                ["Pax", `${selectedReg.pax}`],
                 ["Meals", `🥦 ${selectedReg.vegCount} Veg · 🍗 ${selectedReg.nvegCount} Non-Veg`],
                 ["Amount", `₹${selectedReg.amount.toLocaleString("en-IN")}`],
                 ["Payment ID", selectedReg.paymentId || "—"],
@@ -313,7 +352,15 @@ export default function AdminDashboard() {
               ))}
               {selectedReg.guestDetails && (
                 <div style={{ marginTop: "12px", padding: "12px", background: "#f5f2ec", borderRadius: "8px", fontSize: "12px", color: "#6b7280" }}>
-                  <strong>Guest Details:</strong><br />{selectedReg.guestDetails}
+                  <strong>Guest Details:</strong>
+                  <div style={{ marginTop: "4px" }}>
+                    {selectedReg.guestDetails.split(/ \| |\n/).map((guest, idx) => {
+                      let fmt = guest.trim();
+                      if (fmt.startsWith("Guest ")) fmt = fmt.replace(/^Guest \d+:\s*/, "");
+                      fmt = fmt.replace(" / ", ": ");
+                      return <div key={idx} style={{ paddingBottom: "3px" }}>{fmt}</div>;
+                    })}
+                  </div>
                 </div>
               )}
               <div style={{ marginTop: "16px" }}>
@@ -340,14 +387,6 @@ export default function AdminDashboard() {
                 <div style={{ fontSize: "12px", fontWeight: 600, padding: "5px 12px", borderRadius: "6px", ...( selectedReg.paymentStatus === "paid" ? { background: "#edfbf2", color: "#1a7c4a" } : { background: "#fff8ec", color: "#9e7320" }) }}>
                   Payment: {selectedReg.paymentStatus}
                 </div>
-                {selectedReg.paymentStatus === "pending" && (
-                  <button 
-                    onClick={() => confirmPayment(selectedReg.id)}
-                    disabled={confirming}
-                    style={{ background: "#2ecc71", color: "white", padding: "5px 12px", borderRadius: "6px", fontSize: "12px", fontWeight: 600, border: "none", cursor: confirming ? "not-allowed" : "pointer", marginLeft: "10px" }}>
-                    {confirming ? "Confirming..." : "✓ Confirm Payment & Send WA"}
-                  </button>
-                )}
               </div>
             </div>
           </div>
@@ -358,6 +397,29 @@ export default function AdminDashboard() {
       <footer style={{ textAlign: "center", padding: "14px", borderTop: "1px solid #ddd5c0", background: "rgba(255,255,255,0.6)", fontSize: "12px", color: "#6b7280" }}>
         © 2026 Rotary Anubandha Awards — Admin Portal
       </footer>
+
+      {/* Toast Notification */}
+      {notification && (
+        <div style={{
+          position: "fixed", bottom: "30px", right: "30px", zIndex: 9999,
+          background: notification.type === "success" ? "#1a7c4a" : notification.type === "error" ? "#c0392b" : "#003366",
+          color: "#fff", padding: "14px 24px", borderRadius: "10px",
+          boxShadow: "0 10px 25px rgba(0,0,0,0.2)", fontFamily: "'Outfit', sans-serif",
+          fontSize: "14px", fontWeight: 600, display: "flex", alignItems: "center", gap: "10px",
+          animation: "slideInRight 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards"
+        }}>
+          <span style={{ fontSize: "16px" }}>
+            {notification.type === "success" ? "✓" : notification.type === "error" ? "✕" : "ℹ"}
+          </span>
+          {notification.message}
+        </div>
+      )}
+      <style>{`
+        @keyframes slideInRight {
+          from { transform: translateX(120%); opacity: 0; }
+          to { transform: translateX(0); opacity: 1; }
+        }
+      `}</style>
     </div>
   );
 }
@@ -399,4 +461,10 @@ const pgBtn: React.CSSProperties = {
   padding: "5px 11px", border: "1.5px solid #ddd5c0", borderRadius: "6px",
   background: "#fff", fontFamily: "'Outfit', sans-serif", fontSize: "12px",
   fontWeight: 600, cursor: "pointer", color: "#1a1a2e",
+};
+
+const selectStyle: React.CSSProperties = {
+  padding: "8px 12px", border: "1.5px solid #ddd5c0", borderRadius: "8px",
+  background: "#fdfcf9", fontFamily: "'Outfit', sans-serif", fontSize: "13px",
+  color: "#1a1a2e", outline: "none",
 };

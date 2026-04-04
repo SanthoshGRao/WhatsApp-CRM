@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
 
     if (format === "csv") {
       const headers = [
-        "Reg ID", "Name", "Club", "Zone", "Mobile", "Pax", "Adults", "Children",
+        "Reg ID", "Name", "Club", "Zone", "Mobile", "Pax",
         "Veg", "Non-Veg", "Amount (₹)", "Payment ID", "Payment Status",
         "WhatsApp Status", "Email Status", "Guest Details", "Registered At"
       ];
@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
         const emLog = r.messageLogs.find((l) => l.type === "email");
         return [
           r.registrationId, r.name, r.club, r.zone || "", r.mobile,
-          r.pax, r.adults, r.children, r.vegCount, r.nvegCount,
+          r.pax, r.vegCount, r.nvegCount,
           r.amount, r.paymentId || "", r.paymentStatus,
           waLog ? `${waLog.status}${waLog.errorMessage ? ` - ${waLog.errorMessage}` : ""}` : "not_sent",
           emLog ? emLog.status : "not_sent",
@@ -57,8 +57,6 @@ export async function GET(request: NextRequest) {
           zone: r.zone,
           mobile: r.mobile,
           pax: r.pax,
-          adults: r.adults,
-          children: r.children,
           vegCount: r.vegCount,
           nvegCount: r.nvegCount,
           amount: r.amount,
