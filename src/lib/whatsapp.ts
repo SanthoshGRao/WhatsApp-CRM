@@ -1,11 +1,9 @@
 import { prisma } from "./prisma";
-
 interface WhatsAppSendResult {
   success: boolean;
   messageId?: string;
   error?: string;
 }
-
 export async function sendWhatsAppTemplate(
   phoneNumber: string,
   customerName: string,
@@ -17,7 +15,6 @@ export async function sendWhatsAppTemplate(
     let config = await prisma.whatsAppConfig.findFirst({
       where: { isActive: true },
     });
-
     if (!config) {
       if (process.env.META_ACCESS_TOKEN && process.env.META_PHONE_NUMBER_ID) {
         config = {
@@ -41,10 +38,7 @@ export async function sendWhatsAppTemplate(
         return { success: false, error: errorMsg };
       }
     }
-
     const activeConfig = config!;
-
-    // Format phone number - ensure it has country code
     let formattedPhone = phoneNumber.replace(/[\s\-\+]/g, "");
     if (formattedPhone.startsWith("0")) {
       formattedPhone = "91" + formattedPhone.substring(1);
@@ -52,9 +46,7 @@ export async function sendWhatsAppTemplate(
     if (!formattedPhone.startsWith("91")) {
       formattedPhone = "91" + formattedPhone;
     }
-
     const url = `${activeConfig.graphBaseUrl}/${activeConfig.phoneNumberId}/messages`;
-
     const body = {
       messaging_product: "whatsapp",
       to: formattedPhone,
@@ -75,7 +67,6 @@ export async function sendWhatsAppTemplate(
         ],
       },
     };
-
     const response = await fetch(url, {
       method: "POST",
       headers: {
@@ -84,11 +75,8 @@ export async function sendWhatsAppTemplate(
       },
       body: JSON.stringify(body),
     });
-
     const data = await response.json();
-
     if (response.ok && data.messages && data.messages.length > 0) {
-      // Log success
       await prisma.messageLog.create({
         data: {
           registrationId,
@@ -100,7 +88,6 @@ export async function sendWhatsAppTemplate(
       return { success: true, messageId: data.messages[0].id };
     } else {
       const errorMsg = data.error?.message || JSON.stringify(data);
-      // Log failure
       await prisma.messageLog.create({
         data: {
           registrationId,
@@ -113,7 +100,6 @@ export async function sendWhatsAppTemplate(
     }
   } catch (error: unknown) {
     const errorMsg = error instanceof Error ? error.message : "Unknown error";
-    // Log failure
     try {
       await prisma.messageLog.create({
         data: {

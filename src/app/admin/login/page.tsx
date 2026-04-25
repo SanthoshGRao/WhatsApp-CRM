@@ -1,29 +1,23 @@
 "use client";
-
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-
 export default function AdminLoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setLoading(true);
-
     try {
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
-
       const data = await res.json();
-
       if (data.success) {
         router.push("/admin/dashboard");
       } else {
@@ -35,7 +29,6 @@ export default function AdminLoginPage() {
       setLoading(false);
     }
   };
-
   return (
     <div style={styles.page}>
       <div style={styles.bg1} />
@@ -97,7 +90,6 @@ export default function AdminLoginPage() {
     </div>
   );
 }
-
 const styles: Record<string, React.CSSProperties> = {
   page: {
     minHeight: "100vh",

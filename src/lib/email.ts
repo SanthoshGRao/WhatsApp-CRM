@@ -1,6 +1,5 @@
 import nodemailer from "nodemailer";
 import { prisma } from "./prisma";
-
 function getTransporter() {
   const port = parseInt(process.env.SMTP_PORT || "587");
   return nodemailer.createTransport({
@@ -13,7 +12,6 @@ function getTransporter() {
     },
   });
 }
-
 interface RegistrationData {
   id: string;
   registrationId: string;
@@ -29,17 +27,13 @@ interface RegistrationData {
   guestDetails?: string | null;
   paymentId?: string | null;
 }
-
 export async function sendAdminNotification(data: RegistrationData): Promise<void> {
   try {
     const senderEmail = process.env.SMTP_USER || "santhoshgrao13@gmail.com";
-    
-    // Fetch all admin emails from the database
     const admins = await prisma.admin.findMany({ select: { email: true } });
     const recipientEmails = admins.length > 0 
       ? admins.map(a => a.email) 
       : [senderEmail];
-
     const htmlContent = `
       <div style="font-family: 'Segoe UI', sans-serif; max-width: 600px; margin: 0 auto; background: #f8f6f0; padding: 20px;">
         <div style="background: linear-gradient(135deg, #001f45, #003366); padding: 24px; border-radius: 12px 12px 0 0; text-align: center;">
@@ -63,15 +57,12 @@ export async function sendAdminNotification(data: RegistrationData): Promise<voi
         <p style="text-align: center; font-size: 11px; color: #999; margin-top: 16px;">This is an automated notification from Rotary Registration System</p>
       </div>
     `;
-
     await getTransporter().sendMail({
       from: `"Rotary Registration" <${senderEmail}>`,
       to: recipientEmails,
       subject: `New Registration: ${data.name} — ${data.club} (₹${data.amount})`,
       html: htmlContent,
     });
-
-    // Log success
     await prisma.messageLog.create({
       data: {
         registrationId: data.id,
@@ -82,7 +73,6 @@ export async function sendAdminNotification(data: RegistrationData): Promise<voi
     console.log("✅ Admin email notification sent");
   } catch (error: unknown) {
     const errorMsg = error instanceof Error ? error.message : "Unknown error";
-    // Log failure
     try {
       await prisma.messageLog.create({
         data: {

@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import Razorpay from "razorpay";
-
 export async function POST(request: NextRequest) {
   const razorpay = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_ID!,
@@ -8,20 +7,17 @@ export async function POST(request: NextRequest) {
   });
   try {
     const { amount, currency } = await request.json();
-
     if (!amount || amount <= 0) {
       return NextResponse.json(
         { error: "Invalid amount" },
         { status: 400 }
       );
     }
-
     const order = await razorpay.orders.create({
-      amount: Math.round(amount), // amount already in paise from frontend
+      amount: Math.round(amount), 
       currency: currency || "INR",
       receipt: `rcpt_${Date.now()}`,
     });
-
     return NextResponse.json({
       success: true,
       orderId: order.id,

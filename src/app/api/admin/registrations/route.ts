@@ -1,13 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getAuthAdmin } from "@/lib/auth";
-
 export async function GET(request: NextRequest) {
   const admin = await getAuthAdmin();
   if (!admin) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-
   try {
     const searchParams = request.nextUrl.searchParams;
     const page = parseInt(searchParams.get("page") || "1");
@@ -19,7 +17,6 @@ export async function GET(request: NextRequest) {
     const filterCategory = searchParams.get("category") || "";
     const sortBy = searchParams.get("sortBy") || "createdAt";
     const sortOrder = searchParams.get("sortOrder") === "asc" ? "asc" : "desc";
-
     const where: any = search
       ? {
           OR: [
@@ -31,12 +28,10 @@ export async function GET(request: NextRequest) {
           ],
         }
       : {};
-
     if (filterStatus) where.paymentStatus = filterStatus;
     if (filterZone) where.zone = filterZone;
     if (filterClub) where.club = filterClub;
     if (filterCategory) where.category = filterCategory;
-
     const [registrations, total] = await Promise.all([
       prisma.registration.findMany({
         where,
@@ -51,8 +46,6 @@ export async function GET(request: NextRequest) {
       }),
       prisma.registration.count({ where }),
     ]);
-
-    // Get aggregate stats
     const stats = await prisma.registration.aggregate({
       _count: { id: true },
       _sum: {
@@ -62,7 +55,6 @@ export async function GET(request: NextRequest) {
         amount: true,
       },
     });
-
     return NextResponse.json({
       registrations: registrations.map((r) => ({
         ...r,
@@ -91,7 +83,6 @@ export async function GET(request: NextRequest) {
     );
   }
 }
-
 function getMessageStatus(
   logs: { type: string; status: string; errorMessage: string | null }[],
   type: string

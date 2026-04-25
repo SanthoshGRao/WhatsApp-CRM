@@ -183,7 +183,7 @@
             animation: shake-err 0.4s ease-in-out;
         }
 
-        /* ══ SUCCESS PAGE ANIMATIONS ══ */
+        
         @keyframes successPop {
             0% { transform: scale(0.5); opacity: 0; }
             50% { transform: scale(1.15); }
@@ -1166,7 +1166,7 @@
             margin: 20px 0
         }
 
-        /* ══ UPI PAYMENT BOX ══ */
+        
         .upi-box {
             background: linear-gradient(135deg, #f9f5ff, #f0e8ff);
             border: 1.5px solid rgba(95, 37, 159, .2);
@@ -1371,7 +1371,7 @@
             line-height: 1.4
         }
 
-        /* Payment confirm section */
+        
         .pay-confirm-section {
             border: 1.5px dashed rgba(95, 37, 159, .3);
             border-radius: 12px;
@@ -2193,7 +2193,7 @@
             }
         }
 
-        /* ══ CONFIRMATION MODAL ══ */
+        
         .modal-overlay {
             display: none;
             position: fixed;
@@ -2346,7 +2346,7 @@
             box-shadow: 0 6px 24px rgba(201, 149, 42, 0.48);
         }
 
-        /* ══ PAYMENT PAGE ══ */
+        
         .pay-page-header {
             background: linear-gradient(160deg, var(--navy-d), var(--navy) 55%, var(--navy-m));
             position: relative;
@@ -2392,7 +2392,7 @@
             z-index: 1;
         }
 
-        /* Summary recap card */
+        
         .pay-recap {
             background: #fff;
             border-radius: 16px;
@@ -2434,7 +2434,7 @@
         .pay-recap-row span { color: var(--muted); }
         .pay-recap-row strong { color: var(--navy); }
 
-        /* Stepper */
+        
         .stepper {
             position: relative;
             padding-left: 0;
@@ -2449,7 +2449,7 @@
         .step:nth-child(3) { animation-delay: 0.16s; }
         .step:last-child { padding-bottom: 0; }
 
-        /* Vertical line */
+        
         .step::before {
             content: '';
             position: absolute;
@@ -2506,7 +2506,7 @@
         }
         .step-desc:last-child { margin-bottom: 0; }
 
-        /* Download QR button on payment page */
+        
         .download-qr-btn {
             display: flex;
             align-items: center;
@@ -2537,7 +2537,7 @@
             animation: none;
         }
 
-        /* Upload zone on payment page */
+        
         .upload-zone {
             position: relative;
             width: 100%;
@@ -2563,7 +2563,7 @@
             z-index: 2;
         }
 
-        /* Confirm button on payment page */
+        
         .confirm-reg-btn {
             width: 100%;
             padding: 16px;
@@ -2595,7 +2595,7 @@
             transform: none;
         }
 
-        /* Proceed button on form page */
+        
         .proceed-btn {
             width: 100%;
             padding: 16px;
@@ -2622,7 +2622,7 @@
             box-shadow: 0 6px 24px rgba(201, 149, 42, 0.48);
         }
 
-        /* Info tip cards */
+        
         .info-tip {
             display: flex;
             align-items: flex-start;
@@ -2656,7 +2656,7 @@
             .step::before { left: 16px; }
         }
 
-        /* ══ CATEGORY TABS ══ */
+        
         .cat-tabs {
             display: flex;
             gap: 0;
@@ -2735,7 +2735,7 @@
 
 <body>
 
-    <!-- PAGE 1 — REGISTER -->
+    
     <div class="pg on" id="pgReg">
         <nav>
             <div class="nb" onclick="go('pgReg')">
@@ -2807,7 +2807,7 @@
                         <div class="rl">REGISTERED</div>
                     </div>
                 </div>
-                <!-- Category Tabs -->
+                
                 <div class="cat-tabs" id="catTabs">
                     <button class="cat-tab active" id="tabRegular" onclick="switchCategory('regular')">
                         <div class="cat-tab-icon regular-icon">
@@ -2904,7 +2904,7 @@
 
                     <div class="divl" id="guestDivider"></div>
 
-                    <!-- Summary -->
+                    
                     <div class="smb">
                         <div class="smg">
                             <div class="smi">
@@ -2935,7 +2935,7 @@
                         </div>
                     </div>
 
-                    <!-- ══ PROCEED TO PAYMENT BUTTON ══ -->
+                    
                     <button class="proceed-btn" onclick="proceedToPayment()" id="proceedBtn">
                         <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/>
@@ -2949,7 +2949,7 @@
         <footer>Rotary Anubandha Awards 2026 · District 3181</footer>
     </div>
 
-    <!-- ══ CONFIRMATION MODAL ══ -->
+    
     <div class="modal-overlay" id="confirmModal">
         <div class="modal-card">
             <div class="modal-header">
@@ -2963,7 +2963,7 @@
             </div>
             <div class="modal-body">
                 <div id="modalDetails">
-                    <!-- JS injected content -->
+                    
                 </div>
                 <div class="modal-warning">
                     <div class="modal-warning-icon">
@@ -2993,7 +2993,7 @@
         </div>
     </div>
 
-    <!-- ══ PAGE — PAYMENT ══ -->
+    
     <div class="pg" id="pgPay">
         <nav>
             <div class="nb" onclick="go('pgReg')">
@@ -3044,26 +3044,26 @@
         </header>
 
         <div class="pay-page-content">
-            <!-- Compact Summary Badge -->
+            
             <div class="pay-recap" id="payRecap">
                 <div class="pay-recap-header">
                     <div class="pay-recap-title">Registration Summary</div>
                     <div class="pay-recap-amount" id="payRecapAmount">₹ 1,700</div>
                 </div>
                 <div class="pay-recap-body" id="payRecapBody">
-                    <!-- JS injected -->
+                    
                 </div>
             </div>
 
-            <!-- Hidden QR generation container -->
+            
             <div id="qrGenHidden" style="visibility:hidden; height:0; overflow:hidden; position:absolute; pointer-events:none;">
                 <div id="qrcode"></div>
             </div>
             <a id="qrDownloadLink" style="display:none;"></a>
 
-            <!-- Minimal 3-Step Flow -->
+            
             <div class="stepper">
-                <!-- Step 1: Download & Pay -->
+                
                 <div class="step" id="payStepQR">
                     <div class="step-circle" id="stepCircle1">1</div>
                     <div class="step-content">
@@ -3085,7 +3085,7 @@
                     </div>
                 </div>
 
-                <!-- Step 2: Upload Screenshot -->
+                
                 <div class="step" id="payStepUpload">
                     <div class="step-circle" id="stepCircle4">2</div>
                     <div class="step-content">
@@ -3116,7 +3116,7 @@
                     </div>
                 </div>
 
-                <!-- Step 3: Confirm -->
+                
                 <div class="step">
                     <div class="step-circle">3</div>
                     <div class="step-content">
@@ -3132,7 +3132,7 @@
                 </div>
             </div>
 
-            <!-- Confirm Registration Button -->
+            
             <button class="confirm-reg-btn" onclick="submitForm()" id="subBtn">
                 <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
@@ -3145,7 +3145,7 @@
         <footer>Rotary Anubandha Awards 2026 · District 3181</footer>
     </div>
 
-    <!-- ══ PAGE — REGISTRATION CONFIRMATION ══ -->
+    
     <div class="pg" id="pgConfirm">
         <nav>
             <div class="nb" onclick="go('pgReg')">
@@ -3228,7 +3228,7 @@
                     </div>
 
                     <div class="srf receipt-card" id="sRef">
-                        <!-- JS injected content goes here -->
+                        
                     </div>
 
                     <button class="proceed-btn" onclick="again()" style="background:transparent;color:var(--navy);border:1.5px solid var(--navy-m);box-shadow:none;font-size:14.5px;transition:all 0.3s; margin-top: 10px;" onmouseover="this.style.background='rgba(0,51,102,0.04)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='transparent'; this.style.transform='translateY(0)';">
@@ -3252,7 +3252,7 @@
         <footer>Rotary Anubandha Awards 2026 · District 3181</footer>
     </div>
 
-    <!-- PAGE 2 — ADMIN LOGIN -->
+    
     <div class="pg" id="pgLogin">
         <nav>
             <div class="nb" onclick="go('pgReg')">
@@ -3328,7 +3328,7 @@
         <footer>Rotary Excellence Awards 2025 · District 3181</footer>
     </div>
 
-    <!-- PAGE 3 — ADMIN DASHBOARD -->
+    
     <div class="pg" id="pgDash">
         <nav>
             <div class="nb" onclick="go('pgReg')">
@@ -3437,8 +3437,7 @@
         <footer>Rotary Excellence Awards 2025 · District 3181 · Admin Dashboard</footer>
     </div>
 
-    <script>
-        // ══ CONFIG — Change UPI ID here ══
+    <script>
         const UPI_ID = '323625397377815@cnrb';
         const UPI_NAME = encodeURIComponent('ROTARY CLUBOF MYSORENORTH');
         const UPI_MC = '7999';
@@ -3451,16 +3450,13 @@
 
         function switchCategory(cat) {
             currentCategory = cat;
-            const isS = cat === 'silver';
-            // Toggle tab active states
+            const isS = cat === 'silver';
             document.getElementById('tabRegular').classList.toggle('active', !isS);
-            document.getElementById('tabSilver').classList.toggle('active', isS);
-            // Toggle card title
+            document.getElementById('tabSilver').classList.toggle('active', isS);
             const ctTitle = document.querySelector('.ct-t');
             const ctSub = document.querySelector('.ct-s');
             if (ctTitle) ctTitle.textContent = isS ? 'Silver Registration' : 'Register Now';
-            if (ctSub) ctSub.textContent = isS ? 'Single person · ₹5,000' : 'Fill in your details below';
-            // Hide/show sections
+            if (ctSub) ctSub.textContent = isS ? 'Single person · ₹5,000' : 'Fill in your details below';
             ['paxSection', 'guestSection', 'guestDivider'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.classList.toggle('silver-hidden', isS);
@@ -3468,23 +3464,18 @@
             ['smVeg', 'smNveg'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.classList.toggle('silver-hidden', isS);
-            });
-            // Update per-pax label
+            });
             const spp = document.getElementById('sPerPax');
-            if (spp) spp.textContent = isS ? '₹5,000 FLAT' : '₹1,700 PER PAX';
-            // Reset pax to 1 for silver
+            if (spp) spp.textContent = isS ? '₹5,000 FLAT' : '₹1,700 PER PAX';
             if (isS) {
                 document.getElementById('fp').value = 1;
                 buildCards(1);
-            }
-            // Update summary grid columns
+            }
             const smg = document.querySelector('.smg');
             if (smg) smg.style.gridTemplateColumns = isS ? '1fr' : '1fr 1fr 1fr';
             calcSum();
             updateUPIBox();
-        }
-
-        // ══ ZONE MAP ══
+        }
         const ZONE_MAP = {
   "Zone 1": [
     "Moodbidri Midtown",
@@ -3617,10 +3608,7 @@
         }
 
 
-        let currentRegId = '', utrNumber = '', paymentDone = false;
-
-        // ══ SESSION PERSISTENCE ══
-        // Saves form state so it survives page reloads (e.g., when user goes to GPay to pay)
+        let currentRegId = '', utrNumber = '', paymentDone = false;
         const SESSION_KEY = 'rotary_pay_session';
 
         function saveSession() {
@@ -3644,8 +3632,7 @@
             try {
                 const data = localStorage.getItem(SESSION_KEY);
                 if (!data) return null;
-                const session = JSON.parse(data);
-                // Expire after 30 minutes
+                const session = JSON.parse(data);
                 if (Date.now() - session.timestamp > 30 * 60 * 1000) {
                     localStorage.removeItem(SESSION_KEY);
                     return null;
@@ -3660,32 +3647,22 @@
 
         function restoreSession() {
             const session = loadSession();
-            if (!session || !session.regId) return false;
-
-            // Restore form fields
+            if (!session || !session.regId) return false;
             document.getElementById('fn').value = session.name || '';
-            document.getElementById('fm').value = session.mobile || '';
-
-            // Restore club selection
+            document.getElementById('fm').value = session.mobile || '';
             if (session.club) {
                 document.getElementById('fc').value = session.club;
                 document.getElementById('cddLabel').textContent = session.club;
                 document.getElementById('cddTrig').classList.add('has-val');
                 cddSelected = session.club;
                 autoZone();
-            }
-
-            // Restore category
+            }
             if (session.category) {
                 switchCategory(session.category);
-            }
-
-            // Restore pax & guest cards
+            }
             const pax = parseInt(session.pax) || 1;
             document.getElementById('fp').value = pax;
-            buildCards(pax);
-
-            // Restore guest card selections and names
+            buildCards(pax);
             if (session.guestCards) {
                 session.guestCards.forEach((card, i) => {
                     const idx = i + 1;
@@ -3698,14 +3675,10 @@
                 });
             }
             calcSum();
-            updateUPIBox();
-
-            // Restore payment state
+            updateUPIBox();
             currentRegId = session.regId;
             currentUPILink = session.upiLink || '';
-            paymentDone = true;
-
-            // Regenerate QR for download (hidden)
+            paymentDone = true;
             if (currentUPILink) {
                 const qrcodeContainer = document.getElementById('qrcode');
                 qrcodeContainer.innerHTML = '';
@@ -3717,9 +3690,7 @@
                         correctLevel: QRCode.CorrectLevel.H
                     });
                 }
-            }
-
-            // Populate payment page recap and navigate to payment page
+            }
             const rsAmount = calcAmount();
             const rsName = session.name || '', rsClub = session.club || '';
             const rsZone = document.getElementById('fz').value || '—';
@@ -3767,21 +3738,15 @@
                 return;
             }
 
-            currentRegId = 'REA' + Date.now().toString().slice(-6) + Math.floor(Math.random() * 100).toString().padStart(2, "0");
-
-            // Build merchant UPI link with transaction reference
+            currentRegId = 'REA' + Date.now().toString().slice(-6) + Math.floor(Math.random() * 100).toString().padStart(2, "0");
             const trRef = currentRegId + Date.now().toString().slice(-6);
             const upiUrl = `upi://pay?pa=${UPI_ID}&pn=${UPI_NAME}&mc=${UPI_MC}&tr=${trRef}&am=${amount}&mam=${amount}&cu=INR&refUrl=${UPI_REF_URL}&tn=${currentRegId}`;
-            currentUPILink = upiUrl;
-
-            // Hide generate button with fade
+            currentUPILink = upiUrl;
             const btn = document.getElementById('payBtn');
             btn.style.transition = 'opacity 0.3s, transform 0.3s';
             btn.style.opacity = '0';
             btn.style.transform = 'translateY(-8px)';
-            setTimeout(() => { btn.style.display = 'none'; }, 300);
-
-            // Generate QR in hidden container (for download only)
+            setTimeout(() => { btn.style.display = 'none'; }, 300);
             const qrcodeContainer = document.getElementById("qrcode");
             qrcodeContainer.innerHTML = "";
             if (typeof QRCode !== "undefined") {
@@ -3793,17 +3758,11 @@
                     colorLight: "#ffffff",
                     correctLevel: QRCode.CorrectLevel.H
                 });
-            }
-
-            // Show payment section with staggered animations
+            }
             document.getElementById('qrSection').style.display = 'block';
             document.getElementById('subWrap').style.display = 'block';
-            paymentDone = true;
-
-            // Set registration ID badge
-            document.getElementById('payRegIdText').textContent = currentRegId;
-
-            // Animate step cards sequentially
+            paymentDone = true;
+            document.getElementById('payRegIdText').textContent = currentRegId;
             const step1 = document.getElementById('payStep1');
             const step2 = document.getElementById('payStep2');
 
@@ -3815,9 +3774,7 @@
                 step2.classList.add('visible');
             }, 400);
 
-            setTimeout(() => { document.getElementById('qrSection').scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 500);
-
-            // Save session so form data survives page reload
+            setTimeout(() => { document.getElementById('qrSection').scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 500);
             saveSession();
         }
 
@@ -3830,9 +3787,7 @@
             const params = currentUPILink.replace('upi://pay?', '');
             const ua = navigator.userAgent || '';
             const isAndroid = /android/i.test(ua);
-            const isIOS = /iphone|ipad|ipod/i.test(ua);
-
-            // App-specific Android package names
+            const isIOS = /iphone|ipad|ipod/i.test(ua);
             const packages = {
                 gpay: 'com.google.android.apps.nbu.paisa.user',
                 phonepe: 'com.phonepe.app',
@@ -3841,12 +3796,10 @@
 
             if (isAndroid) {
                 const pkg = packages[app];
-                if (pkg) {
-                    // Targeted intent with specific package
+                if (pkg) {
                     const intentUrl = `intent://pay?${params}#Intent;scheme=upi;package=${pkg};end;`;
                     window.location.href = intentUrl;
-                } else {
-                    // Generic fallback
+                } else {
                     const intentUrl = `intent://pay?${params}#Intent;scheme=upi;end;`;
                     window.location.href = intentUrl;
                 }
@@ -3860,22 +3813,17 @@
         function triggerQRDownload() {
             const qrcodeContainer = document.getElementById("qrcode");
             const qrCanvas = qrcodeContainer.querySelector('canvas');
-            const qrImg = qrcodeContainer.querySelector('img');
-
-            // Create a large canvas with white background + quiet zone padding
+            const qrImg = qrcodeContainer.querySelector('img');
             const padding = 60; // White quiet zone around QR (required by scanners)
             const outputSize = 600; // Final image size
             const saveCanvas = document.createElement('canvas');
             saveCanvas.width = outputSize;
             saveCanvas.height = outputSize;
-            const ctx = saveCanvas.getContext('2d');
-
-            // Fill entire canvas white (quiet zone)
+            const ctx = saveCanvas.getContext('2d');
             ctx.fillStyle = '#ffffff';
             ctx.fillRect(0, 0, outputSize, outputSize);
 
-            const drawAndSave = (sourceElement) => {
-                // Draw QR centered with padding
+            const drawAndSave = (sourceElement) => {
                 const qrSize = outputSize - (padding * 2);
                 if (sourceElement instanceof HTMLCanvasElement) {
                     ctx.drawImage(sourceElement, padding, padding, qrSize, qrSize);
@@ -3890,8 +3838,7 @@
                     dlink.href = imgData;
                     dlink.download = `Rotary_Payment_QR_${amount}.png`;
                     dlink.click();
-                }
-                // Mark step 1 as done
+                }
                 const _dlBtn = document.getElementById('downloadQRBtn');
                 if (_dlBtn) { _dlBtn.classList.add('downloaded'); _dlBtn.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> QR Downloaded'; }
                 const _sc1 = document.getElementById('stepCircle1');
@@ -3900,8 +3847,7 @@
 
             if (qrCanvas) {
                 drawAndSave(qrCanvas);
-            } else if (qrImg) {
-                // If it's an img element, wait for it to load before drawing
+            } else if (qrImg) {
                 if (qrImg.complete) {
                     drawAndSave(qrImg);
                 } else {
@@ -3930,22 +3876,16 @@
                 zf.style.display = 'block';
                 zf.style.animation = 'rise .3s ease both';
             }
-        }
-
-        // ══ STORAGE ══
+        }
         const load = () => { try { return JSON.parse(localStorage.getItem(KEY) || '[]') } catch { return [] } };
-        const save = d => localStorage.setItem(KEY, JSON.stringify(d));
-
-        // ══ ROUTER ══
+        const save = d => localStorage.setItem(KEY, JSON.stringify(d));
         function go(id) {
             document.querySelectorAll('.pg').forEach(p => p.classList.remove('on'));
             document.getElementById(id).classList.add('on');
             window.scrollTo(0, 0);
             if (id === 'pgLogin') loadSnap();
             if (id === 'pgDash') renderDash();
-        }
-
-        // ══ LOGIN ══
+        }
         function doLogin() {
             const u = document.getElementById('lu').value.trim();
             const p = document.getElementById('lp').value;
@@ -3972,9 +3912,7 @@
             document.getElementById('sn1').textContent = d.length;
             document.getElementById('sn2').textContent = pax;
             document.getElementById('sn3').textContent = '₹' + amt.toLocaleString('en-IN');
-        }
-
-        // ══ PAX CARDS ══
+        }
         function chPax(d2) {
             const i = document.getElementById('fp');
             i.value = Math.max(1, Math.min(10, +i.value + d2));
@@ -4082,9 +4020,7 @@
             const sBrkEl = document.getElementById('sBrk');
             if(sBrkEl) sBrkEl.textContent = isSilver ? '1×₹5,000' : c.length + '×₹1,700';
             const sMsEl = document.getElementById('sMs'); if(sMsEl) sMsEl.textContent = isSilver ? 'Silver Package' : '';
-        }
-
-        // ══ CUSTOM CLUB DROPDOWN ══
+        }
         const CDD_DATA = [
                   {
                             "region": "Zone 1",
@@ -4286,13 +4222,9 @@
                 document.getElementById('cddTrig').classList.remove('open');
                 document.getElementById('cddPanel').classList.remove('open');
             }
-        });
-
-        // Init
+        });
         buildCards(1);
-        updateUPIBox();
-
-        // Restore session if user is returning from UPI app
+        updateUPIBox();
         const sessionRestored = restoreSession();
 
         async function fetchRegCount() {
@@ -4304,9 +4236,7 @@
                 document.getElementById('regNum').textContent = load().length;
             }
         }
-        fetchRegCount();
-
-        // ══ SUBMIT ══
+        fetchRegCount();
         function se(id, show) {
             document.getElementById('e' + id).classList.toggle('on', show);
             if (id === 'c') {
@@ -4345,14 +4275,10 @@
             ssInput.style.borderColor = '';
 
             try {
-                const { data: { text } } = await Tesseract.recognize(file, 'eng');
-
-                // Extract 12-digit UTR
+                const { data: { text } } = await Tesseract.recognize(file, 'eng');
                 const utrMatches = text.match(/\b\d{12}\b/g);
 
-                const expectedAmount = calcAmount();
-
-                // Extract amount (look for ₹, Rs, INR patterns and common Tesseract misreads)
+                const expectedAmount = calcAmount();
                 const amtPatterns = [
                     /[₹₨?]\s*([\d,]+\.?\d*)/gi,
                     /Rs\.?\s*([\d,]+\.?\d*)/gi,
@@ -4368,23 +4294,15 @@
                         const val = parseFloat(m[1].replace(/,/g, ''));
                         if (val > 0 && !isNaN(val)) extractedAmounts.push(val);
                     }
-                }
-                
-                // Fallback direct match for the exact expected amount in case generic patterns miss it
-                // We look for boundaries to avoid matching '1' inside '120'
+                }
                 const exactAmtPattern = new RegExp(`(?:^|[^\\d\\.])(${expectedAmount}(?:\\.00?)?)(?:[^\\d\\.]|$)`, 'gi');
                 let exactM;
                 while ((exactM = exactAmtPattern.exec(text)) !== null) {
                     extractedAmounts.push(parseFloat(exactM[1]));
-                }
-
-                // Tesseract heavily struggles with the single digit '1' in large fonts (often reading it as 'I', 'l', or '|').
-                // If the expected amount is ₹1 (for testing), automatically consider it detected to prevent blocking.
+                }
                 if (expectedAmount === 1) {
                     extractedAmounts.push(1);
-                }
-
-                // Extract registration ID (REA pattern from transaction note)
+                }
                 const regMatch = text.match(/REA\d{6,10}/i);
                 const extractedRegId = regMatch ? regMatch[0].toUpperCase() : null;
 
@@ -4392,9 +4310,7 @@
                 resultEl.style.display = 'block';
                 let resultParts = [];
                 let hasWarning = false;
-                let hasCriticalError = false;
-
-                // UTR result
+                let hasCriticalError = false;
                 if (utrMatches && utrMatches.length > 0) {
                     scannedUtr = utrMatches[0];
                     resultParts.push(`UTR: ${scannedUtr}`);
@@ -4402,9 +4318,7 @@
                     scannedUtr = 'Pending';
                     resultParts.push(`UTR not detected`);
                     hasWarning = true;
-                }
-
-                // Amount validation
+                }
                 const matchedAmt = extractedAmounts.find(a => a === expectedAmount);
                 if (matchedAmt) {
                     resultParts.push(`Amount: ₹${matchedAmt.toLocaleString('en-IN')}`);
@@ -4415,9 +4329,7 @@
                 } else {
                     resultParts.push(`Amount not detected (expected ₹${expectedAmount.toLocaleString('en-IN')})`);
                     hasCriticalError = true;
-                }
-
-                // Reg ID check
+                }
                 if (extractedRegId === currentRegId) {
                     resultParts.push(`Reg ID: ${extractedRegId}`);
                 } else if (extractedRegId) {
@@ -4426,9 +4338,7 @@
                 } else {
                     resultParts.push(`Reg ID not detected. Ensure transaction note contains ${currentRegId}`);
                     hasCriticalError = true;
-                }
-
-                // Set blocking flag
+                }
                 paymentBlocked = hasCriticalError;
 
                 if (hasCriticalError) {
@@ -4446,9 +4356,7 @@
                     resultEl.style.color = '#92400e';
                 }
 
-                resultEl.innerHTML = resultParts.join('<br/>');
-
-                // Only enable submit if no critical errors
+                resultEl.innerHTML = resultParts.join('<br/>');
                 subBtn.disabled = hasCriticalError;
             } catch (err) {
                 console.error(err);
@@ -4461,9 +4369,7 @@
                 scannedUtr = 'Pending';
                 subBtn.disabled = false;
             }
-        }
-
-        // ══ THREE-PAGE FLOW FUNCTIONS ══
+        }
         function validateRegistration() {
             const name = document.getElementById('fn').value.trim();
             const club = document.getElementById('fc').value;
@@ -4545,9 +4451,7 @@
             const name = document.getElementById('fn').value.trim();
             const club = document.getElementById('fc').value;
             const mob = document.getElementById('fm').value.trim().replace(/[\s\-]/g, '');
-            const cards = getCards();
-
-            // Check for duplicate mobile number in database
+            const cards = getCards();
             const procBtn = document.getElementById('proceedBtn');
             procBtn.disabled = true;
             procBtn.innerHTML = '<svg class="spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-6.219-8.56"></path></svg> Checking...';
@@ -4652,8 +4556,7 @@
             go('pgPay');
         }
 
-        async function submitForm() {
-            // Block if OCR detected amount/regId mismatch
+        async function submitForm() {
             if (paymentBlocked) {
                 alert('Payment verification failed. Please upload the correct payment screenshot.');
                 return;
@@ -4773,12 +4676,8 @@
             currentRegId = '';
             currentUPILink = '';
             scannedUtr = '';
-            clearSession();
-
-            // Reset category to regular
-            switchCategory('regular');
-
-            // Reset payment page elements
+            clearSession();
+            switchCategory('regular');
             const dlBtnR = document.getElementById('downloadQRBtn');
             if (dlBtnR) { dlBtnR.classList.remove('downloaded'); dlBtnR.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download QR to Gallery'; }
             const sc1R = document.getElementById('stepCircle1');
@@ -4791,9 +4690,7 @@
             const ssTextR = document.getElementById('ssFileText'); if (ssTextR) ssTextR.textContent = 'Tap to select screenshot';
             buildCards(1);
             go('pgReg');
-        }
-
-        // ══ DASHBOARD ══
+        }
         function renderDash() {
             const d = load();
             const pax = d.reduce((s, r) => s + (+r.pax || 0), 0);
@@ -4848,9 +4745,7 @@
             }
             const next = Object.assign(document.createElement('button'), { className: 'pgb', textContent: '›', disabled: pgN >= tp });
             next.onclick = () => { pgN++; renderTable(); }; pb.appendChild(next);
-        }
-
-        // ══ CSV ══
+        }
         function dlCSV() {
             const d = load();
             if (!d.length) { alert('No registrations yet.'); return; }
@@ -4859,9 +4754,7 @@
             const csv = [h.join(','), ...rows].join('\r\n');
             const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' })), download: 'Rotary_Excellence_Awards_2025.csv' });
             a.click();
-        }
-
-        // ══ CLEAR ══
+        }
         function clearAll() {
             if (confirm('Delete ALL registration data? This cannot be undone.')) {
                 localStorage.removeItem(KEY); renderDash();

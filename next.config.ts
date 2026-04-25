@@ -1,7 +1,5 @@
 import type { NextConfig } from "next";
-
 const nextConfig: NextConfig = {
-  // Allow serving form.html from public folder
   async rewrites() {
     return [
       {
@@ -12,5 +10,4 @@ const nextConfig: NextConfig = {
   },
   serverExternalPackages: ["pdf-parse", "xlsx"],
 };
-
 export default nextConfig;

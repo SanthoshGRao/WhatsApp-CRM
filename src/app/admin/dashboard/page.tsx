@@ -1,8 +1,6 @@
 "use client";
-
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-
 interface Registration {
   id: string;
   registrationId: string;
@@ -23,7 +21,6 @@ interface Registration {
   whatsappStatus: { status: string; error: string | null };
   emailStatus: { status: string; error: string | null };
 }
-
 interface Stats {
   totalRegistrations: number;
   totalPax: number;
@@ -31,14 +28,12 @@ interface Stats {
   totalNveg: number;
   totalRevenue: number;
 }
-
 interface Pagination {
   page: number;
   limit: number;
   total: number;
   totalPages: number;
 }
-
 export default function AdminDashboard() {
   const router = useRouter();
   const [registrations, setRegistrations] = useState<Registration[]>([]);
@@ -54,12 +49,10 @@ export default function AdminDashboard() {
   const [filterClub, setFilterClub] = useState("");
   const [filterCategory, setFilterCategory] = useState("");
   const [notification, setNotification] = useState<{message: string, type: "success" | "error" | "info"} | null>(null);
-
   const showMessage = (msg: string, type: "success" | "error" | "info" = "info") => {
     setNotification({ message: msg, type });
     setTimeout(() => setNotification(null), 4000);
   };
-
   const resendWhatsApp = async (id: string) => {
     setResending(true);
     try {
@@ -81,7 +74,6 @@ export default function AdminDashboard() {
     }
     setResending(false);
   };
-
   const fetchData = useCallback(async (page = 1, searchQuery = "", status = filterStatus, zone = filterZone, club = filterClub, category = filterCategory) => {
     setLoading(true);
     try {
@@ -94,26 +86,20 @@ export default function AdminDashboard() {
     } catch { console.error("Failed to fetch"); }
     setLoading(false);
   }, [router, filterStatus, filterZone, filterClub, filterCategory]);
-
   useEffect(() => { fetchData(1, "", filterStatus, filterZone, filterClub, filterCategory); }, [fetchData, filterStatus, filterZone, filterClub, filterCategory]);
-
   const handleSearch = () => fetchData(1, search, filterStatus, filterZone, filterClub, filterCategory);
   const handlePage = (p: number) => fetchData(p, search, filterStatus, filterZone, filterClub, filterCategory);
-
   const handleLogout = async () => {
     await fetch("/api/auth/logout", { method: "POST" });
     router.push("/admin/login");
   };
-
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     if (!confirm(`Are you sure you want to reconcile payments using ${file.name}?`)) return;
-    
     setUploading(true);
     const formData = new FormData();
     formData.append("file", file);
-    
     try {
       const res = await fetch("/api/admin/reconcile-statement", {
         method: "POST",
@@ -129,15 +115,12 @@ export default function AdminDashboard() {
     } catch {
       showMessage("An error occurred during upload.", "error");
     }
-    
     setUploading(false);
     e.target.value = ""; // clear input
   };
-
   const downloadCSV = () => {
     window.open("/api/admin/export?format=csv", "_blank");
   };
-
   const downloadPDF = async () => {
     try {
       const res = await fetch("/api/admin/export?format=pdf");
@@ -161,7 +144,6 @@ export default function AdminDashboard() {
       doc.save(`Rotary_Registrations_${new Date().toISOString().split("T")[0]}.pdf`);
     } catch (err) { console.error("PDF error:", err); showMessage("Failed to generate PDF", "error"); }
   };
-
   const StatusBadge = ({ status, error }: { status: string; error?: string | null }) => {
     const colors: Record<string, { bg: string; color: string; border: string }> = {
       sent: { bg: "#edfbf2", color: "#1a7c4a", border: "#a3d9b5" },
@@ -185,10 +167,9 @@ export default function AdminDashboard() {
       </span>
     );
   };
-
   return (
     <div style={{ fontFamily: "'Outfit', sans-serif", background: "#f5f2ec", minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-      {/* Navbar */}
+      {}
       <nav style={{ position: "sticky", top: 0, zIndex: 200, background: "rgba(0,31,69,0.97)", backdropFilter: "blur(12px)", borderBottom: "1px solid rgba(201,149,42,0.25)", height: "64px", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 24px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "10px", cursor: "pointer" }} onClick={() => window.location.href = "/form.html"}>
           <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "17px", color: "#fff" }}>
@@ -201,8 +182,7 @@ export default function AdminDashboard() {
           </button>
         </div>
       </nav>
-
-      {/* Banner */}
+      {}
       <div style={{ background: "linear-gradient(135deg, #001f45, #003366)", padding: "20px 28px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "12px", borderBottom: "1px solid rgba(201,149,42,0.2)" }}>
         <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "22px", color: "#fff", display: "flex", alignItems: "center", gap: "10px" }}>
           <span style={{ color: "#e8b84b" }}></span> Admin Dashboard
@@ -216,10 +196,9 @@ export default function AdminDashboard() {
           <button onClick={downloadPDF} style={exportBtn}> Download PDF</button>
         </div>
       </div>
-
-      {/* Body */}
+      {}
       <div style={{ flex: 1, padding: "24px", maxWidth: "1200px", width: "100%", margin: "0 auto" }}>
-        {/* Stats Grid */}
+        {}
         {stats && (
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(155px, 1fr))", gap: "14px", marginBottom: "24px" }}>
             <StatCard label="Registrations" value={String(stats.totalRegistrations)} sub="" color="#c9952a" />
@@ -229,14 +208,12 @@ export default function AdminDashboard() {
             <StatCard label="Revenue" value={`₹${stats.totalRevenue.toLocaleString("en-IN")}`} sub="" color="#27ae60" />
           </div>
         )}
-
-        {/* Table */}
+        {}
         <div style={{ background: "#fff", borderRadius: "14px", boxShadow: "0 2px 8px rgba(0,31,69,0.07)", overflow: "hidden" }}>
           <div style={{ padding: "16px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: "1px solid #ddd5c0", flexWrap: "wrap", gap: "10px" }}>
             <div style={{ fontSize: "14px", fontWeight: 600, color: "#1a1a2e", display: "flex", alignItems: "center", gap: "8px" }}>
               Customer List
             </div>
-            
             <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", marginLeft: "auto", marginRight: "10px" }}>
               <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)} style={selectStyle}>
                 <option value="">All Statuses</option>
@@ -261,7 +238,6 @@ export default function AdminDashboard() {
                 <option value="silver">Silver</option>
               </select>
             </div>
-            
             <div style={{ display: "flex", alignItems: "center", gap: "8px", background: "#fdfcf9", border: "1.5px solid #ddd5c0", borderRadius: "8px", padding: "7px 13px" }}>
               <svg width="14" height="14" fill="none" stroke="#6b7280" strokeWidth="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
               <input
@@ -273,7 +249,6 @@ export default function AdminDashboard() {
               />
             </div>
           </div>
-
           <div style={{ overflowX: "auto" }}>
             <table style={{ width: "100%", borderCollapse: "collapse" }}>
               <thead>
@@ -315,8 +290,7 @@ export default function AdminDashboard() {
               </tbody>
             </table>
           </div>
-
-          {/* Pagination */}
+          {}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 20px", borderTop: "1px solid #ddd5c0", fontSize: "12px", color: "#6b7280", flexWrap: "wrap", gap: "8px" }}>
             <span>{pagination.total ? `Showing ${(pagination.page - 1) * 10 + 1}–${Math.min(pagination.page * 10, pagination.total)} of ${pagination.total}` : "No results"}</span>
             <div style={{ display: "flex", gap: "5px" }}>
@@ -329,8 +303,7 @@ export default function AdminDashboard() {
           </div>
         </div>
       </div>
-
-      {/* Detail Popup */}
+      {}
       {selectedReg && (
         <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1000, padding: "16px" }}
           onClick={() => setSelectedReg(null)}
@@ -404,13 +377,11 @@ export default function AdminDashboard() {
           </div>
         </div>
       )}
-
-      {/* Footer */}
+      {}
       <footer style={{ textAlign: "center", padding: "14px", borderTop: "1px solid #ddd5c0", background: "rgba(255,255,255,0.6)", fontSize: "12px", color: "#6b7280" }}>
         © 2026 Rotary Anubandha Awards — Admin Portal
       </footer>
-
-      {/* Toast Notification */}
+      {}
       {notification && (
         <div style={{
           position: "fixed", bottom: "30px", right: "30px", zIndex: 9999,
@@ -435,7 +406,6 @@ export default function AdminDashboard() {
     </div>
   );
 }
-
 function StatCard({ label, value, sub, color }: { label: string; value: string; sub: string; color: string }) {
   return (
     <div style={{ background: "#fff", borderRadius: "14px", padding: "18px 20px", boxShadow: "0 2px 8px rgba(0,31,69,0.07)", borderLeft: `4px solid ${color}` }}>
@@ -445,36 +415,30 @@ function StatCard({ label, value, sub, color }: { label: string; value: string; 
     </div>
   );
 }
-
 const navBtn: React.CSSProperties = {
   display: "flex", alignItems: "center", gap: "6px", padding: "7px 14px",
   borderRadius: "7px", fontSize: "13px", fontWeight: 500, background: "none",
   border: "none", cursor: "pointer", fontFamily: "'Outfit', sans-serif",
 };
-
 const exportBtn: React.CSSProperties = {
   display: "flex", alignItems: "center", gap: "6px", padding: "9px 16px",
   borderRadius: "8px", fontFamily: "'Outfit', sans-serif", fontSize: "13px",
   fontWeight: 600, cursor: "pointer", border: "none",
   background: "#c9952a", color: "#001f45",
 };
-
 const thStyle: React.CSSProperties = {
   padding: "11px 14px", fontSize: "11px", fontWeight: 600,
   color: "rgba(255,255,255,0.8)", letterSpacing: "0.5px",
   textTransform: "uppercase", textAlign: "left", whiteSpace: "nowrap",
 };
-
 const tdStyle: React.CSSProperties = {
   padding: "11px 14px", fontSize: "13px", color: "#1a1a2e", verticalAlign: "middle",
 };
-
 const pgBtn: React.CSSProperties = {
   padding: "5px 11px", border: "1.5px solid #ddd5c0", borderRadius: "6px",
   background: "#fff", fontFamily: "'Outfit', sans-serif", fontSize: "12px",
   fontWeight: 600, cursor: "pointer", color: "#1a1a2e",
 };
-
 const selectStyle: React.CSSProperties = {
   padding: "8px 12px", border: "1.5px solid #ddd5c0", borderRadius: "8px",
   background: "#fdfcf9", fontFamily: "'Outfit', sans-serif", fontSize: "13px",

@@ -1,13 +1,11 @@
 generator client {
   provider = "prisma-client-js"
 }
-
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
-
 model Admin {
   id        String   @id @default(cuid())
   email     String   @unique
@@ -15,10 +13,8 @@ model Admin {
   name      String   @default("Admin")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
   @@map("admins")
 }
-
 model Registration {
   id              String   @id @default(cuid())
   registrationId  String   @unique
@@ -40,12 +36,9 @@ model Registration {
   paymentStatus   String   @default("pending")
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
-
   messageLogs MessageLog[]
-
   @@map("registrations")
 }
-
 model MessageLog {
   id             String   @id @default(cuid())
   registrationId String
@@ -55,10 +48,8 @@ model MessageLog {
   errorMessage   String?
   messageId      String?
   sentAt         DateTime @default(now())
-
   @@map("message_logs")
 }
-
 model WhatsAppConfig {
   id            String   @id @default(cuid())
   wabaId        String
@@ -73,6 +64,5 @@ model WhatsAppConfig {
   isActive      Boolean  @default(true)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
-
   @@map("whatsapp_configs")
 }

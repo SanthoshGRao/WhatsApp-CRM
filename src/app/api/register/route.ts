@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-// WhatsApp payment confirmation is sent by admin, not at registration time
 import { sendAdminNotification } from "@/lib/email";
-
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -22,19 +20,13 @@ export async function POST(request: NextRequest) {
     } = body;
     const paymentOrderId = body.paymentOrderId || body.orderId || null;
     const paymentSignature = body.paymentSignature || null;
-
-    // Validation
     if (!name || !club || !mobile || !pax) {
       return NextResponse.json(
         { error: "Name, club, mobile, and pax are required" },
         { status: 400 }
       );
     }
-
-    // Use frontend-generated registration ID or create a new one
     const registrationId = body.registrationId || "REA" + Date.now().toString().slice(-6) + Math.floor(Math.random() * 100).toString().padStart(2, "0");
-
-    // Prevent duplicate UTR
     if (paymentId && paymentId !== 'Pending') {
       const existingUtr = await prisma.registration.findFirst({
         where: { paymentId: paymentId }
@@ -46,8 +38,6 @@ export async function POST(request: NextRequest) {
         );
       }
     }
-
-    // Prevent duplicate mobile number
     const existingMobile = await prisma.registration.findFirst({
       where: { mobile: mobile }
     });
@@ -57,8 +47,6 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-
-    // Create registration in database
     const registration = await prisma.registration.create({
       data: {
         registrationId,
@@ -66,7 +54,7 @@ export async function POST(request: NextRequest) {
         club,
         zone: zone || null,
         mobile,
-        whatsappNumber: mobile, // Use mobile as WhatsApp number
+        whatsappNumber: mobile, 
         pax: parseInt(pax) || 1,
         guestNames: guestNames || null,
         vegCount: parseInt(vegCount) || 0,
@@ -80,10 +68,6 @@ export async function POST(request: NextRequest) {
         category: category || "regular",
       },
     });
-    // WhatsApp payment confirmation will be sent by admin after manual payment verification
-    // No automatic WhatsApp message on registration
-
-    // Send admin email notification asynchronously
     sendAdminNotification({
       id: registration.id,
       registrationId: registration.registrationId,
@@ -101,7 +85,6 @@ export async function POST(request: NextRequest) {
     }).catch((err) => {
       console.error("Email notification error:", err);
     });
-
     return NextResponse.json({
       success: true,
       registrationId: registration.registrationId,
