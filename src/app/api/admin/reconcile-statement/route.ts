@@ -25,9 +25,10 @@ export async function POST(request: NextRequest) {
           constructor() { return Object.create(null); }
         };
       }
-      const pdfParseModule = await import("pdf-parse");
-      const pdfParse = (pdfParseModule as any).default || pdfParseModule;
-      const pdfData = await pdfParse(buffer);
+      const { PDFParse } = require("pdf-parse");
+      const parser = new PDFParse({ data: buffer });
+      const pdfData = await parser.getText();
+      await parser.destroy();
       textLines = pdfData.text.split("\n");
     } else if (mime === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" || mime === "application/vnd.ms-excel" || mime === ".xlsx" || mime === ".xls") {
       const workbook = xlsx.read(buffer, { type: "buffer" });
