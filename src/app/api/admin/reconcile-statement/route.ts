@@ -20,10 +20,8 @@ export async function POST(request: NextRequest) {
     let textLines: string[] = [];
     const mime = file.type || file.name.slice(file.name.lastIndexOf('.')).toLowerCase();
     if (mime === "application/pdf" || mime === ".pdf") {
-      const { PDFParse } = require("pdf-parse");
-      const parser = new PDFParse({ data: buffer });
-      const pdfData = await parser.getText();
-      await parser.destroy();
+      const pdf = require("pdf-parse");
+      const pdfData = await pdf(buffer);
       textLines = pdfData.text.split("\n");
     } else if (mime === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" || mime === "application/vnd.ms-excel" || mime === ".xlsx" || mime === ".xls") {
       const workbook = xlsx.read(buffer, { type: "buffer" });
