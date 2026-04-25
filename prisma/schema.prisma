@@ -25,6 +25,7 @@ model Registration {
   name            String
   club            String
   zone            String?
+  category        String   @default("regular")
   mobile          String
   whatsappNumber  String?
   pax             Int

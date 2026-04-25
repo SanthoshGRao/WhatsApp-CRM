@@ -2655,6 +2655,81 @@
             .step-circle { width: 28px; height: 28px; font-size: 12px; left: 4px; }
             .step::before { left: 16px; }
         }
+
+        /* ══ CATEGORY TABS ══ */
+        .cat-tabs {
+            display: flex;
+            gap: 0;
+            background: linear-gradient(180deg, rgba(0,31,69,0.04), rgba(0,31,69,0.01));
+            border-bottom: 1.5px solid var(--border);
+        }
+        .cat-tab {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 16px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 13.5px;
+            font-weight: 600;
+            color: var(--muted);
+            background: none;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .cat-tab::after {
+            content: '';
+            position: absolute;
+            bottom: -1.5px;
+            left: 25%;
+            right: 25%;
+            height: 3px;
+            border-radius: 3px 3px 0 0;
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+        .cat-tab:hover { color: var(--navy); }
+        .cat-tab.active { color: var(--navy); }
+        .cat-tab.active::after {
+            left: 15%;
+            right: 15%;
+            background: linear-gradient(90deg, var(--gold-d), var(--gold-l));
+        }
+        .cat-tab.active.silver-tab { color: #37474f; }
+        .cat-tab.active.silver-tab::after {
+            background: linear-gradient(90deg, #78909c, #b0bec5);
+        }
+        .cat-tab-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            background: rgba(0,0,0,0.04);
+            color: var(--muted);
+            transition: all 0.3s ease;
+        }
+        .cat-tab.active .cat-tab-icon.regular-icon {
+            background: linear-gradient(135deg, var(--gold-d), var(--gold-l));
+            color: #fff;
+            box-shadow: 0 3px 10px rgba(201,149,42,0.35);
+        }
+        .cat-tab.active.silver-tab .cat-tab-icon.silver-icon {
+            background: linear-gradient(135deg, #607d8b, #90a4ae);
+            color: #fff;
+            box-shadow: 0 3px 10px rgba(96,125,139,0.35);
+        }
+        .cat-tab-label { display: flex; flex-direction: column; text-align: left; }
+        .cat-tab-name { line-height: 1.2; }
+        .cat-tab-price { font-size: 10.5px; font-weight: 500; opacity: 0.55; margin-top: 1px; }
+
+        .silver-hidden { display: none !important; }
+
     </style>
 </head>
 
@@ -2732,6 +2807,27 @@
                         <div class="rl">REGISTERED</div>
                     </div>
                 </div>
+                <!-- Category Tabs -->
+                <div class="cat-tabs" id="catTabs">
+                    <button class="cat-tab active" id="tabRegular" onclick="switchCategory('regular')">
+                        <div class="cat-tab-icon regular-icon">
+                            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        </div>
+                        <div class="cat-tab-label">
+                            <div class="cat-tab-name">Regular</div>
+                            <div class="cat-tab-price">₹1,700 / person</div>
+                        </div>
+                    </button>
+                    <button class="cat-tab silver-tab" id="tabSilver" onclick="switchCategory('silver')">
+                        <div class="cat-tab-icon silver-icon">
+                            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                        </div>
+                        <div class="cat-tab-label">
+                            <div class="cat-tab-name">Silver</div>
+                            <div class="cat-tab-price">₹5,000 / person</div>
+                        </div>
+                    </button>
+                </div>
                 <div class="fb" id="fb">
 
                     <div class="field">
@@ -2791,7 +2887,7 @@
                             </svg>Enter a valid 10-digit mobile number</div>
                     </div>
 
-                    <div class="field">
+                    <div class="field" id="paxSection">
                         <label>Number of Pax <span class="req">*</span></label>
                         <div class="pxr">
                             <button class="pxb" onclick="chPax(-1)">−</button>
@@ -2801,12 +2897,12 @@
                         </div>
                     </div>
 
-                    <div style="margin-bottom:20px">
+                    <div style="margin-bottom:20px" id="guestSection">
                         <div class="pst">Guest Details</div>
                         <div class="pc-wrap" id="pcWrap"></div>
                     </div>
 
-                    <div class="divl"></div>
+                    <div class="divl" id="guestDivider"></div>
 
                     <!-- Summary -->
                     <div class="smb">
@@ -2814,13 +2910,13 @@
                             <div class="smi">
                                 <div class="smv" id="sPx">1</div>
                                 <div class="sml">TOTAL PAX</div>
-                                <div class="sml" style="color:rgba(255,255,255,.3);font-size:9px">₹1,700 PER PAX</div>
+                                <div class="sml" style="color:rgba(255,255,255,.3);font-size:9px" id="sPerPax">₹1,700 PER PAX</div>
                             </div>
-                            <div class="smi">
+                            <div class="smi" id="smVeg">
                                 <div class="smv" id="sVg">0</div>
                                 <div class="sml">VEG 🥦</div>
                             </div>
-                            <div class="smi">
+                            <div class="smi" id="smNveg">
                                 <div class="smv" id="sNv">0</div>
                                 <div class="sml">NON-VEG 🍗</div>
                             </div>
@@ -3349,8 +3445,44 @@
         const UPI_REF_URL = encodeURIComponent('http://npci.org/upi/schema/');
 
         const ADMIN_USER = 's', ADMIN_PASS = 's';
-        const KEY = 'rotary_rea2025', FA = 1700, PP = 15;
+        const KEY = 'rotary_rea2025', FA = 1700, SILVER_FA = 5000, PP = 15;
         let pgN = 1, paymentConfirmed = false, currentUPILink = '';
+        let currentCategory = 'regular'; // 'regular' or 'silver'
+
+        function switchCategory(cat) {
+            currentCategory = cat;
+            const isS = cat === 'silver';
+            // Toggle tab active states
+            document.getElementById('tabRegular').classList.toggle('active', !isS);
+            document.getElementById('tabSilver').classList.toggle('active', isS);
+            // Toggle card title
+            const ctTitle = document.querySelector('.ct-t');
+            const ctSub = document.querySelector('.ct-s');
+            if (ctTitle) ctTitle.textContent = isS ? 'Silver Registration' : 'Register Now';
+            if (ctSub) ctSub.textContent = isS ? 'Single person · ₹5,000' : 'Fill in your details below';
+            // Hide/show sections
+            ['paxSection', 'guestSection', 'guestDivider'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.toggle('silver-hidden', isS);
+            });
+            ['smVeg', 'smNveg'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.toggle('silver-hidden', isS);
+            });
+            // Update per-pax label
+            const spp = document.getElementById('sPerPax');
+            if (spp) spp.textContent = isS ? '₹5,000 FLAT' : '₹1,700 PER PAX';
+            // Reset pax to 1 for silver
+            if (isS) {
+                document.getElementById('fp').value = 1;
+                buildCards(1);
+            }
+            // Update summary grid columns
+            const smg = document.querySelector('.smg');
+            if (smg) smg.style.gridTemplateColumns = isS ? '1fr' : '1fr 1fr 1fr';
+            calcSum();
+            updateUPIBox();
+        }
 
         // ══ ZONE MAP ══
         const ZONE_MAP = {
@@ -3502,6 +3634,7 @@
                 amount: calcAmount(),
                 upiLink: currentUPILink,
                 guestCards: cards.map(c => ({ name: c.name, isV: c.isV, isN: c.isN })),
+                category: currentCategory,
                 timestamp: Date.now()
             };
             localStorage.setItem(SESSION_KEY, JSON.stringify(session));
@@ -3540,6 +3673,11 @@
                 document.getElementById('cddTrig').classList.add('has-val');
                 cddSelected = session.club;
                 autoZone();
+            }
+
+            // Restore category
+            if (session.category) {
+                switchCategory(session.category);
             }
 
             // Restore pax & guest cards
@@ -3854,23 +3992,15 @@
 
         function makeCard(i) {
             const isGuest = i > 1;
+            const isSilver = currentCategory === 'silver';
+            const priceTag = isSilver ? '₹5,000' : '₹1,700';
             const nameField = isGuest ? `
     <div class="field" style="margin-bottom:12px">
         <label>Guest ${i} Name<span class="req">*</span></label>
         <input type="text" id="gn${i}" placeholder="Enter guest name" oninput="document.getElementById('gn${i}').classList.remove('er'); const egn = document.getElementById('egn${i}'); if(egn) egn.classList.remove('on');" class="pxi" style="text-align:left; padding: 12px 15px !important; border: 1.5px solid var(--border) !important; width: 100%; box-shadow: none !important; font-size: 14px; font-weight: 500;" />
         <div class="em" id="egn${i}">Please enter Guest ${i} name</div>
     </div>` : '';
-            const d2 = document.createElement('div'); d2.className = 'pc';
-            d2.innerHTML = `
-  <div class="pch">
-    <div class="pcb2">
-      <div class="pcbdg">${i}</div>
-      <div class="pclbl">Guest ${i}</div>
-    </div>
-    <div class="pctag ad" id="pt${i}">₹1,700</div>
-  </div>
-  <div class="pcb">
-    ${nameField}
+            const mealSection = isSilver ? '' : `
     <div class="meal-section-label">
       <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
       Meal Preference
@@ -3895,7 +4025,19 @@
         </div>
       </label>
     </div>
-    <div class="em" id="eml${i}" style="margin-top: 8px;">Please select meal preference</div>
+    <div class="em" id="eml${i}" style="margin-top: 8px;">Please select meal preference</div>`;
+            const d2 = document.createElement('div'); d2.className = 'pc';
+            d2.innerHTML = `
+  <div class="pch">
+    <div class="pcb2">
+      <div class="pcbdg">${i}</div>
+      <div class="pclbl">${isSilver ? 'Registrant' : 'Guest ' + i}</div>
+    </div>
+    <div class="pctag ad" id="pt${i}">${priceTag}</div>
+  </div>
+  <div class="pcb">
+    ${nameField}
+    ${mealSection}
   </div>`;
             return d2;
         }
@@ -3910,28 +4052,36 @@
 
         function getCards() {
             const n = +document.getElementById('fp').value, c = [];
+            const isSilver = currentCategory === 'silver';
             for (let i = 1; i <= n; i++) {
                 const mv = document.getElementById('mv' + i), mn = document.getElementById('mn' + i);
-                if (!mv || !mn) continue;
                 const nameInp = document.getElementById('gn' + i);
                 const paxName = i === 1 ? document.getElementById('fn').value.trim() : (nameInp ? nameInp.value.trim() : '');
-                c.push({ i, name: paxName, hasMeal: mv.classList.contains('sv') || mn.classList.contains('sn'), isV: mv.classList.contains('sv'), isN: mn.classList.contains('sn') });
+                if (isSilver) {
+                    c.push({ i, name: paxName, hasMeal: true, isV: false, isN: false });
+                } else {
+                    if (!mv || !mn) continue;
+                    c.push({ i, name: paxName, hasMeal: mv.classList.contains('sv') || mn.classList.contains('sn'), isV: mv.classList.contains('sv'), isN: mn.classList.contains('sn') });
+                }
             }
             return c;
         }
 
         function calcSum() {
             const c = getCards();
+            const isSilver = currentCategory === 'silver';
+            const pricePerPax = isSilver ? SILVER_FA : FA;
             const vg = c.filter(x => x.isV).length, nv = c.filter(x => x.isN).length;
-            const tot = c.length * FA;
+            const tot = c.length * pricePerPax;
             
             const sPxEl = document.getElementById('sPx'); if(sPxEl) sPxEl.textContent = c.length;
             const sVgEl = document.getElementById('sVg'); if(sVgEl) sVgEl.textContent = vg;
             const sNvEl = document.getElementById('sNv'); if(sNvEl) sNvEl.textContent = nv;
             const sTotEl = document.getElementById('sTot'); if(sTotEl) sTotEl.textContent = '₹ ' + tot.toLocaleString('en-IN');
             
-            const sBrkEl = document.getElementById('sBrk'); if(sBrkEl) sBrkEl.textContent = c.length + '×₹1,700';
-            const sMsEl = document.getElementById('sMs'); if(sMsEl) sMsEl.textContent = '';
+            const sBrkEl = document.getElementById('sBrk');
+            if(sBrkEl) sBrkEl.textContent = isSilver ? '1×₹5,000' : c.length + '×₹1,700';
+            const sMsEl = document.getElementById('sMs'); if(sMsEl) sMsEl.textContent = isSilver ? 'Silver Package' : '';
         }
 
         // ══ CUSTOM CLUB DROPDOWN ══
@@ -4335,6 +4485,7 @@
             if (!isValidMob) firstErrEl = firstErrEl || document.getElementById('fm');
 
             for (let i = 2; i <= numPax; i++) {
+                if (currentCategory === 'silver') break; // Silver has only 1 pax
                 const gnInput = document.getElementById('gn' + i);
                 const egn = document.getElementById('egn' + i);
                 if (gnInput && !gnInput.value.trim()) {
@@ -4348,15 +4499,17 @@
                 }
             }
 
-            for (let i = 1; i <= numPax; i++) {
-                const mv = document.getElementById('mv' + i);
-                const mn = document.getElementById('mn' + i);
-                const eml = document.getElementById('eml' + i);
-                if (mv && mn && !mv.classList.contains('sv') && !mn.classList.contains('sn')) {
-                    if (eml) eml.classList.add('on');
-                    firstErrEl = firstErrEl || (document.getElementById('eml' + i) || mv);
-                } else if (eml) {
-                    eml.classList.remove('on');
+            if (currentCategory !== 'silver') {
+                for (let i = 1; i <= numPax; i++) {
+                    const mv = document.getElementById('mv' + i);
+                    const mn = document.getElementById('mn' + i);
+                    const eml = document.getElementById('eml' + i);
+                    if (mv && mn && !mv.classList.contains('sv') && !mn.classList.contains('sn')) {
+                        if (eml) eml.classList.add('on');
+                        firstErrEl = firstErrEl || (document.getElementById('eml' + i) || mv);
+                    } else if (eml) {
+                        eml.classList.remove('on');
+                    }
                 }
             }
 
@@ -4413,7 +4566,6 @@
                 }
             } catch (err) {
                 console.error('Mobile check failed:', err);
-                // Allow proceeding if check fails (server-side will catch it)
             }
             procBtn.disabled = false;
             procBtn.innerHTML = '<svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg> Proceed to Payment';
@@ -4421,28 +4573,33 @@
             const zone = document.getElementById('fz').value || getZone(club) || '—';
             const vg = cards.filter(c => c.isV).length, nv = cards.filter(c => c.isN).length;
             const amount = calcAmount();
-            const guestBlockHTML = `
+            const isSilver = currentCategory === 'silver';
+            const catLabel = isSilver ? '<div class="modal-detail-row"><span class="modal-detail-label">Category</span><span class="modal-detail-value" style="background:linear-gradient(135deg,#607d8b,#90a4ae);color:#fff;padding:3px 10px;border-radius:6px;font-size:12px;">Silver</span></div>' : '<div class="modal-detail-row"><span class="modal-detail-label">Category</span><span class="modal-detail-value" style="background:linear-gradient(135deg,var(--gold-d),var(--gold-l));color:#fff;padding:3px 10px;border-radius:6px;font-size:12px;">Regular</span></div>';
+            const guestBlockHTML = isSilver ? '' : `
                 <div style="margin: 12px 0; padding: 12px; background: #fdfaf4; border-radius: 8px; border: 1px solid #efe9d9;">
                     <div style="font-size:11.5px; font-weight:700; color:var(--muted); margin-bottom:10px; text-transform:uppercase; letter-spacing:0.5px;">Guest List</div>
                     <div style="display:flex; flex-direction:column; gap:8px;">
                         ${cards.map(c => `
                             <div style="display:flex; justify-content:space-between; align-items:center;">
                                 <span style="font-weight:600; color:var(--navy); font-size:13.5px;">${c.name || 'N/A'}</span>
-                                <span style="display:inline-flex; align-items:center; gap:4px; font-size:11px; font-weight:600; padding:3px 8px; border-radius:6px; background:${c.isV ? 'var(--veg-bg)' : 'var(--nveg-bg)'}; color:${c.isV ? 'var(--veg)' : 'var(--nveg)'}; border:1px solid ${c.isV ? 'var(--veg-b)' : 'var(--nveg-b)'};">${c.isV ? '🥦 Veg' : '🍗 Non-Veg'}</span>
+                                <span style="display:inline-flex; align-items:center; gap:4px; font-size:11px; font-weight:600; padding:3px 8px; border-radius:6px; background:${c.isV ? 'var(--veg-bg)' : 'var(--nveg-bg)'}; color:${c.isV ? 'var(--veg)' : 'var(--nveg)'}; border:1px solid ${c.isV ? 'var(--veg-b)' : 'var(--nveg-b)'};">\${c.isV ? '🥦 Veg' : '🍗 Non-Veg'}</span>
                             </div>
                         `).join('<div style="height:1px; background:#efe9d9; width:100%; margin: 1px 0;"></div>')}
                     </div>
                 </div>
             `;
+            const mealsRow = isSilver ? '' : `<div class="modal-detail-row"><span class="modal-detail-label">Meals</span><span class="modal-detail-value">${vg} Veg 🥦, ${nv} Non-Veg 🍗</span></div>`;
+            const paxRow = isSilver ? '' : `<div class="modal-detail-row"><span class="modal-detail-label">Pax</span><span class="modal-detail-value">${cards.length}</span></div>`;
             
             document.getElementById('modalDetails').innerHTML = `
+                ${catLabel}
                 <div class="modal-detail-row"><span class="modal-detail-label">Name</span><span class="modal-detail-value">${name}</span></div>
                 <div class="modal-detail-row"><span class="modal-detail-label">Club</span><span class="modal-detail-value">${club}</span></div>
                 <div class="modal-detail-row"><span class="modal-detail-label">Zone</span><span class="modal-detail-value">${zone}</span></div>
                 <div class="modal-detail-row"><span class="modal-detail-label">Mobile</span><span class="modal-detail-value">${mob}</span></div>
-                <div class="modal-detail-row"><span class="modal-detail-label">Pax</span><span class="modal-detail-value">${cards.length}</span></div>
+                ${paxRow}
                 ${guestBlockHTML}
-                <div class="modal-detail-row"><span class="modal-detail-label">Meals</span><span class="modal-detail-value">${vg} Veg 🥦, ${nv} Non-Veg 🍗</span></div>
+                ${mealsRow}
                 <div class="modal-detail-row"><span class="modal-detail-label">Amount</span><span class="modal-detail-value" style="font-size:18px;color:var(--gold-d);">₹${amount.toLocaleString('en-IN')}</span></div>`;
             document.getElementById('confirmModal').classList.add('active');
         }
@@ -4460,14 +4617,15 @@
             const zone = document.getElementById('fz').value || getZone(club) || '—';
             const cards = getCards();
             const vg = cards.filter(c => c.isV).length, nv = cards.filter(c => c.isN).length;
-            const guestBlockHTML = `
+            const isSilver = currentCategory === 'silver';
+            const guestBlockHTML = isSilver ? '' : `
                 <div style="margin: 12px 0; padding: 12px; background: #fdfaf4; border-radius: 8px; border: 1px solid #efe9d9;">
                     <div style="font-size:11.5px; font-weight:700; color:var(--muted); margin-bottom:10px; text-transform:uppercase; letter-spacing:0.5px;">Guest List</div>
                     <div style="display:flex; flex-direction:column; gap:8px;">
                         ${cards.map(c => `
                             <div style="display:flex; justify-content:space-between; align-items:center;">
                                 <span style="font-weight:600; color:var(--navy); font-size:13.5px;">${c.name || 'N/A'}</span>
-                                <span style="display:inline-flex; align-items:center; gap:4px; font-size:11px; font-weight:600; padding:3px 8px; border-radius:6px; background:${c.isV ? 'var(--veg-bg)' : 'var(--nveg-bg)'}; color:${c.isV ? 'var(--veg)' : 'var(--nveg)'}; border:1px solid ${c.isV ? 'var(--veg-b)' : 'var(--nveg-b)'};">${c.isV ? '🥦 Veg' : '🍗 Non-Veg'}</span>
+                                <span style="display:inline-flex; align-items:center; gap:4px; font-size:11px; font-weight:600; padding:3px 8px; border-radius:6px; background:${c.isV ? 'var(--veg-bg)' : 'var(--nveg-bg)'}; color:${c.isV ? 'var(--veg)' : 'var(--nveg)'}; border:1px solid ${c.isV ? 'var(--veg-b)' : 'var(--nveg-b)'};">\${c.isV ? '🥦 Veg' : '🍗 Non-Veg'}</span>
                             </div>
                         `).join('<div style="height:1px; background:#efe9d9; width:100%; margin: 1px 0;"></div>')}
                     </div>
@@ -4478,13 +4636,15 @@
             const qrc = document.getElementById('qrcode'); qrc.innerHTML = '';
             if (typeof QRCode !== 'undefined') new QRCode(qrc, { text: currentUPILink, width: 300, height: 300, colorDark: '#000', colorLight: '#fff', correctLevel: QRCode.CorrectLevel.H });
             document.getElementById('payRecapAmount').textContent = '₹ ' + amount.toLocaleString('en-IN');
+            const mealsRecapRow = isSilver ? `<div class="pay-recap-row"><span>Category</span><strong style="background:linear-gradient(135deg,#607d8b,#90a4ae);color:#fff;padding:2px 8px;border-radius:5px;font-size:11px;">Silver</strong></div>` : `<div class="pay-recap-row"><span>Meals</span><strong>${vg}🥦 ${nv}🍗</strong></div>`;
+            const paxRecapRow = isSilver ? '' : `<div class="pay-recap-row"><span>Pax</span><strong>${cards.length}</strong></div>`;
             document.getElementById('payRecapBody').innerHTML = `
                 <div class="pay-recap-row"><span>Name</span><strong>${name}</strong></div>
                 <div class="pay-recap-row"><span>Club</span><strong>${club}</strong></div>
                 <div class="pay-recap-row"><span>Zone</span><strong>${zone}</strong></div>
-                <div class="pay-recap-row"><span>Pax</span><strong>${cards.length}</strong></div>
+                ${paxRecapRow}
                 ${guestBlockHTML}
-                <div class="pay-recap-row"><span>Meals</span><strong>${vg}🥦 ${nv}🍗</strong></div>
+                ${mealsRecapRow}
                 <div class="pay-recap-row"><span>Reg ID</span><strong style="color:#5f259f;font-family:monospace;">${currentRegId}</strong></div>`;
             document.getElementById('payStepAmount').textContent = '₹' + amount.toLocaleString('en-IN');
             paymentDone = true;
@@ -4532,7 +4692,8 @@
             const amount = calcAmount(); // Real amount
             const gnArr = cards.slice(1).map(c => c.name).filter(x=>x);
             const gnStr = gnArr.length ? gnArr.join(', ') : null;
-            const gd = cards.map(c => `${c.name || 'N/A'}: ${c.isV ? 'Veg' : 'Non-Veg'}`).join('\n');
+            const isSilver = currentCategory === 'silver';
+            const gd = isSilver ? `${cards[0]?.name || 'N/A'}: Silver` : cards.map(c => `${c.name || 'N/A'}: ${c.isV ? 'Veg' : 'Non-Veg'}`).join('\n');
 
             const subBtn = document.getElementById('subBtn');
             if (subBtn) { subBtn.disabled = true; subBtn.innerHTML = '⏳ Submitting...'; }
@@ -4544,8 +4705,9 @@
                     body: JSON.stringify({
                         registrationId: currentRegId,
                         name, club, zone, mobile: mob, pax, guestNames: gnStr,
-                        vegCount: vg, nvegCount: nv, amount, guestDetails: gd,
-                        paymentId: utrNumber
+                        vegCount: isSilver ? 0 : vg, nvegCount: isSilver ? 0 : nv, amount, guestDetails: gd,
+                        paymentId: utrNumber,
+                        category: currentCategory
                     })
                 });
                 const apiData = await res.json();
@@ -4553,15 +4715,12 @@
 
                 const regId = currentRegId;
                 const d = load();
-                d.push({ id: regId, name, club, zone, mobile: mob, pax, guestNames: gnStr, vegCount: vg, nvegCount: nv, utr: utrNumber, amount, guestDetails: gd, timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) });
+                d.push({ id: regId, name, club, zone, mobile: mob, pax, guestNames: gnStr, vegCount: isSilver ? 0 : vg, nvegCount: isSilver ? 0 : nv, utr: utrNumber, amount, guestDetails: gd, category: currentCategory, timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) });
                 save(d);
                 fetchRegCount();
-                clearSession(); // Clear saved session after successful submission
-                document.getElementById('sRef').innerHTML = `
-        <div style="display:flex; justify-content:space-between; margin-bottom:14px; padding-bottom:14px; border-bottom:1px dashed rgba(0,51,102,0.1);"><span style="color:var(--muted); font-size:13px; text-transform:uppercase; letter-spacing:0.5px;">Registration ID</span><strong style="color:var(--navy); font-size:14px; background:rgba(0,51,102,0.06); padding:4px 8px; border-radius:6px; letter-spacing: 0.5px;">${regId}</strong></div>
-        <div style="display:flex; justify-content:space-between; margin-bottom:12px; align-items:center;"><span style="color:var(--muted); font-size:13.5px;">Name</span><strong style="color:var(--navy); font-size:14.5px; text-align:right;">${name}</strong></div>
-        <div style="display:flex; justify-content:space-between; margin-bottom:12px; align-items:center;"><span style="color:var(--muted); font-size:13.5px;">Club</span><strong style="color:var(--navy); font-size:14.5px; text-align:right;">${club}</strong></div>
-        <div style="display:flex; justify-content:space-between; margin-bottom:12px; align-items:center;"><span style="color:var(--muted); font-size:13.5px;">Mobile</span><strong style="color:var(--navy); font-size:14.5px; text-align:right;">${mob}</strong></div>
+                clearSession();
+                const catBadge = isSilver ? `<div style="display:flex; justify-content:space-between; margin-bottom:12px; align-items:center;"><span style="color:var(--muted); font-size:13.5px;">Category</span><strong style="background:linear-gradient(135deg,#607d8b,#90a4ae);color:#fff;padding:3px 10px;border-radius:6px;font-size:12px;">Silver</strong></div>` : `<div style="display:flex; justify-content:space-between; margin-bottom:12px; align-items:center;"><span style="color:var(--muted); font-size:13.5px;">Category</span><strong style="background:linear-gradient(135deg,var(--gold-d),var(--gold-l));color:#fff;padding:3px 10px;border-radius:6px;font-size:12px;">Regular</strong></div>`;
+                const successGuestBlock = isSilver ? '' : `
         <div style="display:flex; justify-content:space-between; margin-bottom:12px; align-items:center;"><span style="color:var(--muted); font-size:13.5px;">Pax</span><strong style="color:var(--navy); font-size:14.5px; text-align:right;">${pax}</strong></div>
         <div style="margin: 12px 0 16px 0; padding: 12px; background: #fdfaf4; border-radius: 8px; border: 1px solid #efe9d9;">
             <div style="font-size:11.5px; font-weight:700; color:var(--muted); margin-bottom:10px; text-transform:uppercase; letter-spacing:0.5px;">Guest List</div>
@@ -4569,11 +4728,18 @@
                 ${cards.map(c => `
                     <div style="display:flex; justify-content:space-between; align-items:center;">
                         <span style="font-weight:600; color:var(--navy); font-size:13.5px;">${c.name || 'N/A'}</span>
-                        <span style="display:inline-flex; align-items:center; gap:4px; font-size:11px; font-weight:600; padding:3px 8px; border-radius:6px; background:${c.isV ? 'var(--veg-bg)' : 'var(--nveg-bg)'}; color:${c.isV ? 'var(--veg)' : 'var(--nveg)'}; border:1px solid ${c.isV ? 'var(--veg-b)' : 'var(--nveg-b)'};">${c.isV ? '🥦 Veg' : '🍗 Non-Veg'}</span>
+                        <span style="display:inline-flex; align-items:center; gap:4px; font-size:11px; font-weight:600; padding:3px 8px; border-radius:6px; background:${c.isV ? 'var(--veg-bg)' : 'var(--nveg-bg)'}; color:${c.isV ? 'var(--veg)' : 'var(--nveg)'}; border:1px solid ${c.isV ? 'var(--veg-b)' : 'var(--nveg-b)'};">\${c.isV ? '🥦 Veg' : '🍗 Non-Veg'}</span>
                     </div>
                 `).join('<div style="height:1px; background:#efe9d9; width:100%; margin: 1px 0;"></div>')}
             </div>
-        </div>
+        </div>`;
+                document.getElementById('sRef').innerHTML = `
+        <div style="display:flex; justify-content:space-between; margin-bottom:14px; padding-bottom:14px; border-bottom:1px dashed rgba(0,51,102,0.1);"><span style="color:var(--muted); font-size:13px; text-transform:uppercase; letter-spacing:0.5px;">Registration ID</span><strong style="color:var(--navy); font-size:14px; background:rgba(0,51,102,0.06); padding:4px 8px; border-radius:6px; letter-spacing: 0.5px;">${regId}</strong></div>
+        ${catBadge}
+        <div style="display:flex; justify-content:space-between; margin-bottom:12px; align-items:center;"><span style="color:var(--muted); font-size:13.5px;">Name</span><strong style="color:var(--navy); font-size:14.5px; text-align:right;">${name}</strong></div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:12px; align-items:center;"><span style="color:var(--muted); font-size:13.5px;">Club</span><strong style="color:var(--navy); font-size:14.5px; text-align:right;">${club}</strong></div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:12px; align-items:center;"><span style="color:var(--muted); font-size:13.5px;">Mobile</span><strong style="color:var(--navy); font-size:14.5px; text-align:right;">${mob}</strong></div>
+        ${successGuestBlock}
         <div style="display:flex; justify-content:space-between; margin-bottom:0; padding-top:16px; border-top:1px dashed rgba(0,51,102,0.1); align-items:center;"><span style="color:var(--navy); font-size:13.5px; font-weight:600;">Amount Paid</span><strong style="color:var(--gold-d); font-size:22px;">₹${amount.toLocaleString('en-IN')}</strong></div>`;
                 go('pgConfirm');
             } catch (e) {
@@ -4608,6 +4774,9 @@
             currentUPILink = '';
             scannedUtr = '';
             clearSession();
+
+            // Reset category to regular
+            switchCategory('regular');
 
             // Reset payment page elements
             const dlBtnR = document.getElementById('downloadQRBtn');

@@ -18,6 +18,7 @@ export async function POST(request: NextRequest) {
       amount,
       guestDetails,
       paymentId,
+      category,
     } = body;
     const paymentOrderId = body.paymentOrderId || body.orderId || null;
     const paymentSignature = body.paymentSignature || null;
@@ -76,6 +77,7 @@ export async function POST(request: NextRequest) {
         paymentOrderId: paymentOrderId || null,
         paymentSignature: paymentSignature || null,
         paymentStatus: "pending",
+        category: category || "regular",
       },
     });
     // WhatsApp payment confirmation will be sent by admin after manual payment verification

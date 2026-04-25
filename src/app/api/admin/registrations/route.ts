@@ -16,6 +16,7 @@ export async function GET(request: NextRequest) {
     const filterStatus = searchParams.get("status") || "";
     const filterZone = searchParams.get("zone") || "";
     const filterClub = searchParams.get("club") || "";
+    const filterCategory = searchParams.get("category") || "";
     const sortBy = searchParams.get("sortBy") || "createdAt";
     const sortOrder = searchParams.get("sortOrder") === "asc" ? "asc" : "desc";
 
@@ -34,6 +35,7 @@ export async function GET(request: NextRequest) {
     if (filterStatus) where.paymentStatus = filterStatus;
     if (filterZone) where.zone = filterZone;
     if (filterClub) where.club = filterClub;
+    if (filterCategory) where.category = filterCategory;
 
     const [registrations, total] = await Promise.all([
       prisma.registration.findMany({

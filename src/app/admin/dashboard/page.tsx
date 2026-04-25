@@ -18,6 +18,7 @@ interface Registration {
   paymentId: string | null;
   paymentOrderId: string | null;
   paymentStatus: string;
+  category: string;
   createdAt: string;
   whatsappStatus: { status: string; error: string | null };
   emailStatus: { status: string; error: string | null };
@@ -51,6 +52,7 @@ export default function AdminDashboard() {
   const [filterStatus, setFilterStatus] = useState("");
   const [filterZone, setFilterZone] = useState("");
   const [filterClub, setFilterClub] = useState("");
+  const [filterCategory, setFilterCategory] = useState("");
   const [notification, setNotification] = useState<{message: string, type: "success" | "error" | "info"} | null>(null);
 
   const showMessage = (msg: string, type: "success" | "error" | "info" = "info") => {
@@ -70,7 +72,7 @@ export default function AdminDashboard() {
       if (data.success) {
         showMessage("WhatsApp message resent successfully!", "success");
         setSelectedReg(prev => prev ? { ...prev, whatsappStatus: { status: "sent", error: null } } : null);
-        fetchData(pagination.page, search, filterStatus, filterZone, filterClub);
+        fetchData(pagination.page, search, filterStatus, filterZone, filterClub, filterCategory);
       } else {
         showMessage("Failed to resend: " + data.error, "error");
       }
@@ -80,10 +82,10 @@ export default function AdminDashboard() {
     setResending(false);
   };
 
-  const fetchData = useCallback(async (page = 1, searchQuery = "", status = filterStatus, zone = filterZone, club = filterClub) => {
+  const fetchData = useCallback(async (page = 1, searchQuery = "", status = filterStatus, zone = filterZone, club = filterClub, category = filterCategory) => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/admin/registrations?page=${page}&limit=10&search=${encodeURIComponent(searchQuery)}&status=${encodeURIComponent(status)}&zone=${encodeURIComponent(zone)}&club=${encodeURIComponent(club)}&sortOrder=desc`);
+      const res = await fetch(`/api/admin/registrations?page=${page}&limit=10&search=${encodeURIComponent(searchQuery)}&status=${encodeURIComponent(status)}&zone=${encodeURIComponent(zone)}&club=${encodeURIComponent(club)}&category=${encodeURIComponent(category)}&sortOrder=desc`);
       if (res.status === 401) { router.push("/admin/login"); return; }
       const data = await res.json();
       setRegistrations(data.registrations || []);
@@ -91,12 +93,12 @@ export default function AdminDashboard() {
       setPagination(data.pagination || { page: 1, limit: 10, total: 0, totalPages: 0 });
     } catch { console.error("Failed to fetch"); }
     setLoading(false);
-  }, [router, filterStatus, filterZone, filterClub]);
+  }, [router, filterStatus, filterZone, filterClub, filterCategory]);
 
-  useEffect(() => { fetchData(1, "", filterStatus, filterZone, filterClub); }, [fetchData, filterStatus, filterZone, filterClub]);
+  useEffect(() => { fetchData(1, "", filterStatus, filterZone, filterClub, filterCategory); }, [fetchData, filterStatus, filterZone, filterClub, filterCategory]);
 
-  const handleSearch = () => fetchData(1, search, filterStatus, filterZone, filterClub);
-  const handlePage = (p: number) => fetchData(p, search, filterStatus, filterZone, filterClub);
+  const handleSearch = () => fetchData(1, search, filterStatus, filterZone, filterClub, filterCategory);
+  const handlePage = (p: number) => fetchData(p, search, filterStatus, filterZone, filterClub, filterCategory);
 
   const handleLogout = async () => {
     await fetch("/api/auth/logout", { method: "POST" });
@@ -253,6 +255,11 @@ export default function AdminDashboard() {
                 <option value="Zone 8">Zone 8</option>
                 <option value="Zone 9">Zone 9</option>
               </select>
+              <select value={filterCategory} onChange={e => setFilterCategory(e.target.value)} style={selectStyle}>
+                <option value="">All Categories</option>
+                <option value="regular">Regular</option>
+                <option value="silver">Silver</option>
+              </select>
             </div>
             
             <div style={{ display: "flex", alignItems: "center", gap: "8px", background: "#fdfcf9", border: "1.5px solid #ddd5c0", borderRadius: "8px", padding: "7px 13px" }}>
@@ -271,7 +278,7 @@ export default function AdminDashboard() {
             <table style={{ width: "100%", borderCollapse: "collapse" }}>
               <thead>
                 <tr style={{ background: "linear-gradient(135deg, #001f45, #003366)" }}>
-                  {["#", "Name", "Phone", "Club", "Pax", "Amount", "Payment", "Date"].map((h) => (
+                  {["#", "Name", "Phone", "Club", "Category", "Pax", "Amount", "Payment", "Date"].map((h) => (
                     <th key={h} style={thStyle}>{h}</th>
                   ))}
                 </tr>
@@ -290,6 +297,15 @@ export default function AdminDashboard() {
                     <td style={{ ...tdStyle, fontWeight: 700 }}>{r.name}</td>
                     <td style={{ ...tdStyle, fontSize: "12px", color: "#6b7280" }}>{r.mobile}</td>
                     <td style={{ ...tdStyle, fontSize: "12px", color: "#6b7280", maxWidth: "150px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{r.club}</td>
+                    <td style={tdStyle}>
+                      <span style={{
+                        display: "inline-flex", alignItems: "center", gap: "4px",
+                        fontSize: "11px", fontWeight: 600, padding: "2px 8px", borderRadius: "10px",
+                        background: r.category === "silver" ? "#eceff1" : "#fff8e1",
+                        color: r.category === "silver" ? "#546e7a" : "#9e7320",
+                        border: `1px solid ${r.category === "silver" ? "#b0bec5" : "#e8b84b"}`,
+                      }}>{(r.category || "regular").charAt(0).toUpperCase() + (r.category || "regular").slice(1)}</span>
+                    </td>
                     <td style={{ ...tdStyle, fontWeight: 700, color: "#003366" }}>{r.pax}</td>
                     <td style={{ ...tdStyle, fontWeight: 700, color: "#9e7320" }}>₹{r.amount.toLocaleString("en-IN")}</td>
                     <td style={tdStyle}><StatusBadge status={r.paymentStatus} /></td>
@@ -332,6 +348,7 @@ export default function AdminDashboard() {
             <div style={{ padding: "20px 24px" }}>
               {[
                 ["Club", selectedReg.club],
+                ["Category", (selectedReg.category || "regular").charAt(0).toUpperCase() + (selectedReg.category || "regular").slice(1)],
                 ["Zone", selectedReg.zone || "—"],
                 ["Mobile", selectedReg.mobile],
                 ["Pax", `${selectedReg.pax}`],
