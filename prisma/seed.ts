@@ -27,7 +27,7 @@ async function main() {
         appId: process.env.META_APP_ID || "",
         appSecret: process.env.META_APP_SECRET || "",
         verifyToken: process.env.META_VERIFY_TOKEN || "",
-        graphBaseUrl: process.env.META_GRAPH_BASE_URL || "https://graph.facebook.com",
+        graphBaseUrl: process.env.META_GRAPH_BASE_URL || "https:
         apiVersion: process.env.WHATSAPP_API_VERSION || "v24.0",
         templateName: "welcome_registration",
         isActive: true,
