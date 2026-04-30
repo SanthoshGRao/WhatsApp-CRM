@@ -3030,8 +3030,8 @@
         .silver-inclusion {
             display: none;
             padding: 10px 18px;
-            background: linear-gradient(135deg, rgba(96,125,139,0.08), rgba(176,190,197,0.12));
-            border-bottom: 1.5px solid rgba(96,125,139,0.18);
+            background: linear-gradient(135deg, rgba(96, 125, 139, 0.08), rgba(176, 190, 197, 0.12));
+            border-bottom: 1.5px solid rgba(96, 125, 139, 0.18);
             font-family: 'Outfit', sans-serif;
             font-size: 12px;
             color: #37474f;
@@ -3177,8 +3177,9 @@
                     </button>
                 </div>
                 <div class="silver-inclusion" id="silverInclusion">
-                    
-                    <div><span class="incl-label">Inclusion:</span><span class="incl-text">1 entry to the event, 1 night stay on double occupancy in Hotel Zentora, Mysore</span></div>
+
+                    <div><span class="incl-label">Inclusion:</span><span class="incl-text">1 entry to the event, 1 night
+                            stay on double occupancy in Hotel Zentora, Mysore</span></div>
                 </div>
                 <div class="fb" id="fb">
 
@@ -3860,7 +3861,7 @@
             const ctTitle = document.querySelector('.ct-t');
             const ctSub = document.querySelector('.ct-s');
             if (ctTitle) ctTitle.textContent = isS ? 'Silver Registration' : 'Register Now';
-            if (ctSub) ctSub.textContent = isS ? 'Single person · ₹5,000' : 'Fill in your details below';
+            if (ctSub) ctSub.textContent = isS ? 'Single person · ₹10,000' : 'Fill in your details below';
 
             ['paxSection', 'guestSection', 'guestDivider'].forEach(id => {
                 const el = document.getElementById(id);
@@ -3872,7 +3873,7 @@
             });
 
             const spp = document.getElementById('sPerPax');
-            if (spp) spp.textContent = isS ? '₹5,000 FLAT' : '₹1,700 PER PAX';
+            if (spp) spp.textContent = isS ? '₹10,000 FLAT' : '₹1,700 PER PAX';
 
             if (isS) {
                 document.getElementById('fp').value = 1;
@@ -4370,7 +4371,7 @@
         function makeCard(i) {
             const isGuest = i > 1;
             const isSilver = currentCategory === 'silver';
-            const priceTag = isSilver ? '₹5,000' : '₹1,700';
+            const priceTag = isSilver ? '₹10,000' : '₹1,700';
             const nameField = isGuest ? `
     <div class="field" style="margin-bottom:12px">
         <label>Guest ${i} Name<span class="req">*</span></label>
@@ -4457,7 +4458,7 @@
             const sTotEl = document.getElementById('sTot'); if (sTotEl) sTotEl.textContent = '₹ ' + tot.toLocaleString('en-IN');
 
             const sBrkEl = document.getElementById('sBrk');
-            if (sBrkEl) sBrkEl.textContent = isSilver ? '1×₹5,000' : c.length + '×₹1,700';
+            if (sBrkEl) sBrkEl.textContent = isSilver ? '1×₹10,000' : c.length + '×₹1,700';
             const sMsEl = document.getElementById('sMs'); if (sMsEl) sMsEl.textContent = isSilver ? 'Silver Package' : '';
         }
 
