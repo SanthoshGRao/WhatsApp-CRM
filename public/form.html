@@ -3027,38 +3027,87 @@
             display: none !important;
         }
 
+        @keyframes inclFadeIn {
+            from { opacity: 0; transform: translateY(-6px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes inclBorderGlow {
+            0%, 100% { background-position: 0% center; }
+            50%      { background-position: 100% center; }
+        }
+
         .silver-inclusion {
             display: none;
-            padding: 10px 18px;
-            background: linear-gradient(135deg, rgba(96, 125, 139, 0.08), rgba(176, 190, 197, 0.12));
-            border-bottom: 1.5px solid rgba(96, 125, 139, 0.18);
+            text-align: center;
+            margin: 4px 0 0;
+            padding: 16px 24px 14px;
+            background: linear-gradient(180deg, rgba(245, 240, 228, 0.55), rgba(240, 234, 218, 0.35));
+            position: relative;
             font-family: 'Outfit', sans-serif;
-            font-size: 12px;
-            color: #37474f;
-            line-height: 1.5;
+            animation: inclFadeIn 0.4s ease-out;
+        }
+
+        .silver-inclusion::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 15%;
+            right: 15%;
+            height: 2px;
+            border-radius: 1px;
+            background: linear-gradient(90deg, transparent, rgba(160, 135, 70, 0.35), rgba(190, 165, 100, 0.5), rgba(160, 135, 70, 0.35), transparent);
+            background-size: 200% auto;
+            animation: inclBorderGlow 3.5s ease-in-out infinite;
         }
 
         .silver-inclusion.visible {
-            display: flex;
-            align-items: flex-start;
-            gap: 8px;
+            display: block;
         }
 
-        .silver-inclusion .incl-icon {
-            flex-shrink: 0;
-            margin-top: 1px;
-            color: #607d8b;
+        .silver-inclusion .incl-rule {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .silver-inclusion .incl-rule-line {
+            width: 32px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(150, 130, 70, 0.4));
+        }
+
+        .silver-inclusion .incl-rule-line:last-child {
+            background: linear-gradient(90deg, rgba(150, 130, 70, 0.4), transparent);
         }
 
         .silver-inclusion .incl-label {
-            font-weight: 600;
-            color: #546e7a;
-            margin-right: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: #8a7a48;
         }
 
         .silver-inclusion .incl-text {
-            font-weight: 400;
-            color: #455a64;
+            font-size: 15px;
+            font-weight: 450;
+            color: #3e3528;
+            line-height: 1.65;
+        }
+
+        .silver-inclusion .incl-text .incl-tag {
+            font-size: 15px;
+            font-weight: 700;
+            color: #6b5d38;
+            margin-right: 3px;
+        }
+
+        .silver-inclusion .incl-text strong {
+            font-weight: 600;
+            color: #2c2518;
         }
     </style>
 </head>
@@ -3177,9 +3226,14 @@
                     </button>
                 </div>
                 <div class="silver-inclusion" id="silverInclusion">
-
-                    <div><span class="incl-label">Inclusion:</span><span class="incl-text">1 entry to the event, 1 night
-                            stay on double occupancy in Hotel Zentora, Mysore</span></div>
+                    <div class="incl-rule">
+                        <span class="incl-rule-line"></span>
+                        <span class="incl-label">Silver Benefits</span>
+                        <span class="incl-rule-line"></span>
+                    </div>
+                    <div class="incl-text">
+                        <span class="incl-tag">Inclusion:</span> 1 entry to the event, 1 night stay on double occupancy in <strong>Hotel Zentora</strong>, Mysore
+                    </div>
                 </div>
                 <div class="fb" id="fb">
 
