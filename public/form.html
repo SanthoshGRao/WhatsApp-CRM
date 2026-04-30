@@ -39,10 +39,23 @@
             --upi-pale: #f5eeff;
         }
 
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background-color: rgba(0, 51, 102, 0.2); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background-color: rgba(0, 51, 102, 0.4); }
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: rgba(0, 51, 102, 0.2);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: rgba(0, 51, 102, 0.4);
+        }
 
         *,
         *::before,
@@ -173,52 +186,124 @@
         }
 
         @keyframes shake-err {
-            0%, 100% { transform: translateX(0); }
-            20% { transform: translateX(-6px); }
-            40% { transform: translateX(6px); }
-            60% { transform: translateX(-6px); }
-            80% { transform: translateX(6px); }
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            20% {
+                transform: translateX(-6px);
+            }
+
+            40% {
+                transform: translateX(6px);
+            }
+
+            60% {
+                transform: translateX(-6px);
+            }
+
+            80% {
+                transform: translateX(6px);
+            }
         }
+
         .shake-err {
             animation: shake-err 0.4s ease-in-out;
         }
 
-        
+
         @keyframes successPop {
-            0% { transform: scale(0.5); opacity: 0; }
-            50% { transform: scale(1.15); }
-            100% { transform: scale(1); opacity: 1; }
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1.15);
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
+
         @keyframes drawCheck {
-            0% { stroke-dasharray: 50; stroke-dashoffset: 50; }
-            100% { stroke-dasharray: 50; stroke-dashoffset: 0; }
+            0% {
+                stroke-dasharray: 50;
+                stroke-dashoffset: 50;
+            }
+
+            100% {
+                stroke-dasharray: 50;
+                stroke-dashoffset: 0;
+            }
         }
+
         @keyframes pulseSuccess {
-            0% { box-shadow: 0 0 0 0 rgba(45, 140, 78, 0.4); }
-            70% { box-shadow: 0 0 0 15px rgba(45, 140, 78, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(45, 140, 78, 0); }
+            0% {
+                box-shadow: 0 0 0 0 rgba(45, 140, 78, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 15px rgba(45, 140, 78, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(45, 140, 78, 0);
+            }
         }
+
         @keyframes slideUpFade {
-            0% { opacity: 0; transform: translateY(30px); }
-            100% { opacity: 1; transform: translateY(0); }
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
+
         @keyframes bounceInfo {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-3px); }
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-3px);
+            }
         }
-        
+
         .success-tick {
             animation: successPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, pulseSuccess 2.5s infinite cubic-bezier(0.66, 0, 0, 1) 1s;
         }
+
         .success-tick svg polyline {
             stroke-dasharray: 50;
             stroke-dashoffset: 50;
             animation: drawCheck 0.6s ease 0.4s forwards;
         }
-        
-        .stagger-1 { opacity: 0; animation: slideUpFade 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards 0.1s !important; }
-        .stagger-2 { opacity: 0; animation: slideUpFade 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards 0.25s !important; }
-        .stagger-3 { opacity: 0; animation: slideUpFade 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards 0.4s !important; }
+
+        .stagger-1 {
+            opacity: 0;
+            animation: slideUpFade 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards 0.1s !important;
+        }
+
+        .stagger-2 {
+            opacity: 0;
+            animation: slideUpFade 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards 0.25s !important;
+        }
+
+        .stagger-3 {
+            opacity: 0;
+            animation: slideUpFade 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards 0.4s !important;
+        }
 
         .receipt-card {
             background: linear-gradient(180deg, #fdfcfb, #f8f9fa) !important;
@@ -227,7 +312,7 @@
             padding: 24px 24px 20px !important;
             position: relative;
             margin-bottom: 24px !important;
-            box-shadow: inset 0 2px 0 rgba(255,255,255,1), 0 4px 16px rgba(0, 31, 69, 0.04) !important;
+            box-shadow: inset 0 2px 0 rgba(255, 255, 255, 1), 0 4px 16px rgba(0, 31, 69, 0.04) !important;
         }
 
         header {
@@ -653,42 +738,82 @@
         }
 
         @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-20px); max-height: 0; }
-            to { opacity: 1; transform: translateY(0); max-height: 1000px; }
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+                max-height: 0;
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+                max-height: 1000px;
+            }
         }
 
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(16px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @keyframes scaleIn {
-            from { opacity: 0; transform: scale(0.85); }
-            to { opacity: 1; transform: scale(1); }
+            from {
+                opacity: 0;
+                transform: scale(0.85);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         @keyframes pulseGlow {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(95,37,159,0.3); }
-            50% { box-shadow: 0 0 0 12px rgba(95,37,159,0); }
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(95, 37, 159, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 0 0 12px rgba(95, 37, 159, 0);
+            }
         }
 
         @keyframes checkDraw {
-            from { stroke-dashoffset: 30; }
-            to { stroke-dashoffset: 0; }
+            from {
+                stroke-dashoffset: 30;
+            }
+
+            to {
+                stroke-dashoffset: 0;
+            }
         }
 
         @keyframes shimmer {
-            0% { background-position: -200% center; }
-            100% { background-position: 200% center; }
+            0% {
+                background-position: -200% center;
+            }
+
+            100% {
+                background-position: 200% center;
+            }
         }
 
         .pay-step-card {
             background: #fff;
-            border: 1px solid rgba(0,51,102,0.08);
+            border: 1px solid rgba(0, 51, 102, 0.08);
             border-radius: 14px;
             padding: 20px;
             margin-bottom: 14px;
-            transition: all 0.4s cubic-bezier(.22,.68,0,1.15);
+            transition: all 0.4s cubic-bezier(.22, .68, 0, 1.15);
             opacity: 0;
             transform: translateY(16px);
         }
@@ -736,12 +861,12 @@
         .pay-action-btn.primary {
             background: linear-gradient(135deg, #5f259f 0%, #7b35c4 100%);
             color: #fff;
-            box-shadow: 0 8px 24px rgba(95,37,159,0.25);
+            box-shadow: 0 8px 24px rgba(95, 37, 159, 0.25);
         }
 
         .pay-action-btn.primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 12px 32px rgba(95,37,159,0.35);
+            box-shadow: 0 12px 32px rgba(95, 37, 159, 0.35);
         }
 
         .pay-action-btn.primary:active {
@@ -794,27 +919,30 @@
         }
 
         .upi-app-chip.gpay {
-            border-color: rgba(66,133,244,0.25);
+            border-color: rgba(66, 133, 244, 0.25);
             color: #1a73e8;
         }
+
         .upi-app-chip.gpay:hover {
             background: #eef4ff;
             border-color: #1a73e8;
         }
 
         .upi-app-chip.phonepe {
-            border-color: rgba(95,37,159,0.25);
+            border-color: rgba(95, 37, 159, 0.25);
             color: #5f259f;
         }
+
         .upi-app-chip.phonepe:hover {
             background: #f5f0ff;
             border-color: #5f259f;
         }
 
         .upi-app-chip.paytm {
-            border-color: rgba(0,176,240,0.25);
+            border-color: rgba(0, 176, 240, 0.25);
             color: #00b0f0;
         }
+
         .upi-app-chip.paytm:hover {
             background: #eef9ff;
             border-color: #00b0f0;
@@ -830,16 +958,25 @@
             overflow: hidden;
         }
 
-        .upi-app-chip.gpay .app-icon { background: #fff; border: 1px solid #e8e8e8; }
-        .upi-app-chip.phonepe .app-icon { background: #5f259f; }
-        .upi-app-chip.paytm .app-icon { background: #00345e; }
+        .upi-app-chip.gpay .app-icon {
+            background: #fff;
+            border: 1px solid #e8e8e8;
+        }
+
+        .upi-app-chip.phonepe .app-icon {
+            background: #5f259f;
+        }
+
+        .upi-app-chip.paytm .app-icon {
+            background: #00345e;
+        }
 
         .pay-reg-badge {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            background: linear-gradient(135deg, rgba(95,37,159,0.08), rgba(123,53,196,0.08));
-            border: 1px solid rgba(95,37,159,0.15);
+            background: linear-gradient(135deg, rgba(95, 37, 159, 0.08), rgba(123, 53, 196, 0.08));
+            border: 1px solid rgba(95, 37, 159, 0.15);
             border-radius: 8px;
             padding: 8px 14px;
             font-size: 13px;
@@ -1166,7 +1303,7 @@
             margin: 20px 0
         }
 
-        
+
         .upi-box {
             background: linear-gradient(135deg, #f9f5ff, #f0e8ff);
             border: 1.5px solid rgba(95, 37, 159, .2);
@@ -1371,7 +1508,7 @@
             line-height: 1.4
         }
 
-        
+
         .pay-confirm-section {
             border: 1.5px dashed rgba(95, 37, 159, .3);
             border-radius: 12px;
@@ -2193,7 +2330,7 @@
             }
         }
 
-        
+
         .modal-overlay {
             display: none;
             position: fixed;
@@ -2207,15 +2344,31 @@
             padding: 16px;
             animation: modalFadeIn 0.3s ease;
         }
-        .modal-overlay.active { display: flex; }
+
+        .modal-overlay.active {
+            display: flex;
+        }
 
         @keyframes modalFadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
+
         @keyframes modalSlideUp {
-            from { opacity: 0; transform: translateY(40px) scale(0.95); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+            from {
+                opacity: 0;
+                transform: translateY(40px) scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
 
         .modal-card {
@@ -2237,6 +2390,7 @@
             position: relative;
             overflow: hidden;
         }
+
         .modal-header::before {
             content: '';
             position: absolute;
@@ -2245,43 +2399,60 @@
             background: repeating-linear-gradient(45deg, var(--gold-l) 0, var(--gold-l) 1px, transparent 0, transparent 50%);
             background-size: 16px 16px;
         }
+
         .modal-header-icon {
-            width: 56px; height: 56px;
+            width: 56px;
+            height: 56px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--gold-d), var(--gold-l));
-            display: flex; align-items: center; justify-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             margin: 0 auto 14px;
             box-shadow: 0 4px 20px rgba(201, 149, 42, 0.35);
-            position: relative; z-index: 1;
+            position: relative;
+            z-index: 1;
         }
+
         .modal-header h3 {
             font-family: 'Cormorant Garamond', serif;
             font-size: 24px;
             color: #fff;
             margin-bottom: 4px;
-            position: relative; z-index: 1;
-        }
-        .modal-header p {
-            font-size: 13px;
-            color: rgba(255,255,255,0.6);
-            position: relative; z-index: 1;
+            position: relative;
+            z-index: 1;
         }
 
-        .modal-body { padding: 24px 28px; }
+        .modal-header p {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+            position: relative;
+            z-index: 1;
+        }
+
+        .modal-body {
+            padding: 24px 28px;
+        }
 
         .modal-detail-row {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
             padding: 10px 0;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         }
-        .modal-detail-row:last-child { border-bottom: none; padding-bottom: 0; }
+
+        .modal-detail-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
         .modal-detail-label {
             font-size: 12.5px;
             color: var(--muted);
             font-weight: 500;
         }
+
         .modal-detail-value {
             font-size: 13.5px;
             color: var(--navy);
@@ -2300,7 +2471,13 @@
             align-items: flex-start;
             gap: 10px;
         }
-        .modal-warning-icon { color: #c9952a; flex-shrink: 0; padding-top: 2px; }
+
+        .modal-warning-icon {
+            color: #c9952a;
+            flex-shrink: 0;
+            padding-top: 2px;
+        }
+
         .modal-warning-text {
             font-size: 13px;
             color: #92400e;
@@ -2313,6 +2490,7 @@
             display: flex;
             gap: 10px;
         }
+
         .modal-btn {
             flex: 1;
             padding: 14px 16px;
@@ -2328,25 +2506,31 @@
             gap: 8px;
             border: none;
         }
+
         .modal-btn.secondary {
             background: #f0f4f8;
             color: var(--navy);
             border: 1.5px solid #d1d9e0;
         }
-        .modal-btn.secondary:hover { background: #e5eaf0; }
+
+        .modal-btn.secondary:hover {
+            background: #e5eaf0;
+        }
+
         .modal-btn.primary {
             background: linear-gradient(135deg, var(--gold-d), var(--gold), var(--gold-l));
             background-size: 200%;
             color: #fff;
             box-shadow: 0 4px 18px rgba(201, 149, 42, 0.35);
         }
+
         .modal-btn.primary:hover {
             background-position: right;
             transform: translateY(-1px);
             box-shadow: 0 6px 24px rgba(201, 149, 42, 0.48);
         }
 
-        
+
         .pay-page-header {
             background: linear-gradient(160deg, var(--navy-d), var(--navy) 55%, var(--navy-m));
             position: relative;
@@ -2354,6 +2538,7 @@
             padding: 36px 24px 48px;
             text-align: center;
         }
+
         .pay-page-header::before {
             content: '';
             position: absolute;
@@ -2362,26 +2547,32 @@
             background: repeating-linear-gradient(45deg, var(--gold-l) 0, var(--gold-l) 1px, transparent 0, transparent 50%);
             background-size: 20px 20px;
         }
+
         .pay-page-header::after {
             content: '';
             position: absolute;
             bottom: -1px;
-            left: 0; right: 0;
+            left: 0;
+            right: 0;
             height: 44px;
             background: var(--bg);
             clip-path: ellipse(55% 100% at 50% 100%);
         }
+
         .pay-page-header h2 {
             font-family: 'Cormorant Garamond', serif;
             font-size: clamp(24px, 5vw, 36px);
             color: #fff;
-            position: relative; z-index: 1;
+            position: relative;
+            z-index: 1;
             margin-bottom: 6px;
         }
+
         .pay-page-header p {
             font-size: 14px;
-            color: rgba(255,255,255,0.55);
-            position: relative; z-index: 1;
+            color: rgba(255, 255, 255, 0.55);
+            position: relative;
+            z-index: 1;
         }
 
         .pay-page-content {
@@ -2392,15 +2583,16 @@
             z-index: 1;
         }
 
-        
+
         .pay-recap {
             background: #fff;
             border-radius: 16px;
             box-shadow: 0 2px 0 rgba(201, 149, 42, 0.4), 0 8px 32px rgba(0, 31, 69, 0.1);
             overflow: hidden;
             margin-bottom: 24px;
-            animation: rise 0.5s cubic-bezier(.22,.68,0,1.15) both;
+            animation: rise 0.5s cubic-bezier(.22, .68, 0, 1.15) both;
         }
+
         .pay-recap-header {
             background: linear-gradient(135deg, var(--navy-d), var(--navy));
             padding: 16px 22px;
@@ -2408,11 +2600,13 @@
             align-items: center;
             justify-content: space-between;
         }
+
         .pay-recap-title {
             font-family: 'Cormorant Garamond', serif;
             font-size: 18px;
             color: #fff;
         }
+
         .pay-recap-amount {
             font-family: 'Cormorant Garamond', serif;
             font-size: 28px;
@@ -2420,36 +2614,57 @@
             color: var(--gold-l);
             line-height: 1;
         }
+
         .pay-recap-body {
             padding: 16px 22px;
         }
+
         .pay-recap-row {
             display: flex;
             justify-content: space-between;
             font-size: 13px;
             padding: 6px 0;
-            border-bottom: 1px solid rgba(0,0,0,0.04);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
         }
-        .pay-recap-row:last-child { border-bottom: none; }
-        .pay-recap-row span { color: var(--muted); }
-        .pay-recap-row strong { color: var(--navy); }
 
-        
+        .pay-recap-row:last-child {
+            border-bottom: none;
+        }
+
+        .pay-recap-row span {
+            color: var(--muted);
+        }
+
+        .pay-recap-row strong {
+            color: var(--navy);
+        }
+
+
         .stepper {
             position: relative;
             padding-left: 0;
         }
+
         .step {
             position: relative;
             padding-left: 56px;
             padding-bottom: 20px;
             animation: fadeInUp 0.5s ease both;
         }
-        .step:nth-child(2) { animation-delay: 0.08s; }
-        .step:nth-child(3) { animation-delay: 0.16s; }
-        .step:last-child { padding-bottom: 0; }
 
-        
+        .step:nth-child(2) {
+            animation-delay: 0.08s;
+        }
+
+        .step:nth-child(3) {
+            animation-delay: 0.16s;
+        }
+
+        .step:last-child {
+            padding-bottom: 0;
+        }
+
+
         .step::before {
             content: '';
             position: absolute;
@@ -2457,15 +2672,19 @@
             top: 38px;
             bottom: 0;
             width: 2px;
-            background: linear-gradient(to bottom, rgba(95,37,159,0.2), rgba(95,37,159,0.05));
+            background: linear-gradient(to bottom, rgba(95, 37, 159, 0.2), rgba(95, 37, 159, 0.05));
         }
-        .step:last-child::before { display: none; }
+
+        .step:last-child::before {
+            display: none;
+        }
 
         .step-circle {
             position: absolute;
             left: 4px;
             top: 2px;
-            width: 32px; height: 32px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             background: linear-gradient(135deg, #5f259f, #7b35c4);
             color: #fff;
@@ -2474,21 +2693,23 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 14px rgba(95,37,159,0.3);
+            box-shadow: 0 4px 14px rgba(95, 37, 159, 0.3);
             z-index: 2;
         }
+
         .step-circle.done {
             background: linear-gradient(135deg, #10b981, #059669);
-            box-shadow: 0 4px 14px rgba(16,185,129,0.3);
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
         }
 
         .step-content {
             background: #fff;
             border-radius: 14px;
             padding: 16px 18px;
-            box-shadow: 0 2px 12px rgba(0,31,69,0.06);
-            border: 1px solid rgba(0,51,102,0.06);
+            box-shadow: 0 2px 12px rgba(0, 31, 69, 0.06);
+            border: 1px solid rgba(0, 51, 102, 0.06);
         }
+
         .step-title {
             font-size: 14px;
             font-weight: 700;
@@ -2498,15 +2719,19 @@
             align-items: center;
             gap: 8px;
         }
+
         .step-desc {
             font-size: 12.5px;
             color: var(--muted);
             line-height: 1.5;
             margin-bottom: 10px;
         }
-        .step-desc:last-child { margin-bottom: 0; }
 
-        
+        .step-desc:last-child {
+            margin-bottom: 0;
+        }
+
+
         .download-qr-btn {
             display: flex;
             align-items: center;
@@ -2523,36 +2748,43 @@
             font-weight: 700;
             cursor: pointer;
             transition: all 0.25s ease;
-            box-shadow: 0 6px 20px rgba(95,37,159,0.25);
+            box-shadow: 0 6px 20px rgba(95, 37, 159, 0.25);
             animation: pulseGlow 2.5s ease-in-out infinite;
         }
+
         .download-qr-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 28px rgba(95,37,159,0.35);
+            box-shadow: 0 10px 28px rgba(95, 37, 159, 0.35);
         }
-        .download-qr-btn:active { transform: translateY(0); }
+
+        .download-qr-btn:active {
+            transform: translateY(0);
+        }
+
         .download-qr-btn.downloaded {
             background: linear-gradient(135deg, #10b981, #059669);
-            box-shadow: 0 6px 20px rgba(16,185,129,0.25);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.25);
             animation: none;
         }
 
-        
+
         .upload-zone {
             position: relative;
             width: 100%;
             background: #fdfcfa;
-            border: 2px dashed rgba(201,149,42,0.4);
+            border: 2px dashed rgba(201, 149, 42, 0.4);
             border-radius: 12px;
             padding: 18px;
             cursor: pointer;
             transition: all 0.3s;
             text-align: center;
         }
+
         .upload-zone:hover {
             border-color: var(--upi);
-            background: rgba(95,37,159,0.02);
+            background: rgba(95, 37, 159, 0.02);
         }
+
         .upload-zone input[type="file"] {
             opacity: 0;
             position: absolute;
@@ -2563,7 +2795,7 @@
             z-index: 2;
         }
 
-        
+
         .confirm-reg-btn {
             width: 100%;
             padding: 16px;
@@ -2584,18 +2816,20 @@
             gap: 10px;
             margin-top: 28px;
         }
+
         .confirm-reg-btn:hover {
             background-position: right;
             transform: translateY(-2px);
             box-shadow: 0 8px 32px rgba(201, 149, 42, 0.5);
         }
+
         .confirm-reg-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
             transform: none;
         }
 
-        
+
         .proceed-btn {
             width: 100%;
             padding: 16px;
@@ -2616,28 +2850,31 @@
             gap: 10px;
             margin-top: 8px;
         }
+
         .proceed-btn:hover {
             background-position: right;
             transform: translateY(-1px);
             box-shadow: 0 6px 24px rgba(201, 149, 42, 0.48);
         }
 
-        
+
         .info-tip {
             display: flex;
             align-items: flex-start;
             gap: 10px;
-            background: linear-gradient(135deg, rgba(95,37,159,0.04), rgba(123,53,196,0.04));
-            border: 1px solid rgba(95,37,159,0.12);
+            background: linear-gradient(135deg, rgba(95, 37, 159, 0.04), rgba(123, 53, 196, 0.04));
+            border: 1px solid rgba(95, 37, 159, 0.12);
             border-radius: 10px;
             padding: 12px 14px;
             margin-top: 10px;
         }
+
         .info-tip-icon {
             color: #7c3aed;
             flex-shrink: 0;
             padding-top: 1px;
         }
+
         .info-tip-text {
             font-size: 12.5px;
             color: #6d28d9;
@@ -2646,23 +2883,52 @@
         }
 
         @media(max-width:540px) {
-            .modal-card { max-width: 100%; border-radius: 20px; }
-            .modal-header { padding: 20px 20px; }
-            .modal-body { padding: 20px 20px; }
-            .modal-footer { padding: 0 20px 20px; flex-direction: column; }
-            .pay-page-content { padding: 0 12px 40px; }
-            .step { padding-left: 48px; }
-            .step-circle { width: 28px; height: 28px; font-size: 12px; left: 4px; }
-            .step::before { left: 16px; }
+            .modal-card {
+                max-width: 100%;
+                border-radius: 20px;
+            }
+
+            .modal-header {
+                padding: 20px 20px;
+            }
+
+            .modal-body {
+                padding: 20px 20px;
+            }
+
+            .modal-footer {
+                padding: 0 20px 20px;
+                flex-direction: column;
+            }
+
+            .pay-page-content {
+                padding: 0 12px 40px;
+            }
+
+            .step {
+                padding-left: 48px;
+            }
+
+            .step-circle {
+                width: 28px;
+                height: 28px;
+                font-size: 12px;
+                left: 4px;
+            }
+
+            .step::before {
+                left: 16px;
+            }
         }
 
-        
+
         .cat-tabs {
             display: flex;
             gap: 0;
-            background: linear-gradient(180deg, rgba(0,31,69,0.04), rgba(0,31,69,0.01));
+            background: linear-gradient(180deg, rgba(0, 31, 69, 0.04), rgba(0, 31, 69, 0.01));
             border-bottom: 1.5px solid var(--border);
         }
+
         .cat-tab {
             flex: 1;
             display: flex;
@@ -2680,6 +2946,7 @@
             position: relative;
             transition: all 0.3s ease;
         }
+
         .cat-tab::after {
             content: '';
             position: absolute;
@@ -2691,17 +2958,29 @@
             background: transparent;
             transition: all 0.3s ease;
         }
-        .cat-tab:hover { color: var(--navy); }
-        .cat-tab.active { color: var(--navy); }
+
+        .cat-tab:hover {
+            color: var(--navy);
+        }
+
+        .cat-tab.active {
+            color: var(--navy);
+        }
+
         .cat-tab.active::after {
             left: 15%;
             right: 15%;
             background: linear-gradient(90deg, var(--gold-d), var(--gold-l));
         }
-        .cat-tab.active.silver-tab { color: #37474f; }
+
+        .cat-tab.active.silver-tab {
+            color: #37474f;
+        }
+
         .cat-tab.active.silver-tab::after {
             background: linear-gradient(90deg, #78909c, #b0bec5);
         }
+
         .cat-tab-icon {
             display: flex;
             align-items: center;
@@ -2710,32 +2989,49 @@
             height: 30px;
             border-radius: 50%;
             flex-shrink: 0;
-            background: rgba(0,0,0,0.04);
+            background: rgba(0, 0, 0, 0.04);
             color: var(--muted);
             transition: all 0.3s ease;
         }
+
         .cat-tab.active .cat-tab-icon.regular-icon {
             background: linear-gradient(135deg, var(--gold-d), var(--gold-l));
             color: #fff;
-            box-shadow: 0 3px 10px rgba(201,149,42,0.35);
+            box-shadow: 0 3px 10px rgba(201, 149, 42, 0.35);
         }
+
         .cat-tab.active.silver-tab .cat-tab-icon.silver-icon {
             background: linear-gradient(135deg, #607d8b, #90a4ae);
             color: #fff;
-            box-shadow: 0 3px 10px rgba(96,125,139,0.35);
+            box-shadow: 0 3px 10px rgba(96, 125, 139, 0.35);
         }
-        .cat-tab-label { display: flex; flex-direction: column; text-align: left; }
-        .cat-tab-name { line-height: 1.2; }
-        .cat-tab-price { font-size: 10.5px; font-weight: 500; opacity: 0.55; margin-top: 1px; }
 
-        .silver-hidden { display: none !important; }
+        .cat-tab-label {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
 
+        .cat-tab-name {
+            line-height: 1.2;
+        }
+
+        .cat-tab-price {
+            font-size: 10.5px;
+            font-weight: 500;
+            opacity: 0.55;
+            margin-top: 1px;
+        }
+
+        .silver-hidden {
+            display: none !important;
+        }
     </style>
 </head>
 
 <body>
 
-    
+
     <div class="pg on" id="pgReg">
         <nav>
             <div class="nb" onclick="go('pgReg')">
@@ -2761,17 +3057,24 @@
                     <img src="impact.png" alt="Create Lasting Impact">
                 </div>
                 <div class="pill">District 3181 · Rotary International</div>
-                
-                <h1 style="margin-bottom: 4px;">Rotary Anubandha <em>Awards</em> <span style="font-size: 0.6em; font-family: 'Outfit', sans-serif; font-weight: 400; opacity: 0.9;">2025-26</span></h1>
-                
-                <h2 style="font-family: 'Cormorant Garamond', serif; font-size: clamp(22px, 4vw, 32px); color: #fff; margin-bottom: 10px; font-weight: 600; line-height: 1.2;">
-                    <span style="color: var(--gold-l); font-style: italic;">&amp;</span> Janadeepa <span style="opacity: 0.4; font-weight: 300; margin: 0 6px;">|</span> <span style="color: var(--gold-l);">DLTS &amp; CLLS</span> <span style="font-size: 0.65em; font-family: 'Outfit', sans-serif; font-weight: 400; opacity: 0.9;">2026-27</span>
+
+                <h1 style="margin-bottom: 4px;">Rotary Anubandha <em>Awards</em> <span
+                        style="font-size: 0.6em; font-family: 'Outfit', sans-serif; font-weight: 400; opacity: 0.9;">2025-26</span>
+                </h1>
+
+                <h2
+                    style="font-family: 'Cormorant Garamond', serif; font-size: clamp(22px, 4vw, 32px); color: #fff; margin-bottom: 10px; font-weight: 600; line-height: 1.2;">
+                    <span style="color: var(--gold-l); font-style: italic;">&amp;</span> Janadeepa <span
+                        style="opacity: 0.4; font-weight: 300; margin: 0 6px;">|</span> <span
+                        style="color: var(--gold-l);">DLTS &amp; CLLS</span> <span
+                        style="font-size: 0.65em; font-family: 'Outfit', sans-serif; font-weight: 400; opacity: 0.9;">2026-27</span>
                 </h2>
-                
-                <div style="font-size: 13px; color: rgba(255, 255, 255, 0.8); letter-spacing: 0.3px; margin-bottom: 22px; font-weight: 300;">
+
+                <div
+                    style="font-size: 13px; color: rgba(255, 255, 255, 0.8); letter-spacing: 0.3px; margin-bottom: 22px; font-weight: 300;">
                     (District Trainers Learning Seminar &amp; Club Leaders Learning Seminar)
                 </div>
-                
+
                 <p class="hs" style="margin-bottom: 24px;">Official Registration Portal</p>
                 <div class="chips">
                     <div class="chip"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"
@@ -2807,11 +3110,17 @@
                         <div class="rl">REGISTERED</div>
                     </div>
                 </div>
-                
+
                 <div class="cat-tabs" id="catTabs">
                     <button class="cat-tab active" id="tabRegular" onclick="switchCategory('regular')">
                         <div class="cat-tab-icon regular-icon">
-                            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"
+                                viewBox="0 0 24 24">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                                <circle cx="9" cy="7" r="4" />
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                            </svg>
                         </div>
                         <div class="cat-tab-label">
                             <div class="cat-tab-name">Regular</div>
@@ -2820,7 +3129,12 @@
                     </button>
                     <button class="cat-tab silver-tab" id="tabSilver" onclick="switchCategory('silver')">
                         <div class="cat-tab-icon silver-icon">
-                            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"
+                                viewBox="0 0 24 24">
+                                <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                                <path d="M2 17l10 5 10-5" />
+                                <path d="M2 12l10 5 10-5" />
+                            </svg>
                         </div>
                         <div class="cat-tab-label">
                             <div class="cat-tab-name">Silver</div>
@@ -2904,13 +3218,14 @@
 
                     <div class="divl" id="guestDivider"></div>
 
-                    
+
                     <div class="smb">
                         <div class="smg">
                             <div class="smi">
                                 <div class="smv" id="sPx">1</div>
                                 <div class="sml">TOTAL PAX</div>
-                                <div class="sml" style="color:rgba(255,255,255,.3);font-size:9px" id="sPerPax">₹1,700 PER PAX</div>
+                                <div class="sml" style="color:rgba(255,255,255,.3);font-size:9px" id="sPerPax">₹1,700
+                                    PER PAX</div>
                             </div>
                             <div class="smi" id="smVeg">
                                 <div class="smv" id="sVg">0</div>
@@ -2935,10 +3250,12 @@
                         </div>
                     </div>
 
-                    
+
                     <button class="proceed-btn" onclick="proceedToPayment()" id="proceedBtn">
-                        <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/>
+                        <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <path d="M5 12h14" />
+                            <polyline points="12 5 19 12 12 19" />
                         </svg>
                         Proceed to Payment
                     </button>
@@ -2949,13 +3266,14 @@
         <footer>Rotary Anubandha Awards 2026 · District 3181</footer>
     </div>
 
-    
+
     <div class="modal-overlay" id="confirmModal">
         <div class="modal-card">
             <div class="modal-header">
                 <div class="modal-header-icon">
                     <svg width="28" height="28" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24">
-                        <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                        <path d="M9 11l3 3L22 4" />
+                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
                     </svg>
                 </div>
                 <h3>Confirm Your Details</h3>
@@ -2963,37 +3281,42 @@
             </div>
             <div class="modal-body">
                 <div id="modalDetails">
-                    
+
                 </div>
                 <div class="modal-warning">
                     <div class="modal-warning-icon">
-                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="12" y1="8" x2="12" y2="12" />
+                            <line x1="12" y1="16" x2="12.01" y2="16" />
                         </svg>
                     </div>
                     <div class="modal-warning-text">
-                        Once you proceed to payment, you cannot go back to edit your details. Please verify everything carefully.
+                        Once you proceed to payment, you cannot go back to edit your details. Please verify everything
+                        carefully.
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button class="modal-btn secondary" onclick="closeModal()">
                     <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <polyline points="15 18 9 12 15 6"/>
+                        <polyline points="15 18 9 12 15 6" />
                     </svg>
                     Go Back & Edit
                 </button>
                 <button class="modal-btn primary" onclick="confirmProceed()">
                     Yes, Proceed
                     <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/>
+                        <path d="M5 12h14" />
+                        <polyline points="12 5 19 12 12 19" />
                     </svg>
                 </button>
             </div>
         </div>
     </div>
 
-    
+
     <div class="pg" id="pgPay">
         <nav>
             <div class="nb" onclick="go('pgReg')">
@@ -3002,7 +3325,7 @@
             <div class="nr">
                 <button class="na adm" onclick="window.location.href='/admin/login'">
                     <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                     </svg>
                     Admin Login
                 </button>
@@ -3044,86 +3367,104 @@
         </header>
 
         <div class="pay-page-content">
-            
+
             <div class="pay-recap" id="payRecap">
                 <div class="pay-recap-header">
                     <div class="pay-recap-title">Registration Summary</div>
                     <div class="pay-recap-amount" id="payRecapAmount">₹ 1,700</div>
                 </div>
                 <div class="pay-recap-body" id="payRecapBody">
-                    
+
                 </div>
             </div>
 
-            
-            <div id="qrGenHidden" style="visibility:hidden; height:0; overflow:hidden; position:absolute; pointer-events:none;">
+
+            <div id="qrGenHidden"
+                style="visibility:hidden; height:0; overflow:hidden; position:absolute; pointer-events:none;">
                 <div id="qrcode"></div>
             </div>
             <a id="qrDownloadLink" style="display:none;"></a>
 
-            
+
             <div class="stepper">
-                
+
                 <div class="step" id="payStepQR">
                     <div class="step-circle" id="stepCircle1">1</div>
                     <div class="step-content">
                         <div class="step-title">
-                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                                <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+                                viewBox="0 0 24 24">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                <polyline points="7 10 12 15 17 10" />
+                                <line x1="12" y1="15" x2="12" y2="3" />
                             </svg>
-                            Download QR & Pay <strong id="payStepAmount" style="color:var(--gold);margin-left:4px">₹1,700</strong>
+                            Download QR & Pay <strong id="payStepAmount"
+                                style="color:var(--gold);margin-left:4px">₹1,700</strong>
                         </div>
                         <div class="step-desc">Save the QR code, then scan it from any UPI app to pay.</div>
                         <button class="download-qr-btn" id="downloadQRBtn" onclick="triggerQRDownload()">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                                <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                <polyline points="7 10 12 15 17 10" />
+                                <line x1="12" y1="15" x2="12" y2="3" />
                             </svg>
                             Save QR to Gallery
                         </button>
                     </div>
                 </div>
 
-                
+
                 <div class="step" id="payStepUpload">
                     <div class="step-circle" id="stepCircle4">2</div>
                     <div class="step-content">
                         <div class="step-title">
-                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                                <circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+                                viewBox="0 0 24 24">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                                <circle cx="8.5" cy="8.5" r="1.5" />
+                                <polyline points="21 15 16 10 5 21" />
                             </svg>
                             Upload Payment Proof
                         </div>
                         <div class="step-desc">Take a screenshot after paying and upload it here.</div>
                         <div class="upload-zone" id="dropZoneContainer">
-                            <input type="file" id="ssInput" accept="image/*" onchange="processScreenshot(event)"/>
+                            <input type="file" id="ssInput" accept="image/*" onchange="processScreenshot(event)" />
                             <div style="display:flex; flex-direction:column; align-items:center; gap:6px;">
-                                <svg width="28" height="28" fill="none" stroke="var(--gold)" stroke-width="1.5" viewBox="0 0 24 24">
-                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                                    <polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+                                <svg width="28" height="28" fill="none" stroke="var(--gold)" stroke-width="1.5"
+                                    viewBox="0 0 24 24">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                    <polyline points="17 8 12 3 7 8" />
+                                    <line x1="12" y1="3" x2="12" y2="15" />
                                 </svg>
-                                <span style="font-size:13px; font-weight:600; color:var(--navy);" id="ssFileText">Tap to upload screenshot</span>
+                                <span style="font-size:13px; font-weight:600; color:var(--navy);" id="ssFileText">Tap to
+                                    upload screenshot</span>
                                 <span style="font-size:11px; color:var(--muted);">PNG, JPG, JPEG</span>
                             </div>
                         </div>
-                        <div id="ocrStatus" style="font-size:13px; margin-top:12px; color:var(--navy); font-weight:600; display:none; align-items:center; justify-content:center; gap:8px;">
-                            <svg class="spin" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-6.219-8.56"></path></svg>
+                        <div id="ocrStatus"
+                            style="font-size:13px; margin-top:12px; color:var(--navy); font-weight:600; display:none; align-items:center; justify-content:center; gap:8px;">
+                            <svg class="spin" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
+                                <path d="M21 12a9 9 0 11-6.219-8.56"></path>
+                            </svg>
                             Verifying payment...
                         </div>
-                        <div id="ocrResult" style="margin-top:12px; padding:12px; border-radius:10px; font-size:13px; display:none; line-height:1.5; text-align:center;"></div>
+                        <div id="ocrResult"
+                            style="margin-top:12px; padding:12px; border-radius:10px; font-size:13px; display:none; line-height:1.5; text-align:center;">
+                        </div>
                     </div>
                 </div>
 
-                
+
                 <div class="step">
                     <div class="step-circle">3</div>
                     <div class="step-content">
                         <div class="step-title">
-                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                                <polyline points="22 4 12 14.01 9 11.01"/>
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+                                viewBox="0 0 24 24">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                                <polyline points="22 4 12 14.01 9 11.01" />
                             </svg>
                             Confirm & Submit
                         </div>
@@ -3132,11 +3473,11 @@
                 </div>
             </div>
 
-            
+
             <button class="confirm-reg-btn" onclick="submitForm()" id="subBtn">
                 <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                    <polyline points="22 4 12 14.01 9 11.01"/>
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                    <polyline points="22 4 12 14.01 9 11.01" />
                 </svg>
                 Confirm Registration
             </button>
@@ -3145,7 +3486,7 @@
         <footer>Rotary Anubandha Awards 2026 · District 3181</footer>
     </div>
 
-    
+
     <div class="pg" id="pgConfirm">
         <nav>
             <div class="nb" onclick="go('pgReg')">
@@ -3154,7 +3495,7 @@
             <div class="nr">
                 <button class="na adm" onclick="window.location.href='/admin/login'">
                     <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                     </svg>
                     Admin Login
                 </button>
@@ -3196,14 +3537,20 @@
         </header>
 
         <main style="flex-direction: column; align-items: center;">
-            <div style="text-align: center; padding: 0 20px 28px; width: 100%; max-width: 520px; z-index: 10;" class="stagger-1">
-                <div class="sring success-tick" style="width:76px; height:76px; border-radius:50%; background:linear-gradient(135deg, #2d8c4e, #1a7c4a); display:flex; align-items:center; justify-content:center; margin:0 auto 18px; box-shadow:0 8px 24px rgba(45,140,78,0.3);">
-                    <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" style="color:white;">
-                        <polyline points="20 6 9 17 4 12"/>
+            <div style="text-align: center; padding: 0 20px 28px; width: 100%; max-width: 520px; z-index: 10;"
+                class="stagger-1">
+                <div class="sring success-tick"
+                    style="width:76px; height:76px; border-radius:50%; background:linear-gradient(135deg, #2d8c4e, #1a7c4a); display:flex; align-items:center; justify-content:center; margin:0 auto 18px; box-shadow:0 8px 24px rgba(45,140,78,0.3);">
+                    <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"
+                        style="color:white;">
+                        <polyline points="20 6 9 17 4 12" />
                     </svg>
                 </div>
-                <h2 style="color:var(--navy); font-family:'Cormorant Garamond', serif; font-size:32px; margin-bottom:6px;">Registration <em>Received!</em></h2>
-                <p style="color:var(--muted); font-size:14.5px; margin-bottom:0;">Thank you for registering for Rotary Anubandha Awards 2026</p>
+                <h2
+                    style="color:var(--navy); font-family:'Cormorant Garamond', serif; font-size:32px; margin-bottom:6px;">
+                    Registration <em>Received!</em></h2>
+                <p style="color:var(--muted); font-size:14.5px; margin-bottom:0;">Thank you for registering for Rotary
+                    Anubandha Awards 2026</p>
             </div>
 
             <div class="card stagger-2" style="max-width:520px; margin-top:0;">
@@ -3214,36 +3561,49 @@
                     </div>
                 </div>
                 <div class="fb stagger-3">
-                    <div style="background:#fff8ec; border:1px solid #e8b84b; border-radius:12px; padding:16px; margin-bottom:24px; box-shadow: 0 4px 12px rgba(232, 184, 75, 0.08);">
+                    <div
+                        style="background:#fff8ec; border:1px solid #e8b84b; border-radius:12px; padding:16px; margin-bottom:24px; box-shadow: 0 4px 12px rgba(232, 184, 75, 0.08);">
                         <div style="display:flex; align-items:flex-start; gap:12px; text-align:left;">
-                            <div style="color:#c9952a; padding-top:2px; animation: bounceInfo 2.5s infinite ease-in-out;">
-                                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                    <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                            <div
+                                style="color:#c9952a; padding-top:2px; animation: bounceInfo 2.5s infinite ease-in-out;">
+                                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <line x1="12" y1="8" x2="12" y2="12" />
+                                    <line x1="12" y1="16" x2="12.01" y2="16" />
                                 </svg>
                             </div>
                             <div style="font-size:14px; color:#9e7320; font-weight:600; line-height:1.4;">
-                                We will manually verify your payment and send a confirmation on WhatsApp within 2-3 days.
+                                We will manually verify your payment and send a confirmation on WhatsApp within 2-3
+                                days.
                             </div>
                         </div>
                     </div>
 
                     <div class="srf receipt-card" id="sRef">
-                        
+
                     </div>
 
-                    <button class="proceed-btn" onclick="again()" style="background:transparent;color:var(--navy);border:1.5px solid var(--navy-m);box-shadow:none;font-size:14.5px;transition:all 0.3s; margin-top: 10px;" onmouseover="this.style.background='rgba(0,51,102,0.04)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='transparent'; this.style.transform='translateY(0)';">
-                        <span style="display:inline-block; transition:transform 0.3s; margin-right:6px;" id="regAnotherIcon">
-                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="vertical-align: middle; padding-bottom: 2px;">
-                                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                                <circle cx="8.5" cy="7" r="4"/>
-                                <line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/>
+                    <button class="proceed-btn" onclick="again()"
+                        style="background:transparent;color:var(--navy);border:1.5px solid var(--navy-m);box-shadow:none;font-size:14.5px;transition:all 0.3s; margin-top: 10px;"
+                        onmouseover="this.style.background='rgba(0,51,102,0.04)'; this.style.transform='translateY(-2px)';"
+                        onmouseout="this.style.background='transparent'; this.style.transform='translateY(0)';">
+                        <span style="display:inline-block; transition:transform 0.3s; margin-right:6px;"
+                            id="regAnotherIcon">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+                                viewBox="0 0 24 24" style="vertical-align: middle; padding-bottom: 2px;">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                                <circle cx="8.5" cy="7" r="4" />
+                                <line x1="20" y1="8" x2="20" y2="14" />
+                                <line x1="23" y1="11" x2="17" y2="11" />
                             </svg>
                         </span>
                         Register Another Person
                     </button>
-                    
+
                     <div style="text-align:center; margin-top:24px;">
-                        <span style="font-size:11.5px; color:var(--muted); opacity: 0.6;font-weight: 500;">Secured by Rotary District 3181</span>
+                        <span style="font-size:11.5px; color:var(--muted); opacity: 0.6;font-weight: 500;">Secured by
+                            Rotary District 3181</span>
                     </div>
                 </div>
             </div>
@@ -3252,7 +3612,7 @@
         <footer>Rotary Anubandha Awards 2026 · District 3181</footer>
     </div>
 
-    
+
     <div class="pg" id="pgLogin">
         <nav>
             <div class="nb" onclick="go('pgReg')">
@@ -3328,7 +3688,7 @@
         <footer>Rotary Excellence Awards 2025 · District 3181</footer>
     </div>
 
-    
+
     <div class="pg" id="pgDash">
         <nav>
             <div class="nb" onclick="go('pgReg')">
@@ -3437,26 +3797,30 @@
         <footer>Rotary Excellence Awards 2025 · District 3181 · Admin Dashboard</footer>
     </div>
 
-    <script>
+    <script>
+
         const UPI_ID = '323625397377815@cnrb';
         const UPI_NAME = encodeURIComponent('ROTARY CLUBOF MYSORENORTH');
         const UPI_MC = '7999';
         const UPI_REF_URL = encodeURIComponent('http://npci.org/upi/schema/');
 
         const ADMIN_USER = 's', ADMIN_PASS = 's';
-        const KEY = 'rotary_rea2025', FA = 1700, SILVER_FA = 5000, PP = 15;
+        const KEY = 'rotary_rea2025', FA = 1700, SILVER_FA = 10000, PP = 15;
         let pgN = 1, paymentConfirmed = false, currentUPILink = '';
         let currentCategory = 'regular'; // 'regular' or 'silver'
 
         function switchCategory(cat) {
             currentCategory = cat;
-            const isS = cat === 'silver';
+            const isS = cat === 'silver';
+
             document.getElementById('tabRegular').classList.toggle('active', !isS);
-            document.getElementById('tabSilver').classList.toggle('active', isS);
+            document.getElementById('tabSilver').classList.toggle('active', isS);
+
             const ctTitle = document.querySelector('.ct-t');
             const ctSub = document.querySelector('.ct-s');
             if (ctTitle) ctTitle.textContent = isS ? 'Silver Registration' : 'Register Now';
-            if (ctSub) ctSub.textContent = isS ? 'Single person · ₹5,000' : 'Fill in your details below';
+            if (ctSub) ctSub.textContent = isS ? 'Single person · ₹5,000' : 'Fill in your details below';
+
             ['paxSection', 'guestSection', 'guestDivider'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.classList.toggle('silver-hidden', isS);
@@ -3464,129 +3828,133 @@
             ['smVeg', 'smNveg'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.classList.toggle('silver-hidden', isS);
-            });
+            });
+
             const spp = document.getElementById('sPerPax');
-            if (spp) spp.textContent = isS ? '₹5,000 FLAT' : '₹1,700 PER PAX';
+            if (spp) spp.textContent = isS ? '₹5,000 FLAT' : '₹1,700 PER PAX';
+
             if (isS) {
                 document.getElementById('fp').value = 1;
                 buildCards(1);
-            }
+            }
+
             const smg = document.querySelector('.smg');
             if (smg) smg.style.gridTemplateColumns = isS ? '1fr' : '1fr 1fr 1fr';
             calcSum();
             updateUPIBox();
-        }
+        }
+
         const ZONE_MAP = {
-  "Zone 1": [
-    "Moodbidri Midtown",
-    "Kinnigoli",
-    "Bajpe",
-    "Mulki"
-  ],
-  "Zone 2": [
-    "Baikampady",
-    "Manglore Sunrise",
-    "Manglore Central",
-    "Manglore Port Town",
-    "Manglore Coastal",
-    "Surathkal",
-    "Manglore East",
-    "Mamglore North",
-    "Manglore Hillside"
-  ],
-  "Zone 3": [
-    "Manglore Seaside",
-    "Manglore Metro",
-    "Manglore Midtown",
-    "Manglore",
-    "Manglore Downtown",
-    "Manglore South",
-    "Manglore City",
-    "Deralakatte"
-  ],
-  "Zone 4": [
-    "Moodbidri",
-    "Moodbidri Temple Town",
-    "Siddakatte Phalguni",
-    "Bantwal Loretto Hills",
-    "Bantwal Town",
-    "Belthangady",
-    "Bantwal",
-    "Madanthyar",
-    "Modankap",
-    "Farangipete",
-    "BC Road City",
-    "Uppinangadi",
-    "Puttur City",
-    "Vittal"
-  ],
-  "Zone 5": [
-    "Subramanya",
-    "Puttur",
-    "Puttur Central",
-    "Kadaba Town",
-    "Puttur East",
-    "Puttur Yuva",
-    "Puttur Swarna",
-    "Puttur Elite",
-    "Sullia",
-    "Sullia City",
-    "Bellare Town",
-    "Birumale Hills"
-  ],
-  "Zone 6": [
-    "Gonikoppal",
-    "Virajpet",
-    "Madikeri Woods",
-    "Madikeri",
-    "Madikeri Misty Hills",
-    "Alur Siddapura",
-    "Shanivarasante",
-    "Hemavathi Kodlipet",
-    "Somwarpet Hills",
-    "Kushalnagar",
-    "Krishnarajanagar",
-    "Periyapatna Midtown",
-    "Periyapatna Icon",
-    "Hunsur"
-  ],
-  "Zone 7": [
-    "Panchsheel",
-    "Mysore Ivory City",
-    "Mysore Krishnaraja",
-    "Mysore",
-    "Mysore Shreegandha",
-    "Mysore Metro",
-    "E-Club Mysore Center",
-    "Mysore Midtown",
-    "Mysore Diamond",
-    "Central Mysore",
-    "Mysore JP Nagar",
-    "Mysore East"
-  ],
-  "Zone 8": [
-    "Mysore Elite",
-    "Mysore West",
-    "Mysore Royal",
-    "Mysore Stars",
-    "HD Kote",
-    "Heritage Mysore",
-    "Mysore South East",
-    "Mysore Brindavan",
-    "Vijayanagar Mysore",
-    "Mysore North",
-    "Mysore Ambari"
-  ],
-  "Zone 9": [
-    "Chamarajanagar",
-    "Chamarajanagar Silk City",
-    "Nanjungud",
-    "Bannur",
-    "Yelanduru Greenway",
-    "Kollegal",
-    "Kollegal Midtown"
-  ]
-};
+            "Zone 1": [
+                "Moodbidri Midtown",
+                "Kinnigoli",
+                "Bajpe",
+                "Mulki"
+            ],
+            "Zone 2": [
+                "Baikampady",
+                "Manglore Sunrise",
+                "Manglore Central",
+                "Manglore Port Town",
+                "Manglore Coastal",
+                "Surathkal",
+                "Manglore East",
+                "Mamglore North",
+                "Manglore Hillside"
+            ],
+            "Zone 3": [
+                "Manglore Seaside",
+                "Manglore Metro",
+                "Manglore Midtown",
+                "Manglore",
+                "Manglore Downtown",
+                "Manglore South",
+                "Manglore City",
+                "Deralakatte"
+            ],
+            "Zone 4": [
+                "Moodbidri",
+                "Moodbidri Temple Town",
+                "Siddakatte Phalguni",
+                "Bantwal Loretto Hills",
+                "Bantwal Town",
+                "Belthangady",
+                "Bantwal",
+                "Madanthyar",
+                "Modankap",
+                "Farangipete",
+                "BC Road City",
+                "Uppinangadi",
+                "Puttur City",
+                "Vittal"
+            ],
+            "Zone 5": [
+                "Subramanya",
+                "Puttur",
+                "Puttur Central",
+                "Kadaba Town",
+                "Puttur East",
+                "Puttur Yuva",
+                "Puttur Swarna",
+                "Puttur Elite",
+                "Sullia",
+                "Sullia City",
+                "Bellare Town",
+                "Birumale Hills"
+            ],
+            "Zone 6": [
+                "Gonikoppal",
+                "Virajpet",
+                "Madikeri Woods",
+                "Madikeri",
+                "Madikeri Misty Hills",
+                "Alur Siddapura",
+                "Shanivarasante",
+                "Hemavathi Kodlipet",
+                "Somwarpet Hills",
+                "Kushalnagar",
+                "Krishnarajanagar",
+                "Periyapatna Midtown",
+                "Periyapatna Icon",
+                "Hunsur"
+            ],
+            "Zone 7": [
+                "Panchsheel",
+                "Mysore Ivory City",
+                "Mysore Krishnaraja",
+                "Mysore",
+                "Mysore Shreegandha",
+                "Mysore Metro",
+                "E-Club Mysore Center",
+                "Mysore Midtown",
+                "Mysore Diamond",
+                "Central Mysore",
+                "Mysore JP Nagar",
+                "Mysore East"
+            ],
+            "Zone 8": [
+                "Mysore Elite",
+                "Mysore West",
+                "Mysore Royal",
+                "Mysore Stars",
+                "HD Kote",
+                "Heritage Mysore",
+                "Mysore South East",
+                "Mysore Brindavan",
+                "Vijayanagar Mysore",
+                "Mysore North",
+                "Mysore Ambari"
+            ],
+            "Zone 9": [
+                "Chamarajanagar",
+                "Chamarajanagar Silk City",
+                "Nanjungud",
+                "Bannur",
+                "Yelanduru Greenway",
+                "Kollegal",
+                "Kollegal Midtown"
+            ]
+        };
 
         const ZONE_COLORS = {
             "Zone 1": { bg: "#dbeafe", color: "#1e40af", dot: "#3b82f6" },
@@ -3608,7 +3976,9 @@
         }
 
 
-        let currentRegId = '', utrNumber = '', paymentDone = false;
+        let currentRegId = '', utrNumber = '', paymentDone = false;
+
+
         const SESSION_KEY = 'rotary_pay_session';
 
         function saveSession() {
@@ -3632,7 +4002,8 @@
             try {
                 const data = localStorage.getItem(SESSION_KEY);
                 if (!data) return null;
-                const session = JSON.parse(data);
+                const session = JSON.parse(data);
+
                 if (Date.now() - session.timestamp > 30 * 60 * 1000) {
                     localStorage.removeItem(SESSION_KEY);
                     return null;
@@ -3647,22 +4018,27 @@
 
         function restoreSession() {
             const session = loadSession();
-            if (!session || !session.regId) return false;
+            if (!session || !session.regId) return false;
+
             document.getElementById('fn').value = session.name || '';
-            document.getElementById('fm').value = session.mobile || '';
+            document.getElementById('fm').value = session.mobile || '';
+
             if (session.club) {
                 document.getElementById('fc').value = session.club;
                 document.getElementById('cddLabel').textContent = session.club;
                 document.getElementById('cddTrig').classList.add('has-val');
                 cddSelected = session.club;
                 autoZone();
-            }
+            }
+
             if (session.category) {
                 switchCategory(session.category);
-            }
+            }
+
             const pax = parseInt(session.pax) || 1;
             document.getElementById('fp').value = pax;
-            buildCards(pax);
+            buildCards(pax);
+
             if (session.guestCards) {
                 session.guestCards.forEach((card, i) => {
                     const idx = i + 1;
@@ -3675,10 +4051,12 @@
                 });
             }
             calcSum();
-            updateUPIBox();
+            updateUPIBox();
+
             currentRegId = session.regId;
             currentUPILink = session.upiLink || '';
-            paymentDone = true;
+            paymentDone = true;
+
             if (currentUPILink) {
                 const qrcodeContainer = document.getElementById('qrcode');
                 qrcodeContainer.innerHTML = '';
@@ -3690,7 +4068,8 @@
                         correctLevel: QRCode.CorrectLevel.H
                     });
                 }
-            }
+            }
+
             const rsAmount = calcAmount();
             const rsName = session.name || '', rsClub = session.club || '';
             const rsZone = document.getElementById('fz').value || '—';
@@ -3738,15 +4117,18 @@
                 return;
             }
 
-            currentRegId = 'REA' + Date.now().toString().slice(-6) + Math.floor(Math.random() * 100).toString().padStart(2, "0");
+            currentRegId = 'REA' + Date.now().toString().slice(-6) + Math.floor(Math.random() * 100).toString().padStart(2, "0");
+
             const trRef = currentRegId + Date.now().toString().slice(-6);
             const upiUrl = `upi://pay?pa=${UPI_ID}&pn=${UPI_NAME}&mc=${UPI_MC}&tr=${trRef}&am=${amount}&mam=${amount}&cu=INR&refUrl=${UPI_REF_URL}&tn=${currentRegId}`;
-            currentUPILink = upiUrl;
+            currentUPILink = upiUrl;
+
             const btn = document.getElementById('payBtn');
             btn.style.transition = 'opacity 0.3s, transform 0.3s';
             btn.style.opacity = '0';
             btn.style.transform = 'translateY(-8px)';
-            setTimeout(() => { btn.style.display = 'none'; }, 300);
+            setTimeout(() => { btn.style.display = 'none'; }, 300);
+
             const qrcodeContainer = document.getElementById("qrcode");
             qrcodeContainer.innerHTML = "";
             if (typeof QRCode !== "undefined") {
@@ -3758,11 +4140,14 @@
                     colorLight: "#ffffff",
                     correctLevel: QRCode.CorrectLevel.H
                 });
-            }
+            }
+
             document.getElementById('qrSection').style.display = 'block';
             document.getElementById('subWrap').style.display = 'block';
-            paymentDone = true;
-            document.getElementById('payRegIdText').textContent = currentRegId;
+            paymentDone = true;
+
+            document.getElementById('payRegIdText').textContent = currentRegId;
+
             const step1 = document.getElementById('payStep1');
             const step2 = document.getElementById('payStep2');
 
@@ -3774,7 +4159,8 @@
                 step2.classList.add('visible');
             }, 400);
 
-            setTimeout(() => { document.getElementById('qrSection').scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 500);
+            setTimeout(() => { document.getElementById('qrSection').scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 500);
+
             saveSession();
         }
 
@@ -3787,7 +4173,8 @@
             const params = currentUPILink.replace('upi://pay?', '');
             const ua = navigator.userAgent || '';
             const isAndroid = /android/i.test(ua);
-            const isIOS = /iphone|ipad|ipod/i.test(ua);
+            const isIOS = /iphone|ipad|ipod/i.test(ua);
+
             const packages = {
                 gpay: 'com.google.android.apps.nbu.paisa.user',
                 phonepe: 'com.phonepe.app',
@@ -3796,10 +4183,12 @@
 
             if (isAndroid) {
                 const pkg = packages[app];
-                if (pkg) {
+                if (pkg) {
+
                     const intentUrl = `intent://pay?${params}#Intent;scheme=upi;package=${pkg};end;`;
                     window.location.href = intentUrl;
-                } else {
+                } else {
+
                     const intentUrl = `intent://pay?${params}#Intent;scheme=upi;end;`;
                     window.location.href = intentUrl;
                 }
@@ -3813,17 +4202,20 @@
         function triggerQRDownload() {
             const qrcodeContainer = document.getElementById("qrcode");
             const qrCanvas = qrcodeContainer.querySelector('canvas');
-            const qrImg = qrcodeContainer.querySelector('img');
+            const qrImg = qrcodeContainer.querySelector('img');
+
             const padding = 60; // White quiet zone around QR (required by scanners)
             const outputSize = 600; // Final image size
             const saveCanvas = document.createElement('canvas');
             saveCanvas.width = outputSize;
             saveCanvas.height = outputSize;
-            const ctx = saveCanvas.getContext('2d');
+            const ctx = saveCanvas.getContext('2d');
+
             ctx.fillStyle = '#ffffff';
             ctx.fillRect(0, 0, outputSize, outputSize);
 
-            const drawAndSave = (sourceElement) => {
+            const drawAndSave = (sourceElement) => {
+
                 const qrSize = outputSize - (padding * 2);
                 if (sourceElement instanceof HTMLCanvasElement) {
                     ctx.drawImage(sourceElement, padding, padding, qrSize, qrSize);
@@ -3838,7 +4230,8 @@
                     dlink.href = imgData;
                     dlink.download = `Rotary_Payment_QR_${amount}.png`;
                     dlink.click();
-                }
+                }
+
                 const _dlBtn = document.getElementById('downloadQRBtn');
                 if (_dlBtn) { _dlBtn.classList.add('downloaded'); _dlBtn.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> QR Downloaded'; }
                 const _sc1 = document.getElementById('stepCircle1');
@@ -3847,7 +4240,8 @@
 
             if (qrCanvas) {
                 drawAndSave(qrCanvas);
-            } else if (qrImg) {
+            } else if (qrImg) {
+
                 if (qrImg.complete) {
                     drawAndSave(qrImg);
                 } else {
@@ -3876,16 +4270,19 @@
                 zf.style.display = 'block';
                 zf.style.animation = 'rise .3s ease both';
             }
-        }
+        }
+
         const load = () => { try { return JSON.parse(localStorage.getItem(KEY) || '[]') } catch { return [] } };
-        const save = d => localStorage.setItem(KEY, JSON.stringify(d));
+        const save = d => localStorage.setItem(KEY, JSON.stringify(d));
+
         function go(id) {
             document.querySelectorAll('.pg').forEach(p => p.classList.remove('on'));
             document.getElementById(id).classList.add('on');
             window.scrollTo(0, 0);
             if (id === 'pgLogin') loadSnap();
             if (id === 'pgDash') renderDash();
-        }
+        }
+
         function doLogin() {
             const u = document.getElementById('lu').value.trim();
             const p = document.getElementById('lp').value;
@@ -3912,7 +4309,8 @@
             document.getElementById('sn1').textContent = d.length;
             document.getElementById('sn2').textContent = pax;
             document.getElementById('sn3').textContent = '₹' + amt.toLocaleString('en-IN');
-        }
+        }
+
         function chPax(d2) {
             const i = document.getElementById('fp');
             i.value = Math.max(1, Math.min(10, +i.value + d2));
@@ -4011,162 +4409,163 @@
             const pricePerPax = isSilver ? SILVER_FA : FA;
             const vg = c.filter(x => x.isV).length, nv = c.filter(x => x.isN).length;
             const tot = c.length * pricePerPax;
-            
-            const sPxEl = document.getElementById('sPx'); if(sPxEl) sPxEl.textContent = c.length;
-            const sVgEl = document.getElementById('sVg'); if(sVgEl) sVgEl.textContent = vg;
-            const sNvEl = document.getElementById('sNv'); if(sNvEl) sNvEl.textContent = nv;
-            const sTotEl = document.getElementById('sTot'); if(sTotEl) sTotEl.textContent = '₹ ' + tot.toLocaleString('en-IN');
-            
+
+            const sPxEl = document.getElementById('sPx'); if (sPxEl) sPxEl.textContent = c.length;
+            const sVgEl = document.getElementById('sVg'); if (sVgEl) sVgEl.textContent = vg;
+            const sNvEl = document.getElementById('sNv'); if (sNvEl) sNvEl.textContent = nv;
+            const sTotEl = document.getElementById('sTot'); if (sTotEl) sTotEl.textContent = '₹ ' + tot.toLocaleString('en-IN');
+
             const sBrkEl = document.getElementById('sBrk');
-            if(sBrkEl) sBrkEl.textContent = isSilver ? '1×₹5,000' : c.length + '×₹1,700';
-            const sMsEl = document.getElementById('sMs'); if(sMsEl) sMsEl.textContent = isSilver ? 'Silver Package' : '';
-        }
+            if (sBrkEl) sBrkEl.textContent = isSilver ? '1×₹5,000' : c.length + '×₹1,700';
+            const sMsEl = document.getElementById('sMs'); if (sMsEl) sMsEl.textContent = isSilver ? 'Silver Package' : '';
+        }
+
         const CDD_DATA = [
-                  {
-                            "region": "Zone 1",
-                            "bg": "#1a3c8c",
-                            "clubs": [
-                                      "Moodbidri Midtown",
-                                      "Kinnigoli",
-                                      "Bajpe",
-                                      "Mulki"
-                            ]
-                  },
-                  {
-                            "region": "Zone 2",
-                            "bg": "#1b5e20",
-                            "clubs": [
-                                      "Baikampady",
-                                      "Manglore Sunrise",
-                                      "Manglore Central",
-                                      "Manglore Port Town",
-                                      "Manglore Coastal",
-                                      "Surathkal",
-                                      "Manglore East",
-                                      "Mamglore North",
-                                      "Manglore Hillside"
-                            ]
-                  },
-                  {
-                            "region": "Zone 3",
-                            "bg": "#e65100",
-                            "clubs": [
-                                      "Manglore Seaside",
-                                      "Manglore Metro",
-                                      "Manglore Midtown",
-                                      "Manglore",
-                                      "Manglore Downtown",
-                                      "Manglore South",
-                                      "Manglore City",
-                                      "Deralakatte"
-                            ]
-                  },
-                  {
-                            "region": "Zone 4",
-                            "bg": "#880e4f",
-                            "clubs": [
-                                      "Moodbidri",
-                                      "Moodbidri Temple Town",
-                                      "Siddakatte Phalguni",
-                                      "Bantwal Loretto Hills",
-                                      "Bantwal Town",
-                                      "Belthangady",
-                                      "Bantwal",
-                                      "Madanthyar",
-                                      "Modankap",
-                                      "Farangipete",
-                                      "BC Road City",
-                                      "Uppinangadi",
-                                      "Puttur City",
-                                      "Vittal"
-                            ]
-                  },
-                  {
-                            "region": "Zone 5",
-                            "bg": "#4527a0",
-                            "clubs": [
-                                      "Subramanya",
-                                      "Puttur",
-                                      "Puttur Central",
-                                      "Kadaba Town",
-                                      "Puttur East",
-                                      "Puttur Yuva",
-                                      "Puttur Swarna",
-                                      "Puttur Elite",
-                                      "Sullia",
-                                      "Sullia City",
-                                      "Bellare Town",
-                                      "Birumale Hills"
-                            ]
-                  },
-                  {
-                            "region": "Zone 6",
-                            "bg": "#006064",
-                            "clubs": [
-                                      "Gonikoppal",
-                                      "Virajpet",
-                                      "Madikeri Woods",
-                                      "Madikeri",
-                                      "Madikeri Misty Hills",
-                                      "Alur Siddapura",
-                                      "Shanivarasante",
-                                      "Hemavathi Kodlipet",
-                                      "Somwarpet Hills",
-                                      "Kushalnagar",
-                                      "Krishnarajanagar",
-                                      "Periyapatna Midtown",
-                                      "Periyapatna Icon",
-                                      "Hunsur"
-                            ]
-                  },
-                  {
-                            "region": "Zone 7",
-                            "bg": "#c17900",
-                            "clubs": [
-                                      "Panchsheel",
-                                      "Mysore Ivory City",
-                                      "Mysore Krishnaraja",
-                                      "Mysore",
-                                      "Mysore Shreegandha",
-                                      "Mysore Metro",
-                                      "E-Club Mysore Center",
-                                      "Mysore Midtown",
-                                      "Mysore Diamond",
-                                      "Central Mysore",
-                                      "Mysore JP Nagar",
-                                      "Mysore East"
-                            ]
-                  },
-                  {
-                            "region": "Zone 8",
-                            "bg": "#33691e",
-                            "clubs": [
-                                      "Mysore Elite",
-                                      "Mysore West",
-                                      "Mysore Royal",
-                                      "Mysore Stars",
-                                      "HD Kote",
-                                      "Heritage Mysore",
-                                      "Mysore South East",
-                                      "Mysore Brindavan",
-                                      "Vijayanagar Mysore",
-                                      "Mysore North",
-                                      "Mysore Ambari"
-                            ]
-                  },
-                  {
-                            "region": "Zone 9",
-                            "bg": "#827717",
-                            "clubs": [
-                                      "Chamarajanagar",
-                                      "Chamarajanagar Silk City",
-                                      "Nanjungud",
-                                      "Bannur",
-                                      "Yelanduru Greenway",
-                                      "Kollegal",
-                                      "Kollegal Midtown"
-                            ]
-                  }
+            {
+                "region": "Zone 1",
+                "bg": "#1a3c8c",
+                "clubs": [
+                    "Moodbidri Midtown",
+                    "Kinnigoli",
+                    "Bajpe",
+                    "Mulki"
+                ]
+            },
+            {
+                "region": "Zone 2",
+                "bg": "#1b5e20",
+                "clubs": [
+                    "Baikampady",
+                    "Manglore Sunrise",
+                    "Manglore Central",
+                    "Manglore Port Town",
+                    "Manglore Coastal",
+                    "Surathkal",
+                    "Manglore East",
+                    "Mamglore North",
+                    "Manglore Hillside"
+                ]
+            },
+            {
+                "region": "Zone 3",
+                "bg": "#e65100",
+                "clubs": [
+                    "Manglore Seaside",
+                    "Manglore Metro",
+                    "Manglore Midtown",
+                    "Manglore",
+                    "Manglore Downtown",
+                    "Manglore South",
+                    "Manglore City",
+                    "Deralakatte"
+                ]
+            },
+            {
+                "region": "Zone 4",
+                "bg": "#880e4f",
+                "clubs": [
+                    "Moodbidri",
+                    "Moodbidri Temple Town",
+                    "Siddakatte Phalguni",
+                    "Bantwal Loretto Hills",
+                    "Bantwal Town",
+                    "Belthangady",
+                    "Bantwal",
+                    "Madanthyar",
+                    "Modankap",
+                    "Farangipete",
+                    "BC Road City",
+                    "Uppinangadi",
+                    "Puttur City",
+                    "Vittal"
+                ]
+            },
+            {
+                "region": "Zone 5",
+                "bg": "#4527a0",
+                "clubs": [
+                    "Subramanya",
+                    "Puttur",
+                    "Puttur Central",
+                    "Kadaba Town",
+                    "Puttur East",
+                    "Puttur Yuva",
+                    "Puttur Swarna",
+                    "Puttur Elite",
+                    "Sullia",
+                    "Sullia City",
+                    "Bellare Town",
+                    "Birumale Hills"
+                ]
+            },
+            {
+                "region": "Zone 6",
+                "bg": "#006064",
+                "clubs": [
+                    "Gonikoppal",
+                    "Virajpet",
+                    "Madikeri Woods",
+                    "Madikeri",
+                    "Madikeri Misty Hills",
+                    "Alur Siddapura",
+                    "Shanivarasante",
+                    "Hemavathi Kodlipet",
+                    "Somwarpet Hills",
+                    "Kushalnagar",
+                    "Krishnarajanagar",
+                    "Periyapatna Midtown",
+                    "Periyapatna Icon",
+                    "Hunsur"
+                ]
+            },
+            {
+                "region": "Zone 7",
+                "bg": "#c17900",
+                "clubs": [
+                    "Panchsheel",
+                    "Mysore Ivory City",
+                    "Mysore Krishnaraja",
+                    "Mysore",
+                    "Mysore Shreegandha",
+                    "Mysore Metro",
+                    "E-Club Mysore Center",
+                    "Mysore Midtown",
+                    "Mysore Diamond",
+                    "Central Mysore",
+                    "Mysore JP Nagar",
+                    "Mysore East"
+                ]
+            },
+            {
+                "region": "Zone 8",
+                "bg": "#33691e",
+                "clubs": [
+                    "Mysore Elite",
+                    "Mysore West",
+                    "Mysore Royal",
+                    "Mysore Stars",
+                    "HD Kote",
+                    "Heritage Mysore",
+                    "Mysore South East",
+                    "Mysore Brindavan",
+                    "Vijayanagar Mysore",
+                    "Mysore North",
+                    "Mysore Ambari"
+                ]
+            },
+            {
+                "region": "Zone 9",
+                "bg": "#827717",
+                "clubs": [
+                    "Chamarajanagar",
+                    "Chamarajanagar Silk City",
+                    "Nanjungud",
+                    "Bannur",
+                    "Yelanduru Greenway",
+                    "Kollegal",
+                    "Kollegal Midtown"
+                ]
+            }
         ];
 
         let cddOpen = false, cddSelected = '';
@@ -4222,9 +4621,11 @@
                 document.getElementById('cddTrig').classList.remove('open');
                 document.getElementById('cddPanel').classList.remove('open');
             }
-        });
+        });
+
         buildCards(1);
-        updateUPIBox();
+        updateUPIBox();
+
         const sessionRestored = restoreSession();
 
         async function fetchRegCount() {
@@ -4236,7 +4637,8 @@
                 document.getElementById('regNum').textContent = load().length;
             }
         }
-        fetchRegCount();
+        fetchRegCount();
+
         function se(id, show) {
             document.getElementById('e' + id).classList.toggle('on', show);
             if (id === 'c') {
@@ -4275,10 +4677,12 @@
             ssInput.style.borderColor = '';
 
             try {
-                const { data: { text } } = await Tesseract.recognize(file, 'eng');
+                const { data: { text } } = await Tesseract.recognize(file, 'eng');
+
                 const utrMatches = text.match(/\b\d{12}\b/g);
 
-                const expectedAmount = calcAmount();
+                const expectedAmount = calcAmount();
+
                 const amtPatterns = [
                     /[₹₨?]\s*([\d,]+\.?\d*)/gi,
                     /Rs\.?\s*([\d,]+\.?\d*)/gi,
@@ -4294,15 +4698,20 @@
                         const val = parseFloat(m[1].replace(/,/g, ''));
                         if (val > 0 && !isNaN(val)) extractedAmounts.push(val);
                     }
-                }
+                }
+
+
                 const exactAmtPattern = new RegExp(`(?:^|[^\\d\\.])(${expectedAmount}(?:\\.00?)?)(?:[^\\d\\.]|$)`, 'gi');
                 let exactM;
                 while ((exactM = exactAmtPattern.exec(text)) !== null) {
                     extractedAmounts.push(parseFloat(exactM[1]));
-                }
+                }
+
+
                 if (expectedAmount === 1) {
                     extractedAmounts.push(1);
-                }
+                }
+
                 const regMatch = text.match(/REA\d{6,10}/i);
                 const extractedRegId = regMatch ? regMatch[0].toUpperCase() : null;
 
@@ -4310,7 +4719,8 @@
                 resultEl.style.display = 'block';
                 let resultParts = [];
                 let hasWarning = false;
-                let hasCriticalError = false;
+                let hasCriticalError = false;
+
                 if (utrMatches && utrMatches.length > 0) {
                     scannedUtr = utrMatches[0];
                     resultParts.push(`UTR: ${scannedUtr}`);
@@ -4318,7 +4728,8 @@
                     scannedUtr = 'Pending';
                     resultParts.push(`UTR not detected`);
                     hasWarning = true;
-                }
+                }
+
                 const matchedAmt = extractedAmounts.find(a => a === expectedAmount);
                 if (matchedAmt) {
                     resultParts.push(`Amount: ₹${matchedAmt.toLocaleString('en-IN')}`);
@@ -4329,7 +4740,8 @@
                 } else {
                     resultParts.push(`Amount not detected (expected ₹${expectedAmount.toLocaleString('en-IN')})`);
                     hasCriticalError = true;
-                }
+                }
+
                 if (extractedRegId === currentRegId) {
                     resultParts.push(`Reg ID: ${extractedRegId}`);
                 } else if (extractedRegId) {
@@ -4338,7 +4750,8 @@
                 } else {
                     resultParts.push(`Reg ID not detected. Ensure transaction note contains ${currentRegId}`);
                     hasCriticalError = true;
-                }
+                }
+
                 paymentBlocked = hasCriticalError;
 
                 if (hasCriticalError) {
@@ -4356,7 +4769,8 @@
                     resultEl.style.color = '#92400e';
                 }
 
-                resultEl.innerHTML = resultParts.join('<br/>');
+                resultEl.innerHTML = resultParts.join('<br/>');
+
                 subBtn.disabled = hasCriticalError;
             } catch (err) {
                 console.error(err);
@@ -4369,20 +4783,21 @@
                 scannedUtr = 'Pending';
                 subBtn.disabled = false;
             }
-        }
+        }
+
         function validateRegistration() {
             const name = document.getElementById('fn').value.trim();
             const club = document.getElementById('fc').value;
             const mob = document.getElementById('fm').value.trim().replace(/[\s\-]/g, '');
             const cards = getCards();
             const numPax = +document.getElementById('fp').value;
-            
+
             se('n', !name); se('c', !club);
             const isValidMob = /^(\+91)?[6-9]\d{9}$/.test(mob);
             se('m', !isValidMob);
-            
+
             const allM = cards.every(c => c.hasMeal);
-            
+
             let allNames = true;
             let firstErrEl = null;
 
@@ -4451,7 +4866,8 @@
             const name = document.getElementById('fn').value.trim();
             const club = document.getElementById('fc').value;
             const mob = document.getElementById('fm').value.trim().replace(/[\s\-]/g, '');
-            const cards = getCards();
+            const cards = getCards();
+
             const procBtn = document.getElementById('proceedBtn');
             procBtn.disabled = true;
             procBtn.innerHTML = '<svg class="spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-6.219-8.56"></path></svg> Checking...';
@@ -4494,7 +4910,7 @@
             `;
             const mealsRow = isSilver ? '' : `<div class="modal-detail-row"><span class="modal-detail-label">Meals</span><span class="modal-detail-value">${vg} Veg 🥦, ${nv} Non-Veg 🍗</span></div>`;
             const paxRow = isSilver ? '' : `<div class="modal-detail-row"><span class="modal-detail-label">Pax</span><span class="modal-detail-value">${cards.length}</span></div>`;
-            
+
             document.getElementById('modalDetails').innerHTML = `
                 ${catLabel}
                 <div class="modal-detail-row"><span class="modal-detail-label">Name</span><span class="modal-detail-value">${name}</span></div>
@@ -4514,7 +4930,7 @@
 
         function confirmProceed() {
             closeModal();
-            currentRegId = 'REA' + Date.now().toString().slice(-6) + Math.floor(Math.random()*100).toString().padStart(2,'0');
+            currentRegId = 'REA' + Date.now().toString().slice(-6) + Math.floor(Math.random() * 100).toString().padStart(2, '0');
             const amount = calcAmount();
             const name = document.getElementById('fn').value.trim();
             const club = document.getElementById('fc').value;
@@ -4556,7 +4972,8 @@
             go('pgPay');
         }
 
-        async function submitForm() {
+        async function submitForm() {
+
             if (paymentBlocked) {
                 alert('Payment verification failed. Please upload the correct payment screenshot.');
                 return;
@@ -4593,7 +5010,7 @@
 
             const vg = cards.filter(c => c.isV).length, nv = cards.filter(c => c.isN).length;
             const amount = calcAmount(); // Real amount
-            const gnArr = cards.slice(1).map(c => c.name).filter(x=>x);
+            const gnArr = cards.slice(1).map(c => c.name).filter(x => x);
             const gnStr = gnArr.length ? gnArr.join(', ') : null;
             const isSilver = currentCategory === 'silver';
             const gd = isSilver ? `${cards[0]?.name || 'N/A'}: Silver` : cards.map(c => `${c.name || 'N/A'}: ${c.isV ? 'Veg' : 'Non-Veg'}`).join('\n');
@@ -4676,8 +5093,10 @@
             currentRegId = '';
             currentUPILink = '';
             scannedUtr = '';
-            clearSession();
-            switchCategory('regular');
+            clearSession();
+
+            switchCategory('regular');
+
             const dlBtnR = document.getElementById('downloadQRBtn');
             if (dlBtnR) { dlBtnR.classList.remove('downloaded'); dlBtnR.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download QR to Gallery'; }
             const sc1R = document.getElementById('stepCircle1');
@@ -4690,7 +5109,8 @@
             const ssTextR = document.getElementById('ssFileText'); if (ssTextR) ssTextR.textContent = 'Tap to select screenshot';
             buildCards(1);
             go('pgReg');
-        }
+        }
+
         function renderDash() {
             const d = load();
             const pax = d.reduce((s, r) => s + (+r.pax || 0), 0);
@@ -4745,7 +5165,8 @@
             }
             const next = Object.assign(document.createElement('button'), { className: 'pgb', textContent: '›', disabled: pgN >= tp });
             next.onclick = () => { pgN++; renderTable(); }; pb.appendChild(next);
-        }
+        }
+
         function dlCSV() {
             const d = load();
             if (!d.length) { alert('No registrations yet.'); return; }
@@ -4754,7 +5175,8 @@
             const csv = [h.join(','), ...rows].join('\r\n');
             const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' })), download: 'Rotary_Excellence_Awards_2025.csv' });
             a.click();
-        }
+        }
+
         function clearAll() {
             if (confirm('Delete ALL registration data? This cannot be undone.')) {
                 localStorage.removeItem(KEY); renderDash();
